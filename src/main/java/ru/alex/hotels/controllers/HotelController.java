@@ -5,6 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import ru.alex.hotels.exceptions.HotelAlreadyExists;
 
 @RestController
 @RequestMapping("/hotels")
@@ -20,8 +21,8 @@ public class HotelController {
     public ResponseEntity<?> createHotel(Hotel hotel) {
         try {
             return ResponseEntity.status(HttpStatus.CREATED).body(hotelService.createHotel(hotel));
-        } catch () {
-
+        } catch (HotelAlreadyExists e) {
+            return ResponseEntity.badRequest().body(e);
         }
     }
 }
