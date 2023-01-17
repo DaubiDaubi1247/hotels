@@ -17,7 +17,9 @@ public class Hotel {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
     private String name;
-    @JoinColumn()
-    private Long director_id;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "director_id")
+    private Director directorID;
 
 }
