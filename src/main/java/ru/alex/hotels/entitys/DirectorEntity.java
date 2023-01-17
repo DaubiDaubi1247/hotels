@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 @Builder
 public class DirectorEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     @NotNull

@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 public class HotelEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String name;
 
