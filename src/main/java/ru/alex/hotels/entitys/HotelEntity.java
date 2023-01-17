@@ -6,6 +6,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
@@ -21,5 +23,13 @@ public class HotelEntity {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "director_id")
     private DirectorEntity directorID;
+
+    @ManyToMany
+    @JoinTable(
+            name = "hotelsInCity",
+            joinColumns = @JoinColumn(name = "city_id"),
+            inverseJoinColumns = @JoinColumn(name = "hotel_id")
+    )
+    private List<CityEntity> cityId;
 
 }
