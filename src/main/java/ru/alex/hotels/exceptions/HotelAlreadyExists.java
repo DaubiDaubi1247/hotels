@@ -1,10 +1,9 @@
 package ru.alex.hotels.exceptions;
 
-import org.springframework.http.HttpStatus;
 
-public class HotelAlreadyExists extends RootException{
+public class HotelAlreadyExists extends Exception{
 
-    public HotelAlreadyExists(String message, HttpStatus status) {
-        super(message, status);
+    public HotelAlreadyExists(String message) {
+        super(message);
     }
 }
