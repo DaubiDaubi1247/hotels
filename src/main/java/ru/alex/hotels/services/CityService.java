@@ -1,5 +1,7 @@
 package ru.alex.hotels.services;
 
-public interface CityService {
+import ru.alex.hotels.tdo.City;
 
+public interface CityService {
+    City createCity(City city);
 }
