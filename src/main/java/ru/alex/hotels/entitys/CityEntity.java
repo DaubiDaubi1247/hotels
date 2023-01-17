@@ -22,6 +22,10 @@ public class CityEntity {
     @NotNull
     private String name;
 
+    @NotNull
+    @Column(length = 6)
+    private String index;
+
     @ManyToMany(mappedBy = "cityId")
     private List<HotelEntity> hotels;
 }
