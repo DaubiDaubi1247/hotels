@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Data
 @Builder
-public class Hotel {
+public class HotelEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
@@ -20,6 +20,6 @@ public class Hotel {
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "director_id")
-    private Director directorID;
+    private DirectorEntity directorID;
 
 }

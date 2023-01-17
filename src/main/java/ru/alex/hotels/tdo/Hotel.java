@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import ru.alex.hotels.entitys.Director;
+import ru.alex.hotels.entitys.DirectorEntity;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -13,5 +13,5 @@ import ru.alex.hotels.entitys.Director;
 public class Hotel {
     private Long id;
     private String name;
-    private Director directorID;
+    private DirectorEntity directorID;
 }

@@ -1,6 +1,5 @@
 package ru.alex.hotels.entitys;
 
-import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -13,7 +12,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Director {
+public class DirectorEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -28,5 +27,5 @@ public class Director {
     @NotNull
     @OneToOne
     @JoinColumn(name = "hotel_id")
-    private Hotel hotelId;
+    private HotelEntity hotelId;
 }
