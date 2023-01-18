@@ -22,14 +22,17 @@ public class HotelEntity {
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "director_id")
-    private DirectorEntity directorID;
+    private DirectorEntity director;
 
     @ManyToMany
     @JoinTable(
-            name = "hotelsInCity",
+            name = "hotels_in_citys",
             joinColumns = @JoinColumn(name = "city_id"),
             inverseJoinColumns = @JoinColumn(name = "hotel_id")
     )
-    private List<CityEntity> cityId;
+    private List<CityEntity> cities;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "hotel")
+    private List<RoomEntity> rooms;
 
 }

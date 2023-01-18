@@ -3,7 +3,6 @@ package ru.alex.hotels.entitys;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
-import org.hibernate.annotations.ColumnDefault;
 
 @Entity
 @AllArgsConstructor
@@ -28,4 +27,8 @@ public class RoomEntity {
             columnDefinition = "integer default 1"
     )
     private Integer countBeds;
+
+    @ManyToOne
+    @JoinColumn(name = "hotel_id")
+    private HotelEntity hotel;
 }

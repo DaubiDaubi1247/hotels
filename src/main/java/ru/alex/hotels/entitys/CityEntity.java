@@ -26,6 +26,6 @@ public class CityEntity {
     @Column(length = 6)
     private String index;
 
-    @ManyToMany(mappedBy = "cityId")
+    @ManyToMany(mappedBy = "cities")
     private List<HotelEntity> hotels;
 }

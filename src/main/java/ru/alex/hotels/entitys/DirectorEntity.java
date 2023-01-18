@@ -24,8 +24,7 @@ public class DirectorEntity {
     @NotNull
     private String phone;
 
-    @NotNull
     @OneToOne
     @JoinColumn(name = "hotel_id")
-    private HotelEntity hotelId;
+    private HotelEntity hotel;
 }
