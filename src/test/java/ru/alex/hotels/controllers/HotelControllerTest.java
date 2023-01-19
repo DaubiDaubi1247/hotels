@@ -32,19 +32,6 @@ class HotelControllerTest {
     private final ObjectMapper objectMapper = new ObjectMapper();
 
     @Test
-    void testCreateHotelStatus() throws Exception {
-        Hotel hotel = testHotel();
-        String hotelInJSON = objectMapper.writeValueAsString(hotel);
-
-        when(hotelService.createHotel(any(Hotel.class))).thenReturn(hotel);
-
-        mockMvc.perform(post("/hotels")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(hotelInJSON))
-                .andExpect(status().isCreated());
-    }
-
-    @Test
     void testResponseCreateHotel() throws Exception {
 
         when(hotelService.createHotel(any(Hotel.class))).thenReturn(testHotelForCreate());
@@ -52,6 +39,7 @@ class HotelControllerTest {
         mockMvc.perform(post("/hotels")
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(objectMapper.writeValueAsString(testHotel())))
+                .andExpect(status().isCreated())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.id").isNotEmpty())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.name").value("У Саши"));
     }
@@ -73,5 +61,14 @@ class HotelControllerTest {
         Hotel[] hotels = objectMapper.readValue(response.getResponse().getContentAsString(), Hotel[].class);
 
         Assertions.assertEquals(2, hotels.length);
+    }
+    @Test
+    void testGetHotelByIdResponse() throws Exception {
+        when(hotelService.getHotelById(1L)).thenReturn(testHotelForCreate());
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/hotels?id=1"))
+                .andExpect(status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.id").isNotEmpty())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.name").value(testHotelForCreate().getName()));
     }
 }

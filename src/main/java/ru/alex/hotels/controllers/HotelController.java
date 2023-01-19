@@ -41,7 +41,7 @@ public class HotelController {
         try {
             return ResponseEntity.ok(hotelService.getHotelById(id));
         } catch (HotelNotFoundException e) {
-            return ResponseEntity.badRequest().body(e.getMessage()  );
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
  }
