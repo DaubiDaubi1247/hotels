@@ -34,4 +34,13 @@ public class HotelController {
             return ResponseEntity.internalServerError().body(e.getMessage());
         }
     }
+
+    @GetMapping
+    public ResponseEntity<?> getHotelById(@RequestParam Long id) {
+        try {
+            return ResponseEntity.ok(hotelService.getHotelById(id));
+        } catch (HotelNotFoundException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
  }
