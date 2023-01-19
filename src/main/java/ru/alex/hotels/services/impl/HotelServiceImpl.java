@@ -9,6 +9,7 @@ import ru.alex.hotels.repositories.HotelRepository;
 import ru.alex.hotels.services.HotelService;
 import ru.alex.hotels.tdo.Hotel;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -30,5 +31,10 @@ public class HotelServiceImpl implements HotelService {
         HotelEntity hotelToEntity = HotelMapper.INSTANCE.HotelToHotelEntity(hotel);
 
         return HotelMapper.INSTANCE.HotelEntityToHotel(hotelRepository.save(hotelToEntity));
+    }
+
+    @Override
+    public List<Hotel> getAllHotels() {
+        return HotelMapper.INSTANCE.hotelEntityListToHotelList(hotelRepository.findAll());
     }
 }
