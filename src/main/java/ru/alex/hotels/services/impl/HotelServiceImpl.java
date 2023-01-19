@@ -29,9 +29,9 @@ public class HotelServiceImpl implements HotelService {
         if (hotelEntity.isPresent())
             throw new HotelAlreadyExists("Отель с именем = " + hotel.getName() + " уже сущствует");
 
-        HotelEntity hotelToEntity = HotelMapper.INSTANCE.HotelToHotelEntity(hotel);
+        HotelEntity hotelToEntity = HotelMapper.INSTANCE.hotelToHotelEntity(hotel);
 
-        return HotelMapper.INSTANCE.HotelEntityToHotel(hotelRepository.save(hotelToEntity));
+        return HotelMapper.INSTANCE.hotelEntityToHotel(hotelRepository.save(hotelToEntity));
     }
 
     @Override
@@ -47,6 +47,6 @@ public class HotelServiceImpl implements HotelService {
             throw new HotelNotFoundException("отель с id = " + id + " не найден");
         }
 
-        return HotelMapper.INSTANCE.HotelEntityToHotel(hotelEntity.get());
+        return HotelMapper.INSTANCE.hotelEntityToHotel(hotelEntity.get());
     }
 }

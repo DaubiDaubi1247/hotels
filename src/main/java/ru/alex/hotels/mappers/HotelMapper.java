@@ -10,8 +10,8 @@ import java.util.List;
 @Mapper
 public interface HotelMapper {
     HotelMapper INSTANCE = Mappers.getMapper(HotelMapper.class);
-    HotelEntity HotelToHotelEntity(Hotel hotel);
-    Hotel HotelEntityToHotel(HotelEntity hotelEntity);
+    HotelEntity hotelToHotelEntity(Hotel hotel);
+    Hotel hotelEntityToHotel(HotelEntity hotelEntity);
 
     List<Hotel> hotelEntityListToHotelList(List<HotelEntity> hotelEntityList);
     List<HotelEntity> hotelsToHotelEntities(List<Hotel> hotels);
