@@ -8,7 +8,7 @@ public class HotelDataTest {
     public static Hotel testHotel() {
 
         return Hotel.builder()
-                .name("У Саши2")
+                .name("У Саши")
                 .build();
     }
 
