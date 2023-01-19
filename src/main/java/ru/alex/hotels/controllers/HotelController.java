@@ -23,11 +23,11 @@ public class HotelController {
         try {
             return ResponseEntity.status(HttpStatus.CREATED).body(hotelService.createHotel(hotel));
         } catch (HotelAlreadyExists e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
+            return ResponseEntity.badRequest().body(e);
         }
     }
 
-    @GetMapping
+    @GetMapping("/all")
     public ResponseEntity<?> getAllHotels() {
         try {
             return ResponseEntity.ok(hotelService.getAllHotels());
@@ -41,7 +41,7 @@ public class HotelController {
         try {
             return ResponseEntity.ok(hotelService.getHotelById(id));
         } catch (HotelNotFoundException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
+            return ResponseEntity.badRequest().body(e.getMessage()  );
         }
     }
  }

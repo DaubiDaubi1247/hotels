@@ -60,7 +60,7 @@ class HotelControllerTest {
 
     @Test
     void testGetAllHotelsStatus() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.get("/hotels"))
+        mockMvc.perform(MockMvcRequestBuilders.get("/hotels/all"))
                 .andExpect(status().isOk());
     }
 
@@ -68,7 +68,7 @@ class HotelControllerTest {
     void testGetAllHotelsResponse() throws Exception {
         when(hotelService.getAllHotels()).thenReturn(testListHotels());
 
-        MvcResult response =  mockMvc.perform(MockMvcRequestBuilders.get("/hotels")).andReturn();
+        MvcResult response =  mockMvc.perform(MockMvcRequestBuilders.get("/hotels/all")).andReturn();
 
         Hotel[] hotels = objectMapper.readValue(response.getResponse().getContentAsString(), Hotel[].class);
 
