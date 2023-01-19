@@ -13,8 +13,12 @@ import ru.alex.hotels.mappers.HotelMapper;
 import ru.alex.hotels.repositories.HotelRepository;
 import ru.alex.hotels.tdo.Hotel;
 
+import java.util.List;
+
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
+import static ru.alex.hotels.dataForTests.HotelDataTest.testHotel;
+import static ru.alex.hotels.dataForTests.HotelDataTest.testListHotels;
 
 
 @ExtendWith(MockitoExtension.class)
@@ -27,12 +31,9 @@ class HotelServiceImplTest {
 
     @Test
     void testCreateHotel() throws HotelAlreadyExists {
-        Hotel hotel = Hotel.builder()
-                .name("У Саши2")
-                .build();
+        Hotel hotel = testHotel();
 
         HotelEntity entityAfterSave = HotelMapper.INSTANCE.HotelToHotelEntity(hotel);
-
 
         when(hotelRepository.save(any(HotelEntity.class))).thenReturn(entityAfterSave);
 
@@ -44,5 +45,14 @@ class HotelServiceImplTest {
 
     @Test
     void getAllHotels() {
+        List<Hotel> hotels = testListHotels();
+        List<HotelEntity> entitiesAfterGet = HotelMapper.INSTANCE.hotelsToHotelEntities(hotels);
+
+        when(hotelRepository.findAll()).thenReturn(entitiesAfterGet);
+
+        List<Hotel> getHotels = hotelService.getAllHotels();
+
+        Assertions.assertEquals(2, getHotels.size());
+        verify(hotelRepository, times(1)).findAll();
     }
 }

@@ -14,4 +14,5 @@ public interface HotelMapper {
     Hotel HotelEntityToHotel(HotelEntity hotelEntity);
 
     List<Hotel> hotelEntityListToHotelList(List<HotelEntity> hotelEntityList);
+    List<HotelEntity> hotelsToHotelEntities(List<Hotel> hotels);
 }
