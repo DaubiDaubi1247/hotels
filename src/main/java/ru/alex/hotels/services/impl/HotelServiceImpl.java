@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.alex.hotels.entitys.HotelEntity;
 import ru.alex.hotels.exceptions.HotelAlreadyExists;
+import ru.alex.hotels.exceptions.HotelNotFoundException;
 import ru.alex.hotels.mappers.HotelMapper;
 import ru.alex.hotels.repositories.HotelRepository;
 import ru.alex.hotels.services.HotelService;
@@ -36,5 +37,16 @@ public class HotelServiceImpl implements HotelService {
     @Override
     public List<Hotel> getAllHotels() {
         return HotelMapper.INSTANCE.hotelEntityListToHotelList(hotelRepository.findAll());
+    }
+
+    @Override
+    public Hotel getHotelById(Long id) throws HotelNotFoundException {
+        Optional<HotelEntity> hotelEntity = hotelRepository.findById(id);
+
+        if (hotelEntity.isEmpty()) {
+            throw new HotelNotFoundException("отель с id = " + id + " не найден");
+        }
+
+        return HotelMapper.INSTANCE.HotelEntityToHotel(hotelEntity.get());
     }
 }

@@ -4,6 +4,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.alex.hotels.exceptions.HotelAlreadyExists;
+import ru.alex.hotels.exceptions.HotelNotFoundException;
 import ru.alex.hotels.services.HotelService;
 import ru.alex.hotels.tdo.Hotel;
 
