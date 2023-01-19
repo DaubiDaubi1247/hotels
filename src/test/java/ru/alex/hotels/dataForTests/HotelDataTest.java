@@ -12,6 +12,14 @@ public class HotelDataTest {
                 .build();
     }
 
+    public static Hotel testHotelForCreate() {
+
+        return Hotel.builder()
+                .id(1L)
+                .name("У Саши")
+                .build();
+    }
+
     public static List<Hotel> testListHotels() {
         return List.of(testHotel(), testHotel());
     }
