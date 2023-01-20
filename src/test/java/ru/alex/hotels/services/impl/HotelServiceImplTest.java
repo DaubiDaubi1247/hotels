@@ -69,4 +69,17 @@ class HotelServiceImplTest {
         Assertions.assertEquals(testHotel(), hotel);
         verify(hotelRepository, times(1)).findById(1L);
     }
+
+    @Test
+    void testUpdateHotel() throws HotelNotFoundException {
+        HotelEntity entityForUpdate = HotelMapper.INSTANCE.hotelToHotelEntity(testHotel());
+
+        when(hotelRepository.findById(1L)).thenReturn(Optional.ofNullable(entityForUpdate));
+        when(hotelRepository.save(any(HotelEntity.class))).thenReturn(entityForUpdate);
+
+        Hotel hotel = hotelService.updateHotel(testHotel(), 1L);
+
+        Assertions.assertEquals(testHotel().getName(), hotel.getName());
+        verify(hotelRepository, times(1)).findById(1L);
+    }
 }
