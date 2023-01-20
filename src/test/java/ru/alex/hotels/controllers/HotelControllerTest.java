@@ -18,11 +18,15 @@ import ru.alex.hotels.tdo.Hotel;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static ru.alex.hotels.dataForTests.HotelDataTest.*;
 
 @WebMvcTest(HotelController.class)
 class HotelControllerTest {
+
+    private final String url = "/hotels";
     @Autowired
     private MockMvc mockMvc;
 
@@ -36,7 +40,7 @@ class HotelControllerTest {
 
         when(hotelService.createHotel(any(Hotel.class))).thenReturn(testHotelForCreate());
 
-        mockMvc.perform(post("/hotels")
+        mockMvc.perform(post(url)
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(objectMapper.writeValueAsString(testHotel())))
                 .andExpect(status().isCreated())
@@ -48,7 +52,7 @@ class HotelControllerTest {
 
     @Test
     void testGetAllHotelsStatus() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.get("/hotels/all"))
+        mockMvc.perform(MockMvcRequestBuilders.get(url + "/all"))
                 .andExpect(status().isOk());
     }
 
@@ -56,7 +60,7 @@ class HotelControllerTest {
     void testGetAllHotelsResponse() throws Exception {
         when(hotelService.getAllHotels()).thenReturn(testListHotels());
 
-        MvcResult response =  mockMvc.perform(MockMvcRequestBuilders.get("/hotels/all")).andReturn();
+        MvcResult response =  mockMvc.perform(MockMvcRequestBuilders.get(url + "/all")).andReturn();
 
         Hotel[] hotels = objectMapper.readValue(response.getResponse().getContentAsString(), Hotel[].class);
 
@@ -66,9 +70,21 @@ class HotelControllerTest {
     void testGetHotelByIdResponse() throws Exception {
         when(hotelService.getHotelById(1L)).thenReturn(testHotelForCreate());
 
-        mockMvc.perform(MockMvcRequestBuilders.get("/hotels?id=1"))
+        mockMvc.perform(MockMvcRequestBuilders.get(url + "?id=1"))
                 .andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.id").isNotEmpty())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.name").value(testHotelForCreate().getName()));
+    }
+
+    @Test
+    void testUpdateHotel() throws Exception {
+        when(hotelService.updateHotel(testHotel(), 1L)).thenReturn(testHotelForCreate());
+
+        mockMvc.perform(put(url + "/1")
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content(objectMapper.writeValueAsString(testHotel())))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").isNotEmpty())
+                .andExpect(jsonPath("$.name").value(testHotel().getName()));
     }
 }
