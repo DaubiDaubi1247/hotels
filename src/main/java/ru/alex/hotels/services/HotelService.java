@@ -12,4 +12,6 @@ public interface HotelService {
     List<Hotel> getAllHotels();
 
     Hotel getHotelById(Long id) throws HotelNotFoundException;
+
+    Hotel updateHotel(Hotel hotel, Long id) throws HotelNotFoundException;
 }

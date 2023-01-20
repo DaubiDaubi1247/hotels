@@ -49,4 +49,14 @@ public class HotelServiceImpl implements HotelService {
 
         return HotelMapper.INSTANCE.hotelEntityToHotel(hotelEntity.get());
     }
+
+    @Override
+    public Hotel updateHotel(Hotel hotel, Long id) throws HotelNotFoundException {
+        HotelEntity hotelEntity = hotelRepository.findById(id)
+                .orElseThrow(() -> new HotelNotFoundException("отель с id = " + id + " не найден"));
+
+        hotelEntity.setName(hotel.getName());
+
+        return HotelMapper.INSTANCE.hotelEntityToHotel(hotelRepository.save(hotelEntity));
+    }
 }
