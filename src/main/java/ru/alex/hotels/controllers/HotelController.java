@@ -44,4 +44,13 @@ public class HotelController {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<?> updateHotel(@PathVariable Long id, @RequestBody Hotel hotel) {
+        try {
+            return ResponseEntity.ok(hotelService.updateHotel(hotel, id));
+        } catch (HotelNotFoundException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
  }
