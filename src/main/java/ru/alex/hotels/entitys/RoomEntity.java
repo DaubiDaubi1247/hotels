@@ -15,7 +15,6 @@ public class RoomEntity {
     private Long id;
 
     @NotNull
-    @Column(unique = true)
     private Integer roomNumber;
 
     @Column(
