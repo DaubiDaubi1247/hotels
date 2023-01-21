@@ -70,6 +70,8 @@ public class HotelServiceImpl implements HotelService {
         CityEntity desiredCity = cityRepository.findByNameIgnoreCase(cityName)
                 .orElseThrow(() -> new CityNotFound("город с названием " + cityName + " не найден"));
 
+        List<HotelEntity> hotelEntities = hotelRepository.findAllHotelInCity(desiredCity.getId());
 
+        return HotelMapper.INSTANCE.hotelEntityListToHotelList(hotelEntities);
     }
 }
