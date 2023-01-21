@@ -2,10 +2,13 @@ package ru.alex.hotels.services.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import ru.alex.hotels.entitys.CityEntity;
 import ru.alex.hotels.entitys.HotelEntity;
+import ru.alex.hotels.exceptions.CityNotFound;
 import ru.alex.hotels.exceptions.HotelAlreadyExists;
 import ru.alex.hotels.exceptions.HotelNotFoundException;
 import ru.alex.hotels.mappers.HotelMapper;
+import ru.alex.hotels.repositories.CityRepository;
 import ru.alex.hotels.repositories.HotelRepository;
 import ru.alex.hotels.services.HotelService;
 import ru.alex.hotels.tdo.Hotel;
@@ -16,10 +19,12 @@ import java.util.Optional;
 @Service
 public class HotelServiceImpl implements HotelService {
     private final HotelRepository hotelRepository;
+    private final CityRepository cityRepository;
 
     @Autowired
-    public HotelServiceImpl(final HotelRepository hotelRepository) {
+    public HotelServiceImpl(final HotelRepository hotelRepository, CityRepository cityRepository) {
         this.hotelRepository = hotelRepository;
+        this.cityRepository = cityRepository;
     }
 
     @Override
@@ -58,5 +63,13 @@ public class HotelServiceImpl implements HotelService {
         hotelEntity.setName(hotel.getName());
 
         return HotelMapper.INSTANCE.hotelEntityToHotel(hotelRepository.save(hotelEntity));
+    }
+
+    @Override
+    public List<Hotel> getAllHotelsInCity(String cityName) throws CityNotFound {
+        CityEntity desiredCity = cityRepository.findByNameIgnoreCase(cityName)
+                .orElseThrow(() -> new CityNotFound("город с названием " + cityName + " не найден"));
+
+
     }
 }

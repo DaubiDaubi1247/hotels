@@ -1,5 +1,6 @@
 package ru.alex.hotels.services;
 
+import ru.alex.hotels.exceptions.CityNotFound;
 import ru.alex.hotels.exceptions.HotelAlreadyExists;
 import ru.alex.hotels.exceptions.HotelNotFoundException;
 import ru.alex.hotels.tdo.Hotel;
@@ -14,4 +15,6 @@ public interface HotelService {
     Hotel getHotelById(Long id) throws HotelNotFoundException;
 
     Hotel updateHotel(Hotel hotel, Long id) throws HotelNotFoundException;
+
+    List<Hotel> getAllHotelsInCity(String cityName) throws CityNotFound;
 }

@@ -45,10 +45,10 @@ public class HotelController {
         }
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<?> updateHotel(@PathVariable Long id, @RequestBody Hotel hotel) {
+    @PutMapping("/{hotelId}")
+    public ResponseEntity<?> updateHotel(@PathVariable Long hotelId, @RequestBody Hotel hotel) {
         try {
-            return ResponseEntity.ok(hotelService.updateHotel(hotel, id));
+            return ResponseEntity.ok(hotelService.updateHotel(hotel, hotelId));
         } catch (HotelNotFoundException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
