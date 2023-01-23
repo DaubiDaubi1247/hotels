@@ -25,22 +25,19 @@ import static ru.alex.hotels.dataForTests.HotelDataTest.*;
 
 @WebMvcTest(HotelController.class)
 class HotelControllerTest {
-
     private final String url = "/hotels";
     @Autowired
     private MockMvc mockMvc;
-
     @MockBean
     private HotelService hotelService;
-
     private final ObjectMapper objectMapper = new ObjectMapper();
 
     @Test
     void testResponseCreateHotel() throws Exception {
 
-        when(hotelService.createHotel(any(Hotel.class), "any")).thenReturn(testHotelForCreate());
+        when(hotelService.createHotel(any(Hotel.class), any(String.class))).thenReturn(testHotelForCreate());
 
-        mockMvc.perform(post(url)
+        mockMvc.perform(post(url + "?cityName=Белгород")
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(objectMapper.writeValueAsString(testHotel())))
                 .andExpect(status().isCreated())

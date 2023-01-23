@@ -65,7 +65,7 @@ class HotelServiceImplTest {
     }
 
     @Test
-    void getTestGetHotelById() {
+    void getTestGetAllHotel() {
         List<Hotel> hotels = testListHotels();
         List<HotelEntity> entitiesAfterGet = HotelMapper.INSTANCE.hotelsToHotelEntities(hotels);
 
