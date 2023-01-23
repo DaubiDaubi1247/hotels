@@ -9,5 +9,5 @@ import java.util.List;
 public interface RoomService {
     Room addRoom(Long hotelId, Room room) throws RoomAlreadyExists, HotelNotFoundException;
 
-    List<Room> getRoomsByHotel(Long hotelId) throws HotelNotFoundException;
+    List<Room> getRoomsByHotelId(Long hotelId) throws HotelNotFoundException;
 }

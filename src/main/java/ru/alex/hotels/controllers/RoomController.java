@@ -28,7 +28,7 @@ public class RoomController {
     @GetMapping("/all/{hotelId}")
     public ResponseEntity<?> getRoomsByHotelId(@PathVariable Long hotelId) {
         try {
-            return ResponseEntity.ok(roomService.getRoomsByHotel(hotelId));
+            return ResponseEntity.ok(roomService.getRoomsByHotelId(hotelId));
         } catch (HotelNotFoundException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
