@@ -5,10 +5,14 @@ import org.mapstruct.factory.Mappers;
 import ru.alex.hotels.entitys.RoomEntity;
 import ru.alex.hotels.tdo.Room;
 
+import java.util.List;
+
 @Mapper
 public interface RoomMapper {
 
     RoomMapper INSTANCE = Mappers.getMapper(RoomMapper.class);
     Room roomEntityToRoom(RoomEntity roomEntity);
     RoomEntity roomToRoomEntity(Room room);
+
+    List<Room> roomEntityListToRoomList(List<RoomEntity> roomEntityList);
 }

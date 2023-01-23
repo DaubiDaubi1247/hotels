@@ -12,6 +12,7 @@ import ru.alex.hotels.repositories.RoomRepository;
 import ru.alex.hotels.services.RoomService;
 import ru.alex.hotels.tdo.Room;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -29,8 +30,7 @@ public class RoomServiceImpl implements RoomService {
     @Override
     public Room addRoom(Long hotelId, Room room) throws RoomAlreadyExists, HotelNotFoundException {
 
-        HotelEntity hotelEntity = hotelRepository.findById(hotelId)
-                .orElseThrow(() -> new HotelNotFoundException(hotelId));
+        HotelEntity hotelEntity = getHotelEntityOrThrow(hotelId);
 
         Optional<RoomEntity> roomEntity = roomRepository.findByRoomNumber(hotelId, room.getRoomNumber());
 
@@ -41,5 +41,19 @@ public class RoomServiceImpl implements RoomService {
         roomEntityForSave.setHotel(hotelEntity);
 
         return RoomMapper.INSTANCE.roomEntityToRoom(roomRepository.save(roomEntityForSave));
+    }
+
+    private HotelEntity getHotelEntityOrThrow(Long hotelId) throws HotelNotFoundException {
+        return hotelRepository.findById(hotelId)
+                .orElseThrow(() -> new HotelNotFoundException(hotelId));
+    }
+
+    @Override
+    public List<Room> getRoomsByHotel(Long hotelId) throws HotelNotFoundException {
+        HotelEntity hotelEntity = getHotelEntityOrThrow(hotelId);
+
+        List<RoomEntity> roomsEntities = roomRepository.findRoomsByHotelId(hotelId);
+
+        return RoomMapper.INSTANCE.roomEntityListToRoomList(roomsEntities);
     }
 }
