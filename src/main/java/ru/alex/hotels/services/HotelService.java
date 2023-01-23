@@ -8,7 +8,7 @@ import ru.alex.hotels.tdo.Hotel;
 import java.util.List;
 
 public interface HotelService {
-    Hotel createHotel(Hotel hotel) throws HotelAlreadyExists;
+    Hotel createHotel(Hotel hotel, String city) throws HotelAlreadyExists, CityNotFound;
 
     List<Hotel> getAllHotels();
 

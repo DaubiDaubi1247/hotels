@@ -13,6 +13,7 @@ import ru.alex.hotels.repositories.HotelRepository;
 import ru.alex.hotels.services.HotelService;
 import ru.alex.hotels.tdo.Hotel;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -28,15 +29,39 @@ public class HotelServiceImpl implements HotelService {
     }
 
     @Override
-    public Hotel createHotel(Hotel hotel) throws HotelAlreadyExists {
+    public Hotel createHotel(Hotel hotel, String city) throws HotelAlreadyExists, CityNotFound {
+        CityEntity cityEntity = cityRepository.findByNameIgnoreCase(city)
+                .orElseThrow(() -> new CityNotFound("город с названием " + city + " не найден"));
+
         Optional<HotelEntity> hotelEntity = hotelRepository.findByName(hotel.getName());
+        HotelEntity hotelEntityForSave;
 
         if (hotelEntity.isPresent())
-            throw new HotelAlreadyExists("Отель с именем = " + hotel.getName() + " уже сущствует");
+            if (cityEntity.getHotels().contains(hotelEntity.get()))
+                throw new HotelAlreadyExists("Отель с именем = " + hotel.getName() + " уже сущствует в городе " + cityEntity.getName());
+            else {
+                addHotelInCity(cityEntity, hotelEntity.get());
+                hotelEntityForSave = hotelEntity.get();
+            }
+        else
+            hotelEntityForSave = createHotelEntityAndSetInCity(hotel, cityEntity);
 
+        return HotelMapper.INSTANCE.hotelEntityToHotel(hotelRepository.save(hotelEntityForSave));
+    }
+
+    private void addHotelInCity(CityEntity cityEntity, HotelEntity hotelEntity) {
+        cityEntity.getHotels().add(hotelEntity);
+        hotelEntity.getCities().add(cityEntity);
+    }
+
+    private HotelEntity createHotelEntityAndSetInCity(Hotel hotel, CityEntity cityEntity) {
         HotelEntity hotelToEntity = HotelMapper.INSTANCE.hotelToHotelEntity(hotel);
+        hotelToEntity.setCities(new ArrayList<>());
+        hotelToEntity.getCities().add(cityEntity);
 
-        return HotelMapper.INSTANCE.hotelEntityToHotel(hotelRepository.save(hotelToEntity));
+        cityEntity.getHotels().add(hotelToEntity);
+
+        return hotelToEntity;
     }
 
     @Override

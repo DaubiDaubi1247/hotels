@@ -38,7 +38,7 @@ class HotelControllerTest {
     @Test
     void testResponseCreateHotel() throws Exception {
 
-        when(hotelService.createHotel(any(Hotel.class))).thenReturn(testHotelForCreate());
+        when(hotelService.createHotel(any(Hotel.class), "any")).thenReturn(testHotelForCreate());
 
         mockMvc.perform(post(url)
                     .contentType(MediaType.APPLICATION_JSON)

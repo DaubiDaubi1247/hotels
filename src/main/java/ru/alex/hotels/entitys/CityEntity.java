@@ -7,6 +7,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -27,5 +28,5 @@ public class CityEntity {
     private String index;
 
     @ManyToMany(mappedBy = "cities")
-    private List<HotelEntity> hotels;
+    private List<HotelEntity> hotels = new ArrayList<>();
 }

@@ -20,11 +20,11 @@ public class HotelController {
     }
 
     @PostMapping
-    public ResponseEntity<?> createHotel(@RequestBody Hotel hotel) {
+    public ResponseEntity<?> createHotel(@RequestBody Hotel hotel, @RequestParam String cityName) {
         try {
-            return ResponseEntity.status(HttpStatus.CREATED).body(hotelService.createHotel(hotel));
-        } catch (HotelAlreadyExists e) {
-            return ResponseEntity.badRequest().body(e);
+            return ResponseEntity.status(HttpStatus.CREATED).body(hotelService.createHotel(hotel, cityName));
+        } catch (HotelAlreadyExists | CityNotFound e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 

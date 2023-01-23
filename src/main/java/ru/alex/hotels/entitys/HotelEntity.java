@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -24,13 +25,13 @@ public class HotelEntity {
     @JoinColumn(name = "director_id")
     private DirectorEntity director;
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
             name = "hotels_in_citys",
             joinColumns = @JoinColumn(name = "city_id"),
             inverseJoinColumns = @JoinColumn(name = "hotel_id")
     )
-    private List<CityEntity> cities;
+    private List<CityEntity> cities = new ArrayList<>();
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "hotel")
     private List<RoomEntity> rooms;
