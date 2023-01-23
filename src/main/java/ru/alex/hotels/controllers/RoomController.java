@@ -1,10 +1,7 @@
 package ru.alex.hotels.controllers;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import ru.alex.hotels.exceptions.HotelNotFoundException;
 import ru.alex.hotels.exceptions.RoomAlreadyExists;
 import ru.alex.hotels.services.RoomService;
@@ -24,6 +21,15 @@ public class RoomController {
         try {
             return ResponseEntity.ok(roomService.addRoom(hotelId, room));
         } catch (RoomAlreadyExists | HotelNotFoundException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @GetMapping("/all/{hotelId}")
+    public ResponseEntity<?> getRoomsByHotelId(@PathVariable Long hotelId) {
+        try {
+            return ResponseEntity.ok(roomService.getRoomsByHotel(hotelId));
+        } catch (HotelNotFoundException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
