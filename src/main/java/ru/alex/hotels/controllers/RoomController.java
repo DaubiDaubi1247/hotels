@@ -17,7 +17,7 @@ public class RoomController {
     }
 
     @PostMapping("/{hotelId}")
-    public ResponseEntity<?> createRoom(@PathVariable Long hotelId, Room room) {
+    public ResponseEntity<?> createRoom(@PathVariable Long hotelId, @RequestBody Room room) {
         try {
             return ResponseEntity.ok(roomService.addRoom(hotelId, room));
         } catch (RoomAlreadyExists | HotelNotFoundException e) {

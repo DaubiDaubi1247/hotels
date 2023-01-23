@@ -12,11 +12,11 @@ import java.util.Optional;
 public interface RoomRepository extends JpaRepository<RoomEntity, Long> {
     @Query(" SELECT r " +
             "FROM RoomEntity r " +
-            "WHERE r.hotel = ?1 and r.roomNumber = ?2")
+            "WHERE r.hotel.id = ?1 and r.roomNumber = ?2")
     Optional<RoomEntity> findByRoomNumber(Long hotelId, Integer roomNumber);
 
     @Query(" SELECT r " +
             "FROM RoomEntity r " +
-            "WHERE r.hotel = ?1")
+            "WHERE r.hotel.id = ?1")
     List<RoomEntity> findRoomsByHotelId(Long hotelId);
 }
