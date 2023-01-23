@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import ru.alex.hotels.exceptions.HotelNotFoundException;
 import ru.alex.hotels.exceptions.RoomAlreadyExists;
 import ru.alex.hotels.services.RoomService;
 import ru.alex.hotels.tdo.Room;
@@ -22,7 +23,7 @@ public class RoomController {
     public ResponseEntity<?> createRoom(@PathVariable Long hotelId, Room room) {
         try {
             return ResponseEntity.ok(roomService.addRoom(hotelId, room));
-        } catch (RoomAlreadyExists e) {
+        } catch (RoomAlreadyExists | HotelNotFoundException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }

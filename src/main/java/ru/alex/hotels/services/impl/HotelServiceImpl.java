@@ -74,7 +74,7 @@ public class HotelServiceImpl implements HotelService {
         Optional<HotelEntity> hotelEntity = hotelRepository.findById(id);
 
         if (hotelEntity.isEmpty()) {
-            throw new HotelNotFoundException("отель с id = " + id + " не найден");
+            throw new HotelNotFoundException(id);
         }
 
         return HotelMapper.INSTANCE.hotelEntityToHotel(hotelEntity.get());
@@ -83,7 +83,7 @@ public class HotelServiceImpl implements HotelService {
     @Override
     public Hotel updateHotel(Hotel hotel, Long id) throws HotelNotFoundException {
         HotelEntity hotelEntity = hotelRepository.findById(id)
-                .orElseThrow(() -> new HotelNotFoundException("отель с id = " + id + " не найден"));
+                .orElseThrow(() -> new HotelNotFoundException(id));
 
         hotelEntity.setName(hotel.getName());
 

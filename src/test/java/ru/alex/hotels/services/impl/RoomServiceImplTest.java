@@ -6,6 +6,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import ru.alex.hotels.entitys.RoomEntity;
+import ru.alex.hotels.exceptions.HotelNotFoundException;
 import ru.alex.hotels.exceptions.RoomAlreadyExists;
 import ru.alex.hotels.mappers.RoomMapper;
 import ru.alex.hotels.repositories.RoomRepository;
@@ -25,7 +26,7 @@ class RoomServiceImplTest {
     RoomServiceImpl roomService;
 
     @Test
-    public void testCreateRoom() throws RoomAlreadyExists {
+    public void testCreateRoom() throws RoomAlreadyExists, HotelNotFoundException {
 
         Room resRoom = RoomMapper.INSTANCE.roomEntityToRoom(testRoom());
 
