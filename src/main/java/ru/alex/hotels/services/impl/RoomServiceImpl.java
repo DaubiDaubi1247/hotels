@@ -7,9 +7,9 @@ import ru.alex.hotels.entitys.RoomEntity;
 import ru.alex.hotels.exceptions.HotelNotFoundException;
 import ru.alex.hotels.exceptions.RoomAlreadyExists;
 import ru.alex.hotels.mappers.RoomMapper;
-import ru.alex.hotels.repositories.HotelRepository;
 import ru.alex.hotels.repositories.RoomRepository;
 import ru.alex.hotels.services.RoomService;
+import ru.alex.hotels.services.getOrThrow.HotelRepositoryWrapper;
 import ru.alex.hotels.tdo.Room;
 
 import java.util.List;
@@ -19,18 +19,19 @@ import java.util.Optional;
 public class RoomServiceImpl implements RoomService {
 
     private final RoomRepository roomRepository;
-    private final HotelRepository hotelRepository;
+    private final HotelRepositoryWrapper hotelRepositoryWrapper;
+
 
     @Autowired
-    public RoomServiceImpl(RoomRepository roomRepository, HotelRepository hotelRepository) {
+    public RoomServiceImpl(RoomRepository roomRepository, HotelRepositoryWrapper hotelRepositoryWrapper) {
         this.roomRepository = roomRepository;
-        this.hotelRepository = hotelRepository;
+        this.hotelRepositoryWrapper = hotelRepositoryWrapper;
     }
 
     @Override
     public Room addRoom(Long hotelId, Room room) throws RoomAlreadyExists, HotelNotFoundException {
 
-        HotelEntity hotelEntity = getHotelEntityOrThrow(hotelId);
+        HotelEntity hotelEntity = hotelRepositoryWrapper.getHotelEntityOrThrow(hotelId);
 
         Optional<RoomEntity> roomEntity = roomRepository.findByRoomNumber(hotelId, room.getRoomNumber());
 
@@ -43,14 +44,10 @@ public class RoomServiceImpl implements RoomService {
         return RoomMapper.INSTANCE.roomEntityToRoom(roomRepository.save(roomEntityForSave));
     }
 
-    private HotelEntity getHotelEntityOrThrow(Long hotelId) throws HotelNotFoundException {
-        return hotelRepository.findById(hotelId)
-                .orElseThrow(() -> new HotelNotFoundException(hotelId));
-    }
 
     @Override
     public List<Room> getRoomsByHotelId(Long hotelId) throws HotelNotFoundException {
-        getHotelEntityOrThrow(hotelId);
+        hotelRepositoryWrapper.getHotelEntityOrThrow(hotelId);
 
         List<RoomEntity> roomsEntities = roomRepository.findRoomsByHotelId(hotelId);
 

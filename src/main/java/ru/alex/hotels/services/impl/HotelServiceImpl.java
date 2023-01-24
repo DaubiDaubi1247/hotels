@@ -99,4 +99,5 @@ public class HotelServiceImpl implements HotelService {
 
         return HotelMapper.INSTANCE.hotelEntityListToHotelList(hotelEntities);
     }
+
 }

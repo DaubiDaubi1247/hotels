@@ -11,11 +11,9 @@ import ru.alex.hotels.entitys.RoomEntity;
 import ru.alex.hotels.exceptions.HotelNotFoundException;
 import ru.alex.hotels.exceptions.RoomAlreadyExists;
 import ru.alex.hotels.mappers.RoomMapper;
-import ru.alex.hotels.repositories.HotelRepository;
 import ru.alex.hotels.repositories.RoomRepository;
+import ru.alex.hotels.services.getOrThrow.HotelRepositoryWrapper;
 import ru.alex.hotels.tdo.Room;
-
-import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -27,7 +25,7 @@ class RoomServiceImplTest {
     @Mock
     RoomRepository roomRepository;
     @Mock
-    HotelRepository hotelRepository;
+    HotelRepositoryWrapper hotelRepositoryWrapper;
 
     @InjectMocks
     RoomServiceImpl roomService;
@@ -38,7 +36,7 @@ class RoomServiceImplTest {
         Room resRoom = RoomMapper.INSTANCE.roomEntityToRoom(testRoom());
 
         when(roomRepository.save(any(RoomEntity.class))).thenReturn(testRoom());
-        when(hotelRepository.findById(eq(1L))).thenReturn(Optional.of(new HotelEntity()));
+        when(hotelRepositoryWrapper.getHotelEntityOrThrow(eq(1L))).thenReturn(new HotelEntity());
 
         Room room = roomService.addRoom(1L, resRoom);
 
@@ -47,11 +45,11 @@ class RoomServiceImplTest {
     }
 
     @Test
-    public void testCreateRoomNotFoundHotel() {
+    public void testCreateRoomNotFoundHotel() throws HotelNotFoundException {
 
         Room resRoom = RoomMapper.INSTANCE.roomEntityToRoom(testRoom());
 
-        when(hotelRepository.findById(eq(1L))).thenReturn(Optional.empty());
+        when(hotelRepositoryWrapper.getHotelEntityOrThrow(eq(1L))).thenThrow(new HotelNotFoundException(1L));
 
         Throwable thrown = assertThrows(HotelNotFoundException.class,
                 () -> roomService.addRoom(1L, resRoom));

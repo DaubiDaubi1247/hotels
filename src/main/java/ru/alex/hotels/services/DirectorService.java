@@ -1,5 +1,8 @@
 package ru.alex.hotels.services;
 
-public interface DirectorService {
+import ru.alex.hotels.exceptions.HotelNotFoundException;
+import ru.alex.hotels.tdo.Director;
 
+public interface DirectorService {
+    Director addDirector(Long hotelId, Director director) throws HotelNotFoundException;
 }
