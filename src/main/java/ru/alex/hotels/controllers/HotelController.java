@@ -5,6 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import ru.alex.hotels.exceptions.CityNotFound;
+import ru.alex.hotels.exceptions.DirectorNotFound;
 import ru.alex.hotels.exceptions.HotelAlreadyExists;
 import ru.alex.hotels.exceptions.HotelNotFoundException;
 import ru.alex.hotels.services.HotelService;
@@ -21,10 +22,10 @@ public class HotelController {
     }
 
     @PostMapping
-    public ResponseEntity<?> createHotel(@RequestBody Hotel hotel, @RequestParam String cityName) {
+    public ResponseEntity<?> createHotel(@RequestBody Hotel hotel, @RequestParam String cityName, @RequestParam String directorFcs) {
         try {
-            return ResponseEntity.status(HttpStatus.CREATED).body(hotelService.createHotel(hotel, cityName));
-        } catch (HotelAlreadyExists | CityNotFound e) {
+            return ResponseEntity.status(HttpStatus.CREATED).body(hotelService.createHotel(hotel, cityName, directorFcs));
+        } catch (HotelAlreadyExists | CityNotFound | DirectorNotFound e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }

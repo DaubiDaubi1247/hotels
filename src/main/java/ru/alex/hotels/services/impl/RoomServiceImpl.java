@@ -21,7 +21,6 @@ public class RoomServiceImpl implements RoomService {
     private final RoomRepository roomRepository;
     private final HotelRepositoryWrapper hotelRepositoryWrapper;
 
-
     @Autowired
     public RoomServiceImpl(RoomRepository roomRepository, HotelRepositoryWrapper hotelRepositoryWrapper) {
         this.roomRepository = roomRepository;

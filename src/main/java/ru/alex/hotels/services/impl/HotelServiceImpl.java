@@ -1,14 +1,17 @@
 package ru.alex.hotels.services.impl;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.alex.hotels.entitys.CityEntity;
+import ru.alex.hotels.entitys.DirectorEntity;
 import ru.alex.hotels.entitys.HotelEntity;
 import ru.alex.hotels.exceptions.CityNotFound;
+import ru.alex.hotels.exceptions.DirectorNotFound;
 import ru.alex.hotels.exceptions.HotelAlreadyExists;
 import ru.alex.hotels.exceptions.HotelNotFoundException;
 import ru.alex.hotels.mappers.HotelMapper;
 import ru.alex.hotels.repositories.CityRepository;
+import ru.alex.hotels.repositories.DirectorRepository;
 import ru.alex.hotels.services.HotelService;
 import ru.alex.hotels.services.getOrThrow.HotelRepositoryWrapper;
 import ru.alex.hotels.tdo.Hotel;
@@ -18,20 +21,20 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@AllArgsConstructor
 public class HotelServiceImpl implements HotelService {
     private final HotelRepositoryWrapper hotelRepositoryWrapper;
+    private final DirectorRepository directorRepository;
     private final CityRepository cityRepository;
 
-    @Autowired
-    public HotelServiceImpl(final HotelRepositoryWrapper hotelRepositoryWrapper, CityRepository cityRepository) {
-        this.hotelRepositoryWrapper = hotelRepositoryWrapper;
-        this.cityRepository = cityRepository;
-    }
 
     @Override
-    public Hotel createHotel(Hotel hotel, String city) throws HotelAlreadyExists, CityNotFound {
+    public Hotel createHotel(Hotel hotel, String city, String directorFcs) throws HotelAlreadyExists, CityNotFound, DirectorNotFound {
         CityEntity cityEntity = cityRepository.findByNameIgnoreCase(city)
                 .orElseThrow(() -> new CityNotFound("город с названием " + city + " не найден"));
+
+        DirectorEntity directorEntity = directorRepository.findByFcsIgnoreCase(directorFcs)
+                .orElseThrow(() -> new DirectorNotFound(directorFcs));
 
         Optional<HotelEntity> hotelEntity = hotelRepositoryWrapper.getHotelRepository().findByName(hotel.getName());
         HotelEntity hotelEntityForSave;
@@ -42,6 +45,8 @@ public class HotelServiceImpl implements HotelService {
             else {
                 addHotelInCity(cityEntity, hotelEntity.get());
                 hotelEntityForSave = hotelEntity.get();
+                hotelEntityForSave.setDirector(directorEntity);
+                directorEntity.setHotel(hotelEntityForSave);
             }
         else
             hotelEntityForSave = createHotelEntityAndSetInCity(hotel, cityEntity);

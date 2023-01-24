@@ -35,9 +35,9 @@ class HotelControllerTest {
     @Test
     void testResponseCreateHotel() throws Exception {
 
-        when(hotelService.createHotel(any(Hotel.class), any(String.class))).thenReturn(testHotelForCreate());
+        when(hotelService.createHotel(any(Hotel.class), any(String.class), any(String.class))).thenReturn(testHotelForCreate());
 
-        mockMvc.perform(post(url + "?cityName=Белгород")
+        mockMvc.perform(post(url + "?cityName=Белгород&directorFcs=Саша?")
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(objectMapper.writeValueAsString(testHotel())))
                 .andExpect(status().isCreated())

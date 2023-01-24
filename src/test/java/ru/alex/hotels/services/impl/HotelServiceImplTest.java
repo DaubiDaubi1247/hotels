@@ -8,12 +8,15 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import ru.alex.hotels.entitys.CityEntity;
+import ru.alex.hotels.entitys.DirectorEntity;
 import ru.alex.hotels.entitys.HotelEntity;
 import ru.alex.hotels.exceptions.CityNotFound;
+import ru.alex.hotels.exceptions.DirectorNotFound;
 import ru.alex.hotels.exceptions.HotelAlreadyExists;
 import ru.alex.hotels.exceptions.HotelNotFoundException;
 import ru.alex.hotels.mappers.HotelMapper;
 import ru.alex.hotels.repositories.CityRepository;
+import ru.alex.hotels.repositories.DirectorRepository;
 import ru.alex.hotels.repositories.HotelRepository;
 import ru.alex.hotels.services.getOrThrow.HotelRepositoryWrapper;
 import ru.alex.hotels.tdo.Hotel;
@@ -37,12 +40,14 @@ class HotelServiceImplTest {
     HotelRepositoryWrapper hotelRepositoryWrapper;
     @Mock
     CityRepository cityRepository;
+    @Mock
+    DirectorRepository directorRepository;
 
     @InjectMocks
     private HotelServiceImpl hotelService;
 
     @Test
-    void testCreateHotel() throws HotelAlreadyExists, CityNotFound {
+    void testCreateHotel() throws HotelAlreadyExists, CityNotFound, DirectorNotFound {
         Hotel hotel = testHotel();
 
         HotelEntity entityAfterSave = HotelMapper.INSTANCE.hotelToHotelEntity(hotel);
@@ -51,7 +56,9 @@ class HotelServiceImplTest {
         when(hotelRepositoryWrapper.getHotelRepository().save(any(HotelEntity.class))).thenReturn(entityAfterSave);
         when(cityRepository.findByNameIgnoreCase("any")).thenReturn(Optional.of(new CityEntity()));
 
-        Hotel createdHotel = hotelService.createHotel(hotel, "any");
+        when(directorRepository.findByFcsIgnoreCase("Саша")).thenReturn(Optional.of(new DirectorEntity()));
+
+        Hotel createdHotel = hotelService.createHotel(hotel, "any", "Саша");
 
         Assertions.assertEquals(hotel.getName(), createdHotel.getName());
         verify(hotelRepository, times(1)).save(any(HotelEntity.class));
@@ -64,7 +71,7 @@ class HotelServiceImplTest {
         when(cityRepository.findByNameIgnoreCase("any")).thenReturn(Optional.empty());
 
         Throwable thrown = assertThrows(CityNotFound.class,
-                () -> hotelService.createHotel(hotel, "any"));
+                () -> hotelService.createHotel(hotel, "any", "Саша"));
 
         Assertions.assertNotNull(thrown.getMessage());
     }
