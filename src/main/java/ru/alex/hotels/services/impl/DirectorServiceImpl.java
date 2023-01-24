@@ -19,7 +19,9 @@ public class DirectorServiceImpl implements DirectorService {
     public Director addDirector(Long hotelId, Director director) throws HotelNotFoundException {
         HotelEntity hotelEntity = hotelRepositoryWrapper.getHotelEntityOrThrow(hotelId);
 
-        Optional<DirectorEntity> directorEntity = directorRepository.findBy
+        Optional<DirectorEntity> directorEntity = directorRepository.findByFcsIgnoreCase(director.getFcs());
+        if (directorEntity.isPresent())
+            throw
 
         return null;
     }
