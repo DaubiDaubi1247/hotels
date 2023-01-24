@@ -50,7 +50,7 @@ public class RoomServiceImpl implements RoomService {
 
     @Override
     public List<Room> getRoomsByHotelId(Long hotelId) throws HotelNotFoundException {
-        HotelEntity hotelEntity = getHotelEntityOrThrow(hotelId);
+        getHotelEntityOrThrow(hotelId);
 
         List<RoomEntity> roomsEntities = roomRepository.findRoomsByHotelId(hotelId);
 
