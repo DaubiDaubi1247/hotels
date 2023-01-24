@@ -8,5 +8,5 @@ import java.util.Optional;
 
 @Repository
 public interface DirectorRepository extends JpaRepository<DirectorEntity, Long> {
-    Optional<DirectorEntity> findByFcsIgnoreCase(String fcs);
+    Optional<DirectorEntity> findByFcsAndPhoneIgnoreCase(String fcs, String phone);
 }
