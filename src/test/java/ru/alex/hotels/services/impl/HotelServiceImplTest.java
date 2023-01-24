@@ -15,6 +15,7 @@ import ru.alex.hotels.exceptions.HotelNotFoundException;
 import ru.alex.hotels.mappers.HotelMapper;
 import ru.alex.hotels.repositories.CityRepository;
 import ru.alex.hotels.repositories.HotelRepository;
+import ru.alex.hotels.services.getOrThrow.HotelRepositoryWrapper;
 import ru.alex.hotels.tdo.Hotel;
 
 import java.util.List;
@@ -31,6 +32,9 @@ import static ru.alex.hotels.dataForTests.HotelDataTest.testListHotels;
 class HotelServiceImplTest {
     @Mock
     HotelRepository hotelRepository;
+
+    @Mock
+    HotelRepositoryWrapper hotelRepositoryWrapper;
     @Mock
     CityRepository cityRepository;
 
@@ -43,7 +47,8 @@ class HotelServiceImplTest {
 
         HotelEntity entityAfterSave = HotelMapper.INSTANCE.hotelToHotelEntity(hotel);
 
-        when(hotelRepository.save(any(HotelEntity.class))).thenReturn(entityAfterSave);
+        when(hotelRepositoryWrapper.getHotelRepository()).thenReturn(hotelRepository);
+        when(hotelRepositoryWrapper.getHotelRepository().save(any(HotelEntity.class))).thenReturn(entityAfterSave);
         when(cityRepository.findByNameIgnoreCase("any")).thenReturn(Optional.of(new CityEntity()));
 
         Hotel createdHotel = hotelService.createHotel(hotel, "any");
@@ -69,7 +74,8 @@ class HotelServiceImplTest {
         List<Hotel> hotels = testListHotels();
         List<HotelEntity> entitiesAfterGet = HotelMapper.INSTANCE.hotelsToHotelEntities(hotels);
 
-        when(hotelRepository.findAll()).thenReturn(entitiesAfterGet);
+        when(hotelRepositoryWrapper.getHotelRepository()).thenReturn(hotelRepository);
+        when(hotelRepositoryWrapper.getHotelRepository().findAll()).thenReturn(entitiesAfterGet);
 
         List<Hotel> getHotels = hotelService.getAllHotels();
 
@@ -81,24 +87,25 @@ class HotelServiceImplTest {
     void testGetHotelById() throws HotelNotFoundException {
         HotelEntity entitiesAfterFind = HotelMapper.INSTANCE.hotelToHotelEntity(testHotel());
 
-        when(hotelRepository.findById(1L)).thenReturn(Optional.ofNullable(entitiesAfterFind));
+        when(hotelRepositoryWrapper.getHotelEntityOrThrow(1L)).thenReturn(entitiesAfterFind);
 
         Hotel hotel = hotelService.getHotelById(1L);
 
         Assertions.assertEquals(testHotel(), hotel);
-        verify(hotelRepository, times(1)).findById(1L);
+        verify(hotelRepositoryWrapper, times(1)).getHotelEntityOrThrow(1L);
     }
 
     @Test
     void testUpdateHotel() throws HotelNotFoundException {
         HotelEntity entityForUpdate = HotelMapper.INSTANCE.hotelToHotelEntity(testHotel());
 
-        when(hotelRepository.findById(1L)).thenReturn(Optional.ofNullable(entityForUpdate));
-        when(hotelRepository.save(any(HotelEntity.class))).thenReturn(entityForUpdate);
+        when(hotelRepositoryWrapper.getHotelEntityOrThrow(1L)).thenReturn(entityForUpdate);
+        when(hotelRepositoryWrapper.getHotelRepository()).thenReturn(hotelRepository);
+        when(hotelRepositoryWrapper.getHotelRepository().save(any(HotelEntity.class))).thenReturn(entityForUpdate);
 
         Hotel hotel = hotelService.updateHotel(testHotel(), 1L);
 
         Assertions.assertEquals(testHotel().getName(), hotel.getName());
-        verify(hotelRepository, times(1)).findById(1L);
+        verify(hotelRepositoryWrapper, times(1)).getHotelEntityOrThrow(1L);
     }
 }

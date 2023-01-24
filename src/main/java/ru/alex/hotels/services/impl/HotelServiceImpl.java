@@ -9,8 +9,8 @@ import ru.alex.hotels.exceptions.HotelAlreadyExists;
 import ru.alex.hotels.exceptions.HotelNotFoundException;
 import ru.alex.hotels.mappers.HotelMapper;
 import ru.alex.hotels.repositories.CityRepository;
-import ru.alex.hotels.repositories.HotelRepository;
 import ru.alex.hotels.services.HotelService;
+import ru.alex.hotels.services.getOrThrow.HotelRepositoryWrapper;
 import ru.alex.hotels.tdo.Hotel;
 
 import java.util.ArrayList;
@@ -19,12 +19,12 @@ import java.util.Optional;
 
 @Service
 public class HotelServiceImpl implements HotelService {
-    private final HotelRepository hotelRepository;
+    private final HotelRepositoryWrapper hotelRepositoryWrapper;
     private final CityRepository cityRepository;
 
     @Autowired
-    public HotelServiceImpl(final HotelRepository hotelRepository, CityRepository cityRepository) {
-        this.hotelRepository = hotelRepository;
+    public HotelServiceImpl(final HotelRepositoryWrapper hotelRepositoryWrapper, CityRepository cityRepository) {
+        this.hotelRepositoryWrapper = hotelRepositoryWrapper;
         this.cityRepository = cityRepository;
     }
 
@@ -33,7 +33,7 @@ public class HotelServiceImpl implements HotelService {
         CityEntity cityEntity = cityRepository.findByNameIgnoreCase(city)
                 .orElseThrow(() -> new CityNotFound("город с названием " + city + " не найден"));
 
-        Optional<HotelEntity> hotelEntity = hotelRepository.findByName(hotel.getName());
+        Optional<HotelEntity> hotelEntity = hotelRepositoryWrapper.getHotelRepository().findByName(hotel.getName());
         HotelEntity hotelEntityForSave;
 
         if (hotelEntity.isPresent())
@@ -46,7 +46,7 @@ public class HotelServiceImpl implements HotelService {
         else
             hotelEntityForSave = createHotelEntityAndSetInCity(hotel, cityEntity);
 
-        return HotelMapper.INSTANCE.hotelEntityToHotel(hotelRepository.save(hotelEntityForSave));
+        return HotelMapper.INSTANCE.hotelEntityToHotel(hotelRepositoryWrapper.getHotelRepository().save(hotelEntityForSave));
     }
 
     private void addHotelInCity(CityEntity cityEntity, HotelEntity hotelEntity) {
@@ -66,28 +66,22 @@ public class HotelServiceImpl implements HotelService {
 
     @Override
     public List<Hotel> getAllHotels() {
-        return HotelMapper.INSTANCE.hotelEntityListToHotelList(hotelRepository.findAll());
+        return HotelMapper.INSTANCE.hotelEntityListToHotelList(hotelRepositoryWrapper.getHotelRepository().findAll());
     }
 
     @Override
     public Hotel getHotelById(Long id) throws HotelNotFoundException {
-        Optional<HotelEntity> hotelEntity = hotelRepository.findById(id);
+        HotelEntity hotelEntity = hotelRepositoryWrapper.getHotelEntityOrThrow(id);
 
-        if (hotelEntity.isEmpty()) {
-            throw new HotelNotFoundException(id);
-        }
-
-        return HotelMapper.INSTANCE.hotelEntityToHotel(hotelEntity.get());
+        return HotelMapper.INSTANCE.hotelEntityToHotel(hotelEntity);
     }
 
     @Override
     public Hotel updateHotel(Hotel hotel, Long id) throws HotelNotFoundException {
-        HotelEntity hotelEntity = hotelRepository.findById(id)
-                .orElseThrow(() -> new HotelNotFoundException(id));
-
+        HotelEntity hotelEntity = hotelRepositoryWrapper.getHotelEntityOrThrow(id);
         hotelEntity.setName(hotel.getName());
 
-        return HotelMapper.INSTANCE.hotelEntityToHotel(hotelRepository.save(hotelEntity));
+        return HotelMapper.INSTANCE.hotelEntityToHotel(hotelRepositoryWrapper.getHotelRepository().save(hotelEntity));
     }
 
     @Override
@@ -95,7 +89,7 @@ public class HotelServiceImpl implements HotelService {
         CityEntity desiredCity = cityRepository.findByNameIgnoreCase(cityName)
                 .orElseThrow(() -> new CityNotFound("город с названием " + cityName + " не найден"));
 
-        List<HotelEntity> hotelEntities = hotelRepository.findAllHotelInCity(desiredCity.getId());
+        List<HotelEntity> hotelEntities = hotelRepositoryWrapper.getHotelRepository().findAllHotelInCity(desiredCity.getId());
 
         return HotelMapper.INSTANCE.hotelEntityListToHotelList(hotelEntities);
     }
