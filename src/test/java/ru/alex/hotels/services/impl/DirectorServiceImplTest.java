@@ -35,7 +35,7 @@ class DirectorServiceImplTest {
         DirectorEntity directorEntityForSave = DirectorMapper.INSTANSE.directorToDirectorEntity(testDirector());
         directorEntityForSave.setId(1L);
 
-        when(directorRepository.findByFcsAndPhoneIgnoreCase(eq(testDirector().getFcs()), eq(testDirector().getPhone())))
+        when(directorRepository.findByFcsOrPhoneIgnoreCase(eq(testDirector().getFcs()), eq(testDirector().getPhone())))
                 .thenReturn(Optional.empty());
 
         when(directorRepository.save(any(DirectorEntity.class)))
@@ -60,7 +60,7 @@ class DirectorServiceImplTest {
     @Test
     void testAddDirectorAlreadyExist() {
 
-        when(directorRepository.findByFcsAndPhoneIgnoreCase(eq(testDirector().getFcs()), eq(testDirector().getPhone())))
+        when(directorRepository.findByFcsOrPhoneIgnoreCase(eq(testDirector().getFcs()), eq(testDirector().getPhone())))
                 .thenReturn(Optional.of(new DirectorEntity()));
 
         Throwable thrown = assertThrows(DirectorAlreadyExist.class,

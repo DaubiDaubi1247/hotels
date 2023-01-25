@@ -24,7 +24,7 @@ public class DirectorServiceImpl implements DirectorService {
             throw new InvalidPhone("проверьте правильность в введенного номер");
         }
 
-        Optional<DirectorEntity> directorEntity = directorRepository.findByFcsAndPhoneIgnoreCase(director.getFcs(), director.getPhone());
+        Optional<DirectorEntity> directorEntity = directorRepository.findByFcsOrPhoneIgnoreCase(director.getFcs(), director.getPhone());
         if (directorEntity.isPresent())
             throw new DirectorAlreadyExist("директор с ФИО = " + director.getFcs() + " или" +
                     " номером телефона = " + director.getPhone() + " уже сущесвует в бд");

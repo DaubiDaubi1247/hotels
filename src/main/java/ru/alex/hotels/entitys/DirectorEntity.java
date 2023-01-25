@@ -20,7 +20,7 @@ public class DirectorEntity {
     @NotNull
     private String fcs;
 
-    @Column(length = 11)
+    @Column(length = 12)
     @NotNull
     private String phone;
 
