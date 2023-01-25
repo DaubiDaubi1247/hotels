@@ -10,6 +10,13 @@ public class DirectorDataTest {
                 .build();
     }
 
+    public static Director testDirectorAfterCreate() {
+        Director director = testDirector();
+        director.setId(1L);
+
+        return director;
+    }
+
     public static Director testDirectorInvalidPhone() {
         return Director.builder()
                 .fcs("Скляренко Александр")

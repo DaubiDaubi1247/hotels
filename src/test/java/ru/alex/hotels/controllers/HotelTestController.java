@@ -1,16 +1,15 @@
 package ru.alex.hotels.controllers;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
-import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+import ru.alex.hotels.controllers.controllerTestConfig.Path;
+import ru.alex.hotels.controllers.controllerTestConfig.RootConfigController;
 import ru.alex.hotels.services.HotelService;
 import ru.alex.hotels.tdo.Hotel;
 
@@ -24,20 +23,21 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static ru.alex.hotels.dataForTests.HotelDataTest.*;
 
 @WebMvcTest(HotelController.class)
-class HotelControllerTest {
-    private final String url = "/hotels";
-    @Autowired
-    private MockMvc mockMvc;
+class HotelTestController extends RootConfigController implements Path {
     @MockBean
     private HotelService hotelService;
-    private final ObjectMapper objectMapper = new ObjectMapper();
+
+    @Override
+    public String getPath() {
+        return "/hotels";
+    }
 
     @Test
     void testResponseCreateHotel() throws Exception {
 
         when(hotelService.createHotel(any(Hotel.class), any(String.class), any(String.class))).thenReturn(testHotelForCreate());
 
-        mockMvc.perform(post(url + "?cityName=Белгород&directorFcs=Саша?")
+        mockMvc.perform(post(getPath() + "?cityName=Белгород&directorFcs=Саша?")
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(objectMapper.writeValueAsString(testHotel())))
                 .andExpect(status().isCreated())
@@ -49,7 +49,7 @@ class HotelControllerTest {
 
     @Test
     void testGetAllHotelsStatus() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.get(url + "/all"))
+        mockMvc.perform(MockMvcRequestBuilders.get(getPath() + "/all"))
                 .andExpect(status().isOk());
     }
 
@@ -57,7 +57,7 @@ class HotelControllerTest {
     void testGetAllHotelsResponse() throws Exception {
         when(hotelService.getAllHotels()).thenReturn(testListHotels());
 
-        MvcResult response =  mockMvc.perform(MockMvcRequestBuilders.get(url + "/all")).andReturn();
+        MvcResult response =  mockMvc.perform(MockMvcRequestBuilders.get(getPath() + "/all")).andReturn();
 
         Hotel[] hotels = objectMapper.readValue(response.getResponse().getContentAsString(), Hotel[].class);
 
@@ -67,7 +67,7 @@ class HotelControllerTest {
     void testGetHotelByIdResponse() throws Exception {
         when(hotelService.getHotelById(1L)).thenReturn(testHotelForCreate());
 
-        mockMvc.perform(MockMvcRequestBuilders.get(url + "?id=1"))
+        mockMvc.perform(MockMvcRequestBuilders.get(getPath() + "?id=1"))
                 .andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.id").isNotEmpty())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.name").value(testHotelForCreate().getName()));
@@ -77,11 +77,12 @@ class HotelControllerTest {
     void testUpdateHotel() throws Exception {
         when(hotelService.updateHotel(testHotel(), 1L)).thenReturn(testHotelForCreate());
 
-        mockMvc.perform(put(url + "/1")
+        mockMvc.perform(put(getPath() + "/1")
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(objectMapper.writeValueAsString(testHotel())))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").isNotEmpty())
                 .andExpect(jsonPath("$.name").value(testHotel().getName()));
     }
+
 }

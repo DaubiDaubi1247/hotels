@@ -1,6 +1,7 @@
 package ru.alex.hotels.services.impl;
 
 import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Service;
 import ru.alex.hotels.entitys.DirectorEntity;
 import ru.alex.hotels.exceptions.DirectorAlreadyExist;
 import ru.alex.hotels.exceptions.InvalidPhone;
@@ -13,6 +14,7 @@ import ru.alex.hotels.tdo.Director;
 import java.util.Optional;
 
 @AllArgsConstructor
+@Service
 public class DirectorServiceImpl implements DirectorService {
     private final DirectorRepository directorRepository;
     @Override

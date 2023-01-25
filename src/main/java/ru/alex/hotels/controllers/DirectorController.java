@@ -1,6 +1,7 @@
 package ru.alex.hotels.controllers;
 
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -20,7 +21,7 @@ public class DirectorController {
     @PostMapping
     public ResponseEntity<?> addDirector(@RequestBody Director director) {
         try {
-            return ResponseEntity.ok(directorService.addDirector(director));
+            return ResponseEntity.status(HttpStatus.CREATED).body(directorService.addDirector(director));
         } catch (DirectorAlreadyExist | InvalidPhone e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
