@@ -13,7 +13,7 @@ import ru.alex.hotels.mappers.HotelMapper;
 import ru.alex.hotels.repositories.CityRepository;
 import ru.alex.hotels.repositories.DirectorRepository;
 import ru.alex.hotels.services.HotelService;
-import ru.alex.hotels.services.getOrThrow.HotelRepositoryWrapper;
+import ru.alex.hotels.services.RepositoryWrappers.HotelRepositoryWrapper;
 import ru.alex.hotels.tdo.Hotel;
 
 import java.util.ArrayList;
