@@ -16,6 +16,7 @@ public class DirectorServiceImpl implements DirectorService {
     @Override
     public Director addDirector(Long hotelId, Director director) throws DirectorAlreadyExist {
 
+
         Optional<DirectorEntity> directorEntity = directorRepository.findByFcsAndPhoneIgnoreCase(director.getFcs(), director.getPhone());
         if (directorEntity.isPresent())
             throw new DirectorAlreadyExist("директор с ФИО = " + director.getFcs() + " или" +
