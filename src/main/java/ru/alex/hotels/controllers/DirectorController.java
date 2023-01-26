@@ -25,9 +25,9 @@ public class DirectorController {
     }
 
     @GetMapping("/all")
-    public ResponseEntity<?> getDirectors() {
+    public ResponseEntity<?> getDirectorList() {
         try {
-            return ResponseEntity.ok(directorService.getDirectors());
+            return ResponseEntity.ok(directorService.getDirectorList());
         } catch (Exception e) {
             return ResponseEntity.internalServerError().body(e.getMessage());
         }

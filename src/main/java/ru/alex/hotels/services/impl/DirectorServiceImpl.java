@@ -11,6 +11,7 @@ import ru.alex.hotels.services.DirectorService;
 import ru.alex.hotels.services.validators.DirectorValidator;
 import ru.alex.hotels.tdo.Director;
 
+import java.util.List;
 import java.util.Optional;
 
 @AllArgsConstructor
@@ -32,5 +33,10 @@ public class DirectorServiceImpl implements DirectorService {
         DirectorEntity directorEntityForCreate = DirectorMapper.INSTANSE.directorToDirectorEntity(director);
 
         return DirectorMapper.INSTANSE.directorEntityToDirector(directorRepository.save(directorEntityForCreate));
+    }
+
+    @Override
+    public List<Director> getDirectorList() {
+        return DirectorMapper.INSTANSE.directorEntityListToDirectorList(directorRepository.findByOrderByFcs());
     }
 }
