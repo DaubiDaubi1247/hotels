@@ -12,7 +12,7 @@ import ru.alex.hotels.exceptions.HotelNotFoundException;
 import ru.alex.hotels.exceptions.RoomAlreadyExists;
 import ru.alex.hotels.mappers.RoomMapper;
 import ru.alex.hotels.repositories.RoomRepository;
-import ru.alex.hotels.services.RepositoryWrappers.HotelRepositoryWrapper;
+import ru.alex.hotels.services.repositoryWrappers.HotelRepositoryWrapper;
 import ru.alex.hotels.tdo.Room;
 
 import static org.junit.jupiter.api.Assertions.*;

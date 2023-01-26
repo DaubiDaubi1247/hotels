@@ -32,12 +32,14 @@ class HotelTestController extends RootConfigController implements Path {
         return "/hotels";
     }
 
+    private final HotelControllerQueryParameters hotelQueryParameters = new HotelControllerQueryParameters();
+
     @Test
     void testResponseCreateHotel() throws Exception {
 
-        when(hotelService.createHotel(any(Hotel.class), any(String.class), any(String.class))).thenReturn(testHotelForCreate());
+        when(hotelService.createHotel(any(Hotel.class), any(String.class), any(Long.class))).thenReturn(testHotelForCreate());
 
-        mockMvc.perform(post(getPath() + "?cityName=Белгород&directorFcs=Саша?")
+        mockMvc.perform(post(getPath() + hotelQueryParameters.getQueryParametersForCreate())
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(objectMapper.writeValueAsString(testHotel())))
                 .andExpect(status().isCreated())

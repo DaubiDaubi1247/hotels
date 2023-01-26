@@ -8,7 +8,7 @@ import ru.alex.hotels.exceptions.InvalidPhone;
 import ru.alex.hotels.mappers.DirectorMapper;
 import ru.alex.hotels.repositories.DirectorRepository;
 import ru.alex.hotels.services.DirectorService;
-import ru.alex.hotels.services.Validators.DirectorValidator;
+import ru.alex.hotels.services.validators.DirectorValidator;
 import ru.alex.hotels.tdo.Director;
 
 import java.util.Optional;

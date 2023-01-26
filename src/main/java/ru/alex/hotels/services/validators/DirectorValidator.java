@@ -1,4 +1,4 @@
-package ru.alex.hotels.services.Validators;
+package ru.alex.hotels.services.validators;
 
 public class DirectorValidator {
     public static boolean isValidPhone(String phone) {

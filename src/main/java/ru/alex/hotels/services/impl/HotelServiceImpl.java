@@ -13,7 +13,7 @@ import ru.alex.hotels.mappers.HotelMapper;
 import ru.alex.hotels.repositories.CityRepository;
 import ru.alex.hotels.repositories.DirectorRepository;
 import ru.alex.hotels.services.HotelService;
-import ru.alex.hotels.services.RepositoryWrappers.HotelRepositoryWrapper;
+import ru.alex.hotels.services.repositoryWrappers.HotelRepositoryWrapper;
 import ru.alex.hotels.tdo.Hotel;
 
 import java.util.ArrayList;
@@ -29,12 +29,12 @@ public class HotelServiceImpl implements HotelService {
 
 
     @Override
-    public Hotel createHotel(Hotel hotel, String city, String directorFcs) throws HotelAlreadyExists, CityNotFound, DirectorNotFound {
+    public Hotel createHotel(Hotel hotel, String city, Long directorId) throws HotelAlreadyExists, CityNotFound, DirectorNotFound {
         CityEntity cityEntity = cityRepository.findByNameIgnoreCase(city)
                 .orElseThrow(() -> new CityNotFound("город с названием " + city + " не найден"));
 
-        DirectorEntity directorEntity = directorRepository.findByFcsIgnoreCase(directorFcs)
-                .orElseThrow(() -> new DirectorNotFound(directorFcs));
+        DirectorEntity directorEntity = directorRepository.findById(directorId)
+                .orElseThrow(() -> new DirectorNotFound(directorId));
 
         Optional<HotelEntity> hotelEntity = hotelRepositoryWrapper.getHotelRepository().findByName(hotel.getName());
         HotelEntity hotelEntityForSave;

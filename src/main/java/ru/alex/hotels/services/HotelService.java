@@ -9,7 +9,7 @@ import ru.alex.hotels.tdo.Hotel;
 import java.util.List;
 
 public interface HotelService {
-    Hotel createHotel(Hotel hotel, String city, String directorFcs) throws HotelAlreadyExists, CityNotFound, DirectorNotFound;
+    Hotel createHotel(Hotel hotel, String city, Long directorId) throws HotelAlreadyExists, CityNotFound, DirectorNotFound;
 
     List<Hotel> getAllHotels();
 

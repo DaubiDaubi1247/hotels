@@ -18,7 +18,7 @@ import ru.alex.hotels.mappers.HotelMapper;
 import ru.alex.hotels.repositories.CityRepository;
 import ru.alex.hotels.repositories.DirectorRepository;
 import ru.alex.hotels.repositories.HotelRepository;
-import ru.alex.hotels.services.RepositoryWrappers.HotelRepositoryWrapper;
+import ru.alex.hotels.services.repositoryWrappers.HotelRepositoryWrapper;
 import ru.alex.hotels.tdo.Hotel;
 
 import java.util.List;
@@ -56,9 +56,9 @@ class HotelServiceImplTest {
         when(hotelRepositoryWrapper.getHotelRepository().save(any(HotelEntity.class))).thenReturn(entityAfterSave);
         when(cityRepository.findByNameIgnoreCase("any")).thenReturn(Optional.of(new CityEntity()));
 
-        when(directorRepository.findByFcsIgnoreCase("Саша")).thenReturn(Optional.of(new DirectorEntity()));
+        when(directorRepository.findById(eq(1L))).thenReturn(Optional.of(new DirectorEntity()));
 
-        Hotel createdHotel = hotelService.createHotel(hotel, "any", "Саша");
+        Hotel createdHotel = hotelService.createHotel(hotel, "any", 1L);
 
         Assertions.assertEquals(hotel.getName(), createdHotel.getName());
         verify(hotelRepository, times(1)).save(any(HotelEntity.class));
@@ -71,7 +71,7 @@ class HotelServiceImplTest {
         when(cityRepository.findByNameIgnoreCase("any")).thenReturn(Optional.empty());
 
         Throwable thrown = assertThrows(CityNotFound.class,
-                () -> hotelService.createHotel(hotel, "any", "Саша"));
+                () -> hotelService.createHotel(hotel, "any", 1L));
 
         Assertions.assertNotNull(thrown.getMessage());
     }

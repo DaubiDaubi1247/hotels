@@ -1,4 +1,4 @@
-package ru.alex.hotels.services.RepositoryWrappers;
+package ru.alex.hotels.services.repositoryWrappers;
 
 import lombok.Getter;
 import org.springframework.stereotype.Component;
