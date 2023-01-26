@@ -3,10 +3,7 @@ package ru.alex.hotels.controllers;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import ru.alex.hotels.exceptions.DirectorAlreadyExist;
 import ru.alex.hotels.exceptions.InvalidPhone;
 import ru.alex.hotels.services.DirectorService;
@@ -24,6 +21,15 @@ public class DirectorController {
             return ResponseEntity.status(HttpStatus.CREATED).body(directorService.addDirector(director));
         } catch (DirectorAlreadyExist | InvalidPhone e) {
             return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @GetMapping("/all")
+    public ResponseEntity<?> getDirectors() {
+        try {
+            return ResponseEntity.ok(directorService.getDirectors());
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body(e.getMessage());
         }
     }
 }
