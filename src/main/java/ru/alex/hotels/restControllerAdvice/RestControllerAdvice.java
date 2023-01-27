@@ -9,7 +9,7 @@ import ru.alex.hotels.exceptions.*;
 public class RestControllerAdvice {
 
     @ExceptionHandler({CityNotFound.class, HotelNotFoundException.class, DirectorNotFound.class})
-    public ResponseEntity<ErrorMessage> notFoundException(CityNotFound exception) {
+    public ResponseEntity<ErrorMessage> notFoundException(Exception exception) {
         return ResponseEntity
                 .status(HttpStatus.NOT_FOUND)
                 .body(new ErrorMessage(exception.getMessage()));
@@ -17,7 +17,7 @@ public class RestControllerAdvice {
 
     @ExceptionHandler({CItyAlreadyExist.class, DirectorAlreadyExist.class,
             HotelAlreadyExists.class, RoomAlreadyExists.class})
-    public ResponseEntity<ErrorMessage> alreadyExistException(CityNotFound exception) {
+    public ResponseEntity<ErrorMessage> alreadyExistException(Exception exception) {
         return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST)
                 .body(new ErrorMessage(exception.getMessage()));
