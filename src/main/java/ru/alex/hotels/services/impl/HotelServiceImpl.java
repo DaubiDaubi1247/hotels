@@ -3,6 +3,7 @@ package ru.alex.hotels.services.impl;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.annotation.Validated;
 import ru.alex.hotels.entitys.CityEntity;
 import ru.alex.hotels.entitys.DirectorEntity;
 import ru.alex.hotels.entitys.HotelEntity;
@@ -23,6 +24,7 @@ import java.util.Optional;
 
 @Service
 @AllArgsConstructor
+@Validated
 public class HotelServiceImpl implements HotelService {
     private final HotelRepositoryWrapper hotelRepositoryWrapper;
     private final DirectorRepository directorRepository;
