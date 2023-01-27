@@ -12,6 +12,8 @@ import ru.alex.hotels.exceptions.HotelNotFoundException;
 import ru.alex.hotels.services.HotelService;
 import ru.alex.hotels.tdo.Hotel;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/hotels")
 @RequiredArgsConstructor
@@ -20,48 +22,31 @@ public class HotelController {
     private final HotelService hotelService;
 
     @PostMapping
-    public ResponseEntity<?> createHotel(@RequestBody Hotel hotel, @RequestParam String cityName, @RequestParam Long directorId) {
-        try {
-            return ResponseEntity.status(HttpStatus.CREATED).body(hotelService.createHotel(hotel, cityName, directorId));
-        } catch (HotelAlreadyExists | CityNotFound | DirectorNotFound e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
+    public ResponseEntity<Hotel> createHotel(@RequestBody Hotel hotel,
+                                             @RequestParam String cityName,
+                                             @RequestParam Long directorId)
+            throws HotelAlreadyExists, CityNotFound, DirectorNotFound {
+        return ResponseEntity.status(HttpStatus.CREATED).body(hotelService.createHotel(hotel, cityName, directorId));
     }
 
     @GetMapping("/all")
-    public ResponseEntity<?> getAllHotels() {
-        try {
-            return ResponseEntity.ok(hotelService.getAllHotels());
-        } catch (Exception e) {
-            return ResponseEntity.internalServerError().body(e.getMessage());
-        }
+    public ResponseEntity<List<Hotel>> getAllHotels() {
+        return ResponseEntity.ok(hotelService.getAllHotels());
     }
 
     @GetMapping
-    public ResponseEntity<?> getHotelById(@RequestParam Long id) {
-        try {
-            return ResponseEntity.ok(hotelService.getHotelById(id));
-        } catch (HotelNotFoundException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
+    public ResponseEntity<?> getHotelById(@RequestParam Long id) throws HotelNotFoundException {
+        return ResponseEntity.ok(hotelService.getHotelById(id));
     }
 
     @PutMapping("/{hotelId}")
-    public ResponseEntity<?> updateHotel(@PathVariable Long hotelId, @RequestBody Hotel hotel) {
-        try {
-            return ResponseEntity.ok(hotelService.updateHotel(hotel, hotelId));
-        } catch (HotelNotFoundException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
+    public ResponseEntity<Hotel> updateHotel(@PathVariable Long hotelId, @RequestBody Hotel hotel) throws HotelNotFoundException {
+        return ResponseEntity.ok(hotelService.updateHotel(hotel, hotelId));
     }
 
     @GetMapping("/{cityName}")
-    public ResponseEntity<?> getAllHotelsInCity(@PathVariable String cityName) {
-        try {
-            return ResponseEntity.ok(hotelService.getAllHotelsInCity(cityName));
-        } catch (CityNotFound e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
+    public ResponseEntity<List<Hotel>> getAllHotelsInCity(@PathVariable String cityName) throws CityNotFound {
+        return ResponseEntity.ok(hotelService.getAllHotelsInCity(cityName));
     }
 
   }
