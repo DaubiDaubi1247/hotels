@@ -1,5 +1,6 @@
 package ru.alex.hotels.services.impl;
 
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.alex.hotels.entitys.CityEntity;
@@ -29,7 +30,7 @@ public class HotelServiceImpl implements HotelService {
 
 
     @Override
-    public Hotel createHotel(Hotel hotel, String city, Long directorId) throws HotelAlreadyExists, CityNotFound, DirectorNotFound {
+    public Hotel createHotel(@Valid Hotel hotel, String city, Long directorId) throws HotelAlreadyExists, CityNotFound, DirectorNotFound {
         CityEntity cityEntity = cityRepository.findByNameIgnoreCase(city)
                 .orElseThrow(() -> new CityNotFound("город с названием " + city + " не найден"));
 
@@ -82,7 +83,7 @@ public class HotelServiceImpl implements HotelService {
     }
 
     @Override
-    public Hotel updateHotel(Hotel hotel, Long id) throws HotelNotFoundException {
+    public Hotel updateHotel(@Valid Hotel hotel, Long id) throws HotelNotFoundException {
         HotelEntity hotelEntity = hotelRepositoryWrapper.getHotelEntityOrThrow(id);
         hotelEntity.setName(hotel.getName());
 

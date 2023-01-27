@@ -1,6 +1,7 @@
 package ru.alex.hotels.services.impl;
 
 import org.springframework.stereotype.Service;
+import org.springframework.validation.annotation.Validated;
 import ru.alex.hotels.entitys.CityEntity;
 import ru.alex.hotels.exceptions.CItyAlreadyExist;
 import ru.alex.hotels.exceptions.WrongIndex;
@@ -10,6 +11,7 @@ import ru.alex.hotels.services.CityService;
 import ru.alex.hotels.tdo.City;
 
 @Service
+@Validated
 public class CityServiceImpl implements CityService {
     private final CityRepository cityRepository;
 
