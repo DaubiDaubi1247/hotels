@@ -1,6 +1,6 @@
 package ru.alex.hotels.controllers;
 
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -9,27 +9,21 @@ import ru.alex.hotels.exceptions.InvalidPhone;
 import ru.alex.hotels.services.DirectorService;
 import ru.alex.hotels.tdo.Director;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/director")
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class DirectorController {
-    private DirectorService directorService;
+    private final DirectorService directorService;
 
     @PostMapping
-    public ResponseEntity<?> addDirector(@RequestBody Director director) {
-        try {
-            return ResponseEntity.status(HttpStatus.CREATED).body(directorService.addDirector(director));
-        } catch (DirectorAlreadyExist | InvalidPhone e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
+    public ResponseEntity<Director> addDirector(@RequestBody Director director) throws DirectorAlreadyExist, InvalidPhone {
+        return ResponseEntity.status(HttpStatus.CREATED).body(directorService.addDirector(director));
     }
 
     @GetMapping("/all")
-    public ResponseEntity<?> getDirectorList() {
-        try {
-            return ResponseEntity.ok(directorService.getDirectorList());
-        } catch (Exception e) {
-            return ResponseEntity.internalServerError().body(e.getMessage());
-        }
+    public ResponseEntity<List<Director>> getDirectorList() {
+        return ResponseEntity.ok(directorService.getDirectorList());
     }
 }
