@@ -1,6 +1,7 @@
 package ru.alex.hotels.tdo;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -17,5 +18,6 @@ public class City {
     private String name;
 
     @NotBlank(message = "Индекс города должен быть заполнен")
+    @Pattern(regexp = "\\d+", message = "Индекс должен содержать только цифры")
     private String index;
 }

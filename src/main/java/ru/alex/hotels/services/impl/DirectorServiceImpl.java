@@ -4,11 +4,9 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.alex.hotels.entitys.DirectorEntity;
 import ru.alex.hotels.exceptions.DirectorAlreadyExist;
-import ru.alex.hotels.exceptions.InvalidPhone;
 import ru.alex.hotels.mappers.DirectorMapper;
 import ru.alex.hotels.repositories.DirectorRepository;
 import ru.alex.hotels.services.DirectorService;
-import ru.alex.hotels.services.validators.DirectorValidator;
 import ru.alex.hotels.tdo.Director;
 
 import java.util.List;
@@ -19,11 +17,7 @@ import java.util.Optional;
 public class DirectorServiceImpl implements DirectorService {
     private final DirectorRepository directorRepository;
     @Override
-    public Director addDirector(Director director) throws DirectorAlreadyExist, InvalidPhone {
-
-        if (!DirectorValidator.isValidPhone(director.getPhone())) {
-            throw new InvalidPhone("проверьте правильность в введенного номер");
-        }
+    public Director addDirector(Director director) throws DirectorAlreadyExist {
 
         Optional<DirectorEntity> directorEntity = directorRepository.findByFcsOrPhoneIgnoreCase(director.getFcs(), director.getPhone());
         if (directorEntity.isPresent())
