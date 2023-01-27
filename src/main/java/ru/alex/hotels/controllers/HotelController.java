@@ -1,5 +1,6 @@
 package ru.alex.hotels.controllers;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,13 +14,10 @@ import ru.alex.hotels.tdo.Hotel;
 
 @RestController
 @RequestMapping("/hotels")
+@RequiredArgsConstructor
 public class HotelController {
 
     private final HotelService hotelService;
-
-    public HotelController(HotelService hotelService) {
-        this.hotelService = hotelService;
-    }
 
     @PostMapping
     public ResponseEntity<?> createHotel(@RequestBody Hotel hotel, @RequestParam String cityName, @RequestParam Long directorId) {
