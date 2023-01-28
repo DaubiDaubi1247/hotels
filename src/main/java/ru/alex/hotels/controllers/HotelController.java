@@ -26,6 +26,7 @@ public class HotelController {
                                              @RequestParam String cityName,
                                              @RequestParam Long directorId)
             throws HotelAlreadyExists, CityNotFound, DirectorNotFound {
+
         return ResponseEntity.status(HttpStatus.CREATED).body(hotelService.createHotel(hotel, cityName, directorId));
     }
 
@@ -35,17 +36,20 @@ public class HotelController {
     }
 
     @GetMapping
-    public ResponseEntity<?> getHotelById(@RequestParam Long id) throws HotelNotFoundException {
+    public ResponseEntity<Hotel> getHotelById(@RequestParam Long id) throws HotelNotFoundException {
         return ResponseEntity.ok(hotelService.getHotelById(id));
     }
 
     @PutMapping("/{hotelId}")
-    public ResponseEntity<Hotel> updateHotel(@PathVariable Long hotelId, @RequestBody Hotel hotel) throws HotelNotFoundException {
+    public ResponseEntity<Hotel> updateHotel(@PathVariable Long hotelId, @RequestBody Hotel hotel)
+            throws HotelNotFoundException {
+
         return ResponseEntity.ok(hotelService.updateHotel(hotel, hotelId));
     }
 
     @GetMapping("/{cityName}")
     public ResponseEntity<List<Hotel>> getAllHotelsInCity(@PathVariable String cityName) throws CityNotFound {
+
         return ResponseEntity.ok(hotelService.getAllHotelsInCity(cityName));
     }
 

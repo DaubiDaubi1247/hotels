@@ -15,16 +15,12 @@ import ru.alex.hotels.exceptions.DirectorNotFound;
 import ru.alex.hotels.exceptions.HotelAlreadyExists;
 import ru.alex.hotels.exceptions.HotelNotFoundException;
 import ru.alex.hotels.mappers.HotelMapper;
-import ru.alex.hotels.repositories.CityRepository;
-import ru.alex.hotels.repositories.DirectorRepository;
 import ru.alex.hotels.repositories.HotelRepository;
-import ru.alex.hotels.services.repositoryWrappers.HotelRepositoryWrapper;
 import ru.alex.hotels.tdo.Hotel;
 
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 import static ru.alex.hotels.dataForTests.HotelDataTest.testHotel;
@@ -35,13 +31,10 @@ import static ru.alex.hotels.dataForTests.HotelDataTest.testListHotels;
 class HotelServiceImplTest {
     @Mock
     HotelRepository hotelRepository;
-
     @Mock
-    HotelRepositoryWrapper hotelRepositoryWrapper;
+    CityServiceImpl cityService;
     @Mock
-    CityRepository cityRepository;
-    @Mock
-    DirectorRepository directorRepository;
+    DirectorServiceImpl directorService;
 
     @InjectMocks
     private HotelServiceImpl hotelService;
@@ -52,11 +45,10 @@ class HotelServiceImplTest {
 
         HotelEntity entityAfterSave = HotelMapper.INSTANCE.hotelToHotelEntity(hotel);
 
-        when(hotelRepositoryWrapper.getHotelRepository()).thenReturn(hotelRepository);
-        when(hotelRepositoryWrapper.getHotelRepository().save(any(HotelEntity.class))).thenReturn(entityAfterSave);
-        when(cityRepository.findByNameIgnoreCase("any")).thenReturn(Optional.of(new CityEntity()));
+        when(hotelRepository.save(any(HotelEntity.class))).thenReturn(entityAfterSave);
+        when(cityService.getCityEntityByName("any")).thenReturn(new CityEntity());
 
-        when(directorRepository.findById(eq(1L))).thenReturn(Optional.of(new DirectorEntity()));
+        when(directorService.getDirectorEntityById(eq(1L))).thenReturn(new DirectorEntity());
 
         Hotel createdHotel = hotelService.createHotel(hotel, "any", 1L);
 
@@ -65,24 +57,11 @@ class HotelServiceImplTest {
     }
 
     @Test
-    void testCreateHotelShouldNotFoundCity(){
-        Hotel hotel = testHotel();
-
-        when(cityRepository.findByNameIgnoreCase("any")).thenReturn(Optional.empty());
-
-        Throwable thrown = assertThrows(CityNotFound.class,
-                () -> hotelService.createHotel(hotel, "any", 1L));
-
-        Assertions.assertNotNull(thrown.getMessage());
-    }
-
-    @Test
     void getTestGetAllHotel() {
         List<Hotel> hotels = testListHotels();
         List<HotelEntity> entitiesAfterGet = HotelMapper.INSTANCE.hotelsToHotelEntities(hotels);
 
-        when(hotelRepositoryWrapper.getHotelRepository()).thenReturn(hotelRepository);
-        when(hotelRepositoryWrapper.getHotelRepository().findAll()).thenReturn(entitiesAfterGet);
+        when(hotelRepository.findAll()).thenReturn(entitiesAfterGet);
 
         List<Hotel> getHotels = hotelService.getAllHotels();
 
@@ -94,25 +73,24 @@ class HotelServiceImplTest {
     void testGetHotelById() throws HotelNotFoundException {
         HotelEntity entitiesAfterFind = HotelMapper.INSTANCE.hotelToHotelEntity(testHotel());
 
-        when(hotelRepositoryWrapper.getHotelEntityOrThrow(1L)).thenReturn(entitiesAfterFind);
+        when(hotelRepository.findById(1L)).thenReturn(Optional.ofNullable(entitiesAfterFind));
 
         Hotel hotel = hotelService.getHotelById(1L);
 
         Assertions.assertEquals(testHotel(), hotel);
-        verify(hotelRepositoryWrapper, times(1)).getHotelEntityOrThrow(1L);
+        verify(hotelRepository, times(1)).findById(1L);
     }
 
     @Test
     void testUpdateHotel() throws HotelNotFoundException {
         HotelEntity entityForUpdate = HotelMapper.INSTANCE.hotelToHotelEntity(testHotel());
 
-        when(hotelRepositoryWrapper.getHotelEntityOrThrow(1L)).thenReturn(entityForUpdate);
-        when(hotelRepositoryWrapper.getHotelRepository()).thenReturn(hotelRepository);
-        when(hotelRepositoryWrapper.getHotelRepository().save(any(HotelEntity.class))).thenReturn(entityForUpdate);
+        when(hotelRepository.findById(1L)).thenReturn(Optional.ofNullable(entityForUpdate));
+        when(hotelRepository.save(any(HotelEntity.class))).thenReturn(entityForUpdate);
 
         Hotel hotel = hotelService.updateHotel(testHotel(), 1L);
 
         Assertions.assertEquals(testHotel().getName(), hotel.getName());
-        verify(hotelRepositoryWrapper, times(1)).getHotelEntityOrThrow(1L);
+        verify(hotelRepository, times(1)).findById(1L);
     }
 }

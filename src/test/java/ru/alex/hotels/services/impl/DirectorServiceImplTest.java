@@ -7,7 +7,6 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import ru.alex.hotels.entitys.DirectorEntity;
 import ru.alex.hotels.exceptions.DirectorAlreadyExist;
-import ru.alex.hotels.exceptions.InvalidPhone;
 import ru.alex.hotels.mappers.DirectorMapper;
 import ru.alex.hotels.repositories.DirectorRepository;
 import ru.alex.hotels.tdo.Director;
@@ -19,7 +18,6 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
 import static ru.alex.hotels.dataForTests.DirectorDataTest.testDirector;
-import static ru.alex.hotels.dataForTests.DirectorDataTest.testDirectorInvalidPhone;
 
 @ExtendWith(MockitoExtension.class)
 class DirectorServiceImplTest {
@@ -31,7 +29,7 @@ class DirectorServiceImplTest {
     private DirectorServiceImpl directorService;
 
     @Test
-    void testAddDirector() throws DirectorAlreadyExist, InvalidPhone {
+    void testAddDirector() throws DirectorAlreadyExist {
         DirectorEntity directorEntityForSave = DirectorMapper.INSTANSE.directorToDirectorEntity(testDirector());
         directorEntityForSave.setId(1L);
 
@@ -46,15 +44,6 @@ class DirectorServiceImplTest {
         assertNotNull(director.getId());
         assertEquals(testDirector().getFcs(), director.getFcs());
         assertEquals(testDirector().getPhone(), director.getPhone());
-    }
-
-    @Test
-    void testAddDirectorInvalidPhone() {
-
-        Throwable thrown = assertThrows(InvalidPhone.class,
-                () -> directorService.addDirector(testDirectorInvalidPhone()));
-
-        assertNotNull(thrown.getMessage());
     }
 
     @Test

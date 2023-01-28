@@ -1,7 +1,7 @@
 package ru.alex.hotels.services.impl;
 
 import jakarta.validation.Valid;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 import ru.alex.hotels.entitys.CityEntity;
@@ -12,92 +12,80 @@ import ru.alex.hotels.exceptions.DirectorNotFound;
 import ru.alex.hotels.exceptions.HotelAlreadyExists;
 import ru.alex.hotels.exceptions.HotelNotFoundException;
 import ru.alex.hotels.mappers.HotelMapper;
-import ru.alex.hotels.repositories.CityRepository;
-import ru.alex.hotels.repositories.DirectorRepository;
+import ru.alex.hotels.repositories.HotelRepository;
+import ru.alex.hotels.services.CityService;
+import ru.alex.hotels.services.DirectorService;
 import ru.alex.hotels.services.HotelService;
-import ru.alex.hotels.services.repositoryWrappers.HotelRepositoryWrapper;
 import ru.alex.hotels.tdo.Hotel;
+import ru.alex.hotels.utils.HotelUtils;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 @Validated
 public class HotelServiceImpl implements HotelService {
-    private final HotelRepositoryWrapper hotelRepositoryWrapper;
-    private final DirectorRepository directorRepository;
-    private final CityRepository cityRepository;
+    private final HotelRepository hotelRepository;
+    private final DirectorService directorService;
+    private final CityService cityService;
 
 
     @Override
     public Hotel createHotel(@Valid Hotel hotel, String city, Long directorId) throws HotelAlreadyExists, CityNotFound, DirectorNotFound {
-        CityEntity cityEntity = cityRepository.findByNameIgnoreCase(city)
-                .orElseThrow(() -> new CityNotFound("город с названием " + city + " не найден"));
+        CityEntity cityEntity = cityService.getCityEntityByName(city);
 
-        DirectorEntity directorEntity = directorRepository.findById(directorId)
-                .orElseThrow(() -> new DirectorNotFound(directorId));
+        DirectorEntity directorEntity = directorService.getDirectorEntityById(directorId);
 
-        Optional<HotelEntity> hotelEntity = hotelRepositoryWrapper.getHotelRepository().findByName(hotel.getName());
+        Optional<HotelEntity> hotelEntity = hotelRepository.findByName(hotel.getName());
         HotelEntity hotelEntityForSave;
 
         if (hotelEntity.isPresent())
             if (cityEntity.getHotels().contains(hotelEntity.get()))
                 throw new HotelAlreadyExists("Отель с именем = " + hotel.getName() + " уже сущствует в городе " + cityEntity.getName());
             else {
-                addHotelInCity(cityEntity, hotelEntity.get());
+                HotelUtils.addHotelInCity(cityEntity, hotelEntity.get());
                 hotelEntityForSave = hotelEntity.get();
                 hotelEntityForSave.setDirector(directorEntity);
                 directorEntity.setHotel(hotelEntityForSave);
             }
         else
-            hotelEntityForSave = createHotelEntityAndSetInCity(hotel, cityEntity);
+            hotelEntityForSave = HotelUtils.createHotelEntityAndSetInCity(hotel, cityEntity);
 
-        return HotelMapper.INSTANCE.hotelEntityToHotel(hotelRepositoryWrapper.getHotelRepository().save(hotelEntityForSave));
-    }
-
-    private void addHotelInCity(CityEntity cityEntity, HotelEntity hotelEntity) {
-        cityEntity.getHotels().add(hotelEntity);
-        hotelEntity.getCities().add(cityEntity);
-    }
-
-    private HotelEntity createHotelEntityAndSetInCity(Hotel hotel, CityEntity cityEntity) {
-        HotelEntity hotelToEntity = HotelMapper.INSTANCE.hotelToHotelEntity(hotel);
-        hotelToEntity.setCities(new ArrayList<>());
-        hotelToEntity.getCities().add(cityEntity);
-
-        cityEntity.getHotels().add(hotelToEntity);
-
-        return hotelToEntity;
+        return HotelMapper.INSTANCE.hotelEntityToHotel(hotelRepository.save(hotelEntityForSave));
     }
 
     @Override
     public List<Hotel> getAllHotels() {
-        return HotelMapper.INSTANCE.hotelEntityListToHotelList(hotelRepositoryWrapper.getHotelRepository().findAll());
+        return HotelMapper.INSTANCE.hotelEntityListToHotelList(hotelRepository.findAll());
     }
 
     @Override
     public Hotel getHotelById(Long id) throws HotelNotFoundException {
-        HotelEntity hotelEntity = hotelRepositoryWrapper.getHotelEntityOrThrow(id);
+        HotelEntity hotelEntity = getHotelEntityById(id);
 
         return HotelMapper.INSTANCE.hotelEntityToHotel(hotelEntity);
     }
 
     @Override
+    public HotelEntity getHotelEntityById(Long id) throws HotelNotFoundException {
+        return hotelRepository.findById(id)
+                .orElseThrow(() -> new HotelNotFoundException(id));
+    }
+
+    @Override
     public Hotel updateHotel(@Valid Hotel hotel, Long id) throws HotelNotFoundException {
-        HotelEntity hotelEntity = hotelRepositoryWrapper.getHotelEntityOrThrow(id);
+        HotelEntity hotelEntity = getHotelEntityById(id);
         hotelEntity.setName(hotel.getName());
 
-        return HotelMapper.INSTANCE.hotelEntityToHotel(hotelRepositoryWrapper.getHotelRepository().save(hotelEntity));
+        return HotelMapper.INSTANCE.hotelEntityToHotel(hotelRepository.save(hotelEntity));
     }
 
     @Override
     public List<Hotel> getAllHotelsInCity(String cityName) throws CityNotFound {
-        CityEntity desiredCity = cityRepository.findByNameIgnoreCase(cityName)
-                .orElseThrow(() -> new CityNotFound("город с названием " + cityName + " не найден"));
+        CityEntity desiredCity = cityService.getCityEntityByName(cityName);
 
-        List<HotelEntity> hotelEntities = hotelRepositoryWrapper.getHotelRepository().findAllHotelInCity(desiredCity.getId());
+        List<HotelEntity> hotelEntities = hotelRepository.findAllHotelInCity(desiredCity.getId());
 
         return HotelMapper.INSTANCE.hotelEntityListToHotelList(hotelEntities);
     }

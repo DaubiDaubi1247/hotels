@@ -1,6 +1,6 @@
 package ru.alex.hotels.services.impl;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.alex.hotels.entitys.HotelEntity;
 import ru.alex.hotels.entitys.RoomEntity;
@@ -16,16 +16,11 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class RoomServiceImpl implements RoomService {
 
     private final RoomRepository roomRepository;
     private final HotelRepositoryWrapper hotelRepositoryWrapper;
-
-    @Autowired
-    public RoomServiceImpl(RoomRepository roomRepository, HotelRepositoryWrapper hotelRepositoryWrapper) {
-        this.roomRepository = roomRepository;
-        this.hotelRepositoryWrapper = hotelRepositoryWrapper;
-    }
 
     @Override
     public Room addRoom(Long hotelId, Room room) throws RoomAlreadyExists, HotelNotFoundException {

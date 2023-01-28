@@ -1,6 +1,7 @@
 package ru.alex.hotels.services;
 
 import jakarta.validation.Valid;
+import ru.alex.hotels.entitys.HotelEntity;
 import ru.alex.hotels.exceptions.CityNotFound;
 import ru.alex.hotels.exceptions.DirectorNotFound;
 import ru.alex.hotels.exceptions.HotelAlreadyExists;
@@ -15,6 +16,7 @@ public interface HotelService {
     List<Hotel> getAllHotels();
 
     Hotel getHotelById(Long id) throws HotelNotFoundException;
+    HotelEntity getHotelEntityById(Long id) throws HotelNotFoundException;
 
     Hotel updateHotel(@Valid Hotel hotel, Long id) throws HotelNotFoundException;
 
