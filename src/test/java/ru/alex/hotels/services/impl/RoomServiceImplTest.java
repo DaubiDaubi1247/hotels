@@ -12,7 +12,6 @@ import ru.alex.hotels.exceptions.HotelNotFoundException;
 import ru.alex.hotels.exceptions.RoomAlreadyExists;
 import ru.alex.hotels.mappers.RoomMapper;
 import ru.alex.hotels.repositories.RoomRepository;
-import ru.alex.hotels.services.repositoryWrappers.HotelRepositoryWrapper;
 import ru.alex.hotels.tdo.Room;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -25,7 +24,7 @@ class RoomServiceImplTest {
     @Mock
     RoomRepository roomRepository;
     @Mock
-    HotelRepositoryWrapper hotelRepositoryWrapper;
+    HotelServiceImpl hotelService;
 
     @InjectMocks
     RoomServiceImpl roomService;
@@ -36,7 +35,7 @@ class RoomServiceImplTest {
         Room resRoom = RoomMapper.INSTANCE.roomEntityToRoom(testRoom());
 
         when(roomRepository.save(any(RoomEntity.class))).thenReturn(testRoom());
-        when(hotelRepositoryWrapper.getHotelEntityOrThrow(eq(1L))).thenReturn(new HotelEntity());
+        when(hotelService.getHotelEntityById(eq(1L))).thenReturn(new HotelEntity());
 
         Room room = roomService.addRoom(1L, resRoom);
 
@@ -49,7 +48,7 @@ class RoomServiceImplTest {
 
         Room resRoom = RoomMapper.INSTANCE.roomEntityToRoom(testRoom());
 
-        when(hotelRepositoryWrapper.getHotelEntityOrThrow(eq(1L))).thenThrow(new HotelNotFoundException(1L));
+        when(hotelService.getHotelEntityById(eq(1L))).thenThrow(new HotelNotFoundException(1L));
 
         Throwable thrown = assertThrows(HotelNotFoundException.class,
                 () -> roomService.addRoom(1L, resRoom));

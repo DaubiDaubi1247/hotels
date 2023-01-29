@@ -8,8 +8,8 @@ import ru.alex.hotels.exceptions.HotelNotFoundException;
 import ru.alex.hotels.exceptions.RoomAlreadyExists;
 import ru.alex.hotels.mappers.RoomMapper;
 import ru.alex.hotels.repositories.RoomRepository;
+import ru.alex.hotels.services.HotelService;
 import ru.alex.hotels.services.RoomService;
-import ru.alex.hotels.services.repositoryWrappers.HotelRepositoryWrapper;
 import ru.alex.hotels.tdo.Room;
 
 import java.util.List;
@@ -20,12 +20,12 @@ import java.util.Optional;
 public class RoomServiceImpl implements RoomService {
 
     private final RoomRepository roomRepository;
-    private final HotelRepositoryWrapper hotelRepositoryWrapper;
+    private final HotelService hotelService;
 
     @Override
     public Room addRoom(Long hotelId, Room room) throws RoomAlreadyExists, HotelNotFoundException {
 
-        HotelEntity hotelEntity = hotelRepositoryWrapper.getHotelEntityOrThrow(hotelId);
+        HotelEntity hotelEntity = hotelService.getHotelEntityById(hotelId);
 
         Optional<RoomEntity> roomEntity = roomRepository.findByRoomNumber(hotelId, room.getRoomNumber());
 
@@ -41,7 +41,7 @@ public class RoomServiceImpl implements RoomService {
 
     @Override
     public List<Room> getRoomsByHotelId(Long hotelId) throws HotelNotFoundException {
-        hotelRepositoryWrapper.getHotelEntityOrThrow(hotelId);
+        hotelService.getHotelEntityById(hotelId);
 
         List<RoomEntity> roomsEntities = roomRepository.findRoomsByHotelId(hotelId);
 

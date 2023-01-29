@@ -62,9 +62,7 @@ public class HotelServiceImpl implements HotelService {
 
     @Override
     public Hotel getHotelById(Long id) throws HotelNotFoundException {
-        HotelEntity hotelEntity = getHotelEntityById(id);
-
-        return HotelMapper.INSTANCE.hotelEntityToHotel(hotelEntity);
+        return HotelMapper.INSTANCE.hotelEntityToHotel(getHotelEntityById(id));
     }
 
     @Override
