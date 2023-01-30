@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.*;
 import ru.alex.hotels.exceptions.HotelNotFoundException;
 import ru.alex.hotels.exceptions.RoomAlreadyExists;
 import ru.alex.hotels.services.RoomService;
-import ru.alex.hotels.tdo.Room;
+import ru.alex.hotels.dto.Room;
 
 import java.util.List;
 

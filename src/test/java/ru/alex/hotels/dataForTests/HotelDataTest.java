@@ -1,6 +1,6 @@
 package ru.alex.hotels.dataForTests;
 
-import ru.alex.hotels.tdo.Hotel;
+import ru.alex.hotels.dto.Hotel;
 
 import java.util.List;
 

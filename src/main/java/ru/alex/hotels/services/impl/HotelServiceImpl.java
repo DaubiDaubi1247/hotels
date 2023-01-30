@@ -16,7 +16,7 @@ import ru.alex.hotels.repositories.HotelRepository;
 import ru.alex.hotels.services.CityService;
 import ru.alex.hotels.services.DirectorService;
 import ru.alex.hotels.services.HotelService;
-import ru.alex.hotels.tdo.Hotel;
+import ru.alex.hotels.dto.Hotel;
 import ru.alex.hotels.utils.HotelUtils;
 
 import java.util.List;

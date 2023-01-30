@@ -5,7 +5,7 @@ import jakarta.validation.constraints.Min;
 import ru.alex.hotels.entitys.DirectorEntity;
 import ru.alex.hotels.exceptions.DirectorAlreadyExist;
 import ru.alex.hotels.exceptions.DirectorNotFound;
-import ru.alex.hotels.tdo.Director;
+import ru.alex.hotels.dto.Director;
 
 import java.util.List;
 

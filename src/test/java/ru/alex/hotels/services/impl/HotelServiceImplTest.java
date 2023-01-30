@@ -16,7 +16,7 @@ import ru.alex.hotels.exceptions.HotelAlreadyExists;
 import ru.alex.hotels.exceptions.HotelNotFoundException;
 import ru.alex.hotels.mappers.HotelMapper;
 import ru.alex.hotels.repositories.HotelRepository;
-import ru.alex.hotels.tdo.Hotel;
+import ru.alex.hotels.dto.Hotel;
 
 import java.util.List;
 import java.util.Optional;

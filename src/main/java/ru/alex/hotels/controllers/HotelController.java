@@ -10,7 +10,7 @@ import ru.alex.hotels.exceptions.DirectorNotFound;
 import ru.alex.hotels.exceptions.HotelAlreadyExists;
 import ru.alex.hotels.exceptions.HotelNotFoundException;
 import ru.alex.hotels.services.HotelService;
-import ru.alex.hotels.tdo.Hotel;
+import ru.alex.hotels.dto.Hotel;
 
 import java.util.List;
 

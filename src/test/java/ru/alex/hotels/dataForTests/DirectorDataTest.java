@@ -1,6 +1,6 @@
 package ru.alex.hotels.dataForTests;
 
-import ru.alex.hotels.tdo.Director;
+import ru.alex.hotels.dto.Director;
 
 public class DirectorDataTest {
     public static Director testDirector() {

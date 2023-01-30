@@ -6,7 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.alex.hotels.exceptions.DirectorAlreadyExist;
 import ru.alex.hotels.services.DirectorService;
-import ru.alex.hotels.tdo.Director;
+import ru.alex.hotels.dto.Director;
 
 import java.util.List;
 

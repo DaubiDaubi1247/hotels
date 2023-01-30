@@ -1,4 +1,4 @@
-package ru.alex.hotels.tdo;
+package ru.alex.hotels.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;

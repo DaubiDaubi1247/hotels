@@ -5,7 +5,7 @@ import ru.alex.hotels.entitys.CityEntity;
 import ru.alex.hotels.exceptions.CItyAlreadyExist;
 import ru.alex.hotels.exceptions.CityNotFound;
 import ru.alex.hotels.exceptions.WrongIndex;
-import ru.alex.hotels.tdo.City;
+import ru.alex.hotels.dto.City;
 
 public interface CityService {
     City createCity(City city) throws CItyAlreadyExist, WrongIndex, CityNotFound;

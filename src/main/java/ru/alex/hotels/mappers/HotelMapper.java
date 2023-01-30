@@ -3,7 +3,7 @@ package ru.alex.hotels.mappers;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 import ru.alex.hotels.entitys.HotelEntity;
-import ru.alex.hotels.tdo.Hotel;
+import ru.alex.hotels.dto.Hotel;
 
 import java.util.List;
 

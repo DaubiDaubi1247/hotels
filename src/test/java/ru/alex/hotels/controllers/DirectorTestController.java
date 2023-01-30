@@ -9,7 +9,7 @@ import org.springframework.http.MediaType;
 import ru.alex.hotels.controllers.controllerTestConfig.Path;
 import ru.alex.hotels.controllers.controllerTestConfig.RootConfigController;
 import ru.alex.hotels.services.DirectorService;
-import ru.alex.hotels.tdo.Director;
+import ru.alex.hotels.dto.Director;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;

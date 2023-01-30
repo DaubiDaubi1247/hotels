@@ -11,7 +11,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import ru.alex.hotels.controllers.controllerTestConfig.Path;
 import ru.alex.hotels.controllers.controllerTestConfig.RootConfigController;
 import ru.alex.hotels.services.HotelService;
-import ru.alex.hotels.tdo.Hotel;
+import ru.alex.hotels.dto.Hotel;
 
 
 import static org.mockito.ArgumentMatchers.any;

@@ -10,7 +10,7 @@ import ru.alex.hotels.exceptions.CityNotFound;
 import ru.alex.hotels.mappers.CityMapper;
 import ru.alex.hotels.repositories.CityRepository;
 import ru.alex.hotels.services.CityService;
-import ru.alex.hotels.tdo.City;
+import ru.alex.hotels.dto.City;
 
 @Service
 @RequiredArgsConstructor

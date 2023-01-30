@@ -9,7 +9,7 @@ import ru.alex.hotels.entitys.DirectorEntity;
 import ru.alex.hotels.exceptions.DirectorAlreadyExist;
 import ru.alex.hotels.mappers.DirectorMapper;
 import ru.alex.hotels.repositories.DirectorRepository;
-import ru.alex.hotels.tdo.Director;
+import ru.alex.hotels.dto.Director;
 
 import java.util.Optional;
 

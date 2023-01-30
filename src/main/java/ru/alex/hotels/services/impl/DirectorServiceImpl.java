@@ -11,7 +11,7 @@ import ru.alex.hotels.exceptions.DirectorNotFound;
 import ru.alex.hotels.mappers.DirectorMapper;
 import ru.alex.hotels.repositories.DirectorRepository;
 import ru.alex.hotels.services.DirectorService;
-import ru.alex.hotels.tdo.Director;
+import ru.alex.hotels.dto.Director;
 
 import java.util.List;
 import java.util.Optional;
