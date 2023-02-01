@@ -4,6 +4,7 @@ import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 import ru.alex.hotels.entitys.RoomEntity;
 import ru.alex.hotels.dto.Room;
+import ru.alex.hotels.utils.room.RoomCharacteristic;
 
 import java.util.List;
 
@@ -15,4 +16,6 @@ public interface RoomMapper {
     RoomEntity roomToRoomEntity(Room room);
 
     List<Room> roomEntityListToRoomList(List<RoomEntity> roomEntityList);
+
+    RoomCharacteristic roomToRoomCharacteristic(Room room);
 }

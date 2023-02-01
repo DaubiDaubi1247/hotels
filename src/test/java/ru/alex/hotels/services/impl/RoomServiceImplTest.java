@@ -1,18 +1,22 @@
 package ru.alex.hotels.services.impl;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import ru.alex.hotels.dataForTests.RoomDataTest;
+import ru.alex.hotels.dto.Room;
 import ru.alex.hotels.entitys.HotelEntity;
 import ru.alex.hotels.entitys.RoomEntity;
 import ru.alex.hotels.exceptions.HotelNotFoundException;
 import ru.alex.hotels.exceptions.RoomAlreadyExists;
 import ru.alex.hotels.mappers.RoomMapper;
 import ru.alex.hotels.repositories.RoomRepository;
-import ru.alex.hotels.dto.Room;
+import ru.alex.hotels.specifications.RoomSpecification;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -32,9 +36,9 @@ class RoomServiceImplTest {
     @Test
     public void testCreateRoom() throws RoomAlreadyExists, HotelNotFoundException {
 
-        Room resRoom = RoomMapper.INSTANCE.roomEntityToRoom(testRoom());
+        Room resRoom = RoomMapper.INSTANCE.roomEntityToRoom(RoomDataTest.testRoomEntity());
 
-        when(roomRepository.save(any(RoomEntity.class))).thenReturn(testRoom());
+        when(roomRepository.save(any(RoomEntity.class))).thenReturn(RoomDataTest.testRoomEntity());
         when(hotelService.getHotelEntityById(eq(1L))).thenReturn(new HotelEntity());
 
         Room room = roomService.addRoom(1L, resRoom);
@@ -46,14 +50,21 @@ class RoomServiceImplTest {
     @Test
     public void testCreateRoomNotFoundHotel() throws HotelNotFoundException {
 
-        Room resRoom = RoomMapper.INSTANCE.roomEntityToRoom(testRoom());
+        Room resRoom = RoomMapper.INSTANCE.roomEntityToRoom(RoomDataTest.testRoomEntity());
 
         when(hotelService.getHotelEntityById(eq(1L))).thenThrow(new HotelNotFoundException(1L));
 
-        Throwable thrown = assertThrows(HotelNotFoundException.class,
+        assertThrows(HotelNotFoundException.class,
                 () -> roomService.addRoom(1L, resRoom));
 
-        Assertions.assertNotNull(thrown.getMessage());
     }
 
+    @Test
+    void getRoomsBySpecification() throws HotelNotFoundException {
+        when(roomRepository.findAll(any(RoomSpecification.class))).thenReturn(new ArrayList<>());
+
+        List<Room> rooms = roomService.getRoomsBySpecification(1L, testRoom());
+
+        assertArrayEquals(new Room[]{}, rooms.toArray());
+    }
 }

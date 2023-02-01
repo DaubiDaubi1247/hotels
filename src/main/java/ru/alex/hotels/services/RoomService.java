@@ -11,4 +11,6 @@ public interface RoomService {
     Room addRoom(Long hotelId, @Valid Room room) throws RoomAlreadyExists, HotelNotFoundException;
 
     List<Room> getRoomsByHotelId(Long hotelId) throws HotelNotFoundException;
+
+    List<Room> getRoomsBySpecification(Long hotelId, Room room) throws HotelNotFoundException;
 }

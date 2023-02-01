@@ -15,6 +15,7 @@ public class RoomEntity {
     private Long id;
 
     @NotNull
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer roomNumber;
 
     @Column(

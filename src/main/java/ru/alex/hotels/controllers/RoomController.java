@@ -25,4 +25,9 @@ public class RoomController {
     public ResponseEntity<List<Room>> getRoomsByHotelId(@PathVariable Long hotelId) throws HotelNotFoundException {
         return ResponseEntity.ok(roomService.getRoomsByHotelId(hotelId));
     }
+
+    @PostMapping("/{hotelId}/param")
+    public ResponseEntity<List<Room>> getRoomsByParam(@RequestBody Room room, @PathVariable Long hotelId) throws HotelNotFoundException {
+        return ResponseEntity.ok(roomService.getRoomsBySpecification(hotelId, room));
+    }
 }
