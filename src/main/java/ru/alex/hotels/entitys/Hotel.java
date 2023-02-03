@@ -1,6 +1,7 @@
 package ru.alex.hotels.entitys;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -10,18 +11,23 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@Table(name = "hotel")
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
 @Builder
-public class HotelEntity {
+public class Hotel {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Long id;
+
+    @NotNull
+    @Column(name = "name")
     private String name;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "director_id")
     private DirectorEntity director;
 
@@ -32,9 +38,10 @@ public class HotelEntity {
             inverseJoinColumns = @JoinColumn(name = "hotel_id")
     )
     @Column(name = "city")
-    private List<City> city = new ArrayList<>();
+    private List<City> cities = new ArrayList<>();
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "hotel")
+    @Column(name = "room")
     private List<RoomEntity> rooms;
 
 }

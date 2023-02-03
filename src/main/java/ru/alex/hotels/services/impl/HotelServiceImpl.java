@@ -7,7 +7,7 @@ import org.springframework.validation.annotation.Validated;
 import ru.alex.hotels.dto.HotelDto;
 import ru.alex.hotels.entitys.City;
 import ru.alex.hotels.entitys.DirectorEntity;
-import ru.alex.hotels.entitys.HotelEntity;
+import ru.alex.hotels.entitys.Hotel;
 import ru.alex.hotels.exceptions.CityNotFound;
 import ru.alex.hotels.exceptions.DirectorNotFound;
 import ru.alex.hotels.exceptions.HotelAlreadyExists;
@@ -37,8 +37,8 @@ public class HotelServiceImpl implements HotelService {
 
         DirectorEntity directorEntity = directorService.getDirectorEntityById(directorId);
 
-        Optional<HotelEntity> hotelEntity = hotelRepository.findByName(hotelDto.getName());
-        HotelEntity hotelEntityForSave;
+        Optional<Hotel> hotelEntity = hotelRepository.findByName(hotelDto.getName());
+        Hotel hotelEntityForSave;
 
         if (hotelEntity.isPresent())
             if (cityEntity.getHotels().contains(hotelEntity.get()))
@@ -47,7 +47,6 @@ public class HotelServiceImpl implements HotelService {
                 HotelUtils.addHotelInCity(cityEntity, hotelEntity.get());
                 hotelEntityForSave = hotelEntity.get();
                 hotelEntityForSave.setDirector(directorEntity);
-                directorEntity.setHotel(hotelEntityForSave);
             }
         else
             hotelEntityForSave = HotelUtils.createHotelEntityAndSetInCity(hotelDto, cityEntity);
@@ -66,14 +65,14 @@ public class HotelServiceImpl implements HotelService {
     }
 
     @Override
-    public HotelEntity getHotelEntityById(Long id) throws HotelNotFoundException {
+    public Hotel getHotelEntityById(Long id) throws HotelNotFoundException {
         return hotelRepository.findById(id)
                 .orElseThrow(() -> new HotelNotFoundException(id));
     }
 
     @Override
     public HotelDto updateHotel(@Valid HotelDto hotelDto, Long id) throws HotelNotFoundException {
-        HotelEntity hotelEntity = getHotelEntityById(id);
+        Hotel hotelEntity = getHotelEntityById(id);
         hotelEntity.setName(hotelDto.getName());
 
         return HotelMapper.INSTANCE.hotelEntityToHotel(hotelRepository.save(hotelEntity));
@@ -83,7 +82,7 @@ public class HotelServiceImpl implements HotelService {
     public List<HotelDto> getAllHotelsInCity(String cityName) throws CityNotFound {
         City desiredCity = cityService.getCityEntityByName(cityName);
 
-        List<HotelEntity> hotelEntities = hotelRepository.findAllHotelInCity(desiredCity.getId());
+        List<Hotel> hotelEntities = hotelRepository.findAllHotelInCity(desiredCity.getId());
 
         return HotelMapper.INSTANCE.hotelEntityListToHotelList(hotelEntities);
     }

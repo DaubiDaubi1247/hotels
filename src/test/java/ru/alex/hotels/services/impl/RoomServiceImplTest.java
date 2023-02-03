@@ -7,10 +7,9 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import ru.alex.hotels.dataForTests.RoomDataTest;
 import ru.alex.hotels.dto.RoomDto;
-import ru.alex.hotels.entitys.HotelEntity;
+import ru.alex.hotels.entitys.Hotel;
 import ru.alex.hotels.entitys.RoomEntity;
 import ru.alex.hotels.exceptions.HotelNotFoundException;
-import ru.alex.hotels.exceptions.RoomAlreadyExists;
 import ru.alex.hotels.mappers.RoomMapper;
 import ru.alex.hotels.repositories.RoomRepository;
 import ru.alex.hotels.specifications.RoomSpecification;
@@ -39,7 +38,7 @@ class RoomServiceImplTest {
         RoomDto resRoomDto = RoomMapper.INSTANCE.roomEntityToRoom(RoomDataTest.testRoomEntity());
 
         when(roomRepository.save(any(RoomEntity.class))).thenReturn(RoomDataTest.testRoomEntity());
-        when(hotelService.getHotelEntityById(eq(1L))).thenReturn(new HotelEntity());
+        when(hotelService.getHotelEntityById(eq(1L))).thenReturn(new Hotel());
 
         RoomDto roomDto = roomService.addRoom(1L, resRoomDto);
 

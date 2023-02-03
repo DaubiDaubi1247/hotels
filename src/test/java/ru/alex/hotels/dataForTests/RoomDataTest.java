@@ -1,7 +1,7 @@
 package ru.alex.hotels.dataForTests;
 
 import ru.alex.hotels.dto.RoomDto;
-import ru.alex.hotels.entitys.HotelEntity;
+import ru.alex.hotels.entitys.Hotel;
 import ru.alex.hotels.entitys.RoomEntity;
 import ru.alex.hotels.mappers.RoomMapper;
 import ru.alex.hotels.specifications.RoomSpecification;
@@ -13,7 +13,7 @@ public class RoomDataTest {
                 .roomNumber(1)
                 .hasTV(true)
                 .countBeds(2)
-                .hotel(new HotelEntity())
+                .hotel(new Hotel())
                 .build();
     }
 
@@ -23,7 +23,7 @@ public class RoomDataTest {
 
     public static RoomSpecification testRoomSpec() {
         RoomCharacteristic roomCharacteristic = RoomMapper.INSTANCE.roomToRoomCharacteristic(testRoom());
-        roomCharacteristic.setHotel(new HotelEntity());
+        roomCharacteristic.setHotel(new Hotel());
 
         return new RoomSpecification(roomCharacteristic);
     }

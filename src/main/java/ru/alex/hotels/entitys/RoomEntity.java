@@ -30,5 +30,5 @@ public class RoomEntity {
 
     @ManyToOne
     @JoinColumn(name = "hotel_id")
-    private HotelEntity hotel;
+    private Hotel hotel;
 }

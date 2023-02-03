@@ -7,6 +7,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Entity
 @Data
 @NoArgsConstructor
@@ -24,7 +26,6 @@ public class DirectorEntity {
     @NotNull
     private String phone;
 
-    @OneToOne
-    @JoinColumn(name = "hotel_id")
-    private HotelEntity hotel;
+    @OneToMany(mappedBy = "director")
+    private List<Hotel> hotel;
 }

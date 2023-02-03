@@ -9,7 +9,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import ru.alex.hotels.entitys.City;
 import ru.alex.hotels.entitys.DirectorEntity;
-import ru.alex.hotels.entitys.HotelEntity;
+import ru.alex.hotels.entitys.Hotel;
 import ru.alex.hotels.exceptions.CityNotFound;
 import ru.alex.hotels.exceptions.DirectorNotFound;
 import ru.alex.hotels.exceptions.HotelAlreadyExists;
@@ -43,9 +43,9 @@ class HotelServiceImplTest {
     void testCreateHotel() throws HotelAlreadyExists, CityNotFound, DirectorNotFound {
         HotelDto hotelDto = testHotel();
 
-        HotelEntity entityAfterSave = HotelMapper.INSTANCE.hotelToHotelEntity(hotelDto);
+        Hotel entityAfterSave = HotelMapper.INSTANCE.hotelToHotelEntity(hotelDto);
 
-        when(hotelRepository.save(any(HotelEntity.class))).thenReturn(entityAfterSave);
+        when(hotelRepository.save(any(Hotel.class))).thenReturn(entityAfterSave);
         when(cityService.getCityEntityByName("any")).thenReturn(new City());
 
         when(directorService.getDirectorEntityById(eq(1L))).thenReturn(new DirectorEntity());
@@ -53,13 +53,13 @@ class HotelServiceImplTest {
         HotelDto createdHotelDto = hotelService.createHotel(hotelDto, "any", 1L);
 
         Assertions.assertEquals(hotelDto.getName(), createdHotelDto.getName());
-        verify(hotelRepository, times(1)).save(any(HotelEntity.class));
+        verify(hotelRepository, times(1)).save(any(Hotel.class));
     }
 
     @Test
     void getTestGetAllHotel() {
         List<HotelDto> hotelDtos = testListHotels();
-        List<HotelEntity> entitiesAfterGet = HotelMapper.INSTANCE.hotelsToHotelEntities(hotelDtos);
+        List<Hotel> entitiesAfterGet = HotelMapper.INSTANCE.hotelsToHotelEntities(hotelDtos);
 
         when(hotelRepository.findAll()).thenReturn(entitiesAfterGet);
 
@@ -71,7 +71,7 @@ class HotelServiceImplTest {
 
     @Test
     void testGetHotelById() throws HotelNotFoundException {
-        HotelEntity entitiesAfterFind = HotelMapper.INSTANCE.hotelToHotelEntity(testHotel());
+        Hotel entitiesAfterFind = HotelMapper.INSTANCE.hotelToHotelEntity(testHotel());
 
         when(hotelRepository.findById(1L)).thenReturn(Optional.ofNullable(entitiesAfterFind));
 
@@ -83,10 +83,10 @@ class HotelServiceImplTest {
 
     @Test
     void testUpdateHotel() throws HotelNotFoundException {
-        HotelEntity entityForUpdate = HotelMapper.INSTANCE.hotelToHotelEntity(testHotel());
+        Hotel entityForUpdate = HotelMapper.INSTANCE.hotelToHotelEntity(testHotel());
 
         when(hotelRepository.findById(1L)).thenReturn(Optional.ofNullable(entityForUpdate));
-        when(hotelRepository.save(any(HotelEntity.class))).thenReturn(entityForUpdate);
+        when(hotelRepository.save(any(Hotel.class))).thenReturn(entityForUpdate);
 
         HotelDto hotelDto = hotelService.updateHotel(testHotel(), 1L);
 

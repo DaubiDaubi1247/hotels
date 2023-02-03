@@ -28,7 +28,7 @@ public class City {
     @Column(name = "index", length = 6)
     private String index;
 
-    @ManyToMany(mappedBy = "city")
+    @ManyToMany(mappedBy = "cities")
     @Column(name = "hotel")
-    private List<HotelEntity> hotels = new ArrayList<>();
+    private List<Hotel> hotels = new ArrayList<>();
 }
