@@ -1,4 +1,4 @@
-package ru.alex.hotels.entitys;
+package ru.alex.hotels.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
@@ -29,6 +29,5 @@ public class City {
     private String index;
 
     @ManyToMany(mappedBy = "cities")
-    @Column(name = "hotel")
     private List<Hotel> hotels = new ArrayList<>();
 }

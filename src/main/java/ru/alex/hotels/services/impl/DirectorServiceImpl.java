@@ -6,7 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 import ru.alex.hotels.dto.DirectorDto;
-import ru.alex.hotels.entitys.Director;
+import ru.alex.hotels.entity.Director;
 import ru.alex.hotels.exceptions.DirectorAlreadyExist;
 import ru.alex.hotels.exceptions.DirectorNotFound;
 import ru.alex.hotels.mappers.DirectorMapper;

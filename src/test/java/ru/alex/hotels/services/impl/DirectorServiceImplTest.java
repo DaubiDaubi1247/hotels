@@ -5,7 +5,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import ru.alex.hotels.entitys.Director;
+import ru.alex.hotels.entity.Director;
 import ru.alex.hotels.exceptions.DirectorAlreadyExist;
 import ru.alex.hotels.mappers.DirectorMapper;
 import ru.alex.hotels.repositories.DirectorRepository;

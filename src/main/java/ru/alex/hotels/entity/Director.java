@@ -1,4 +1,4 @@
-package ru.alex.hotels.entitys;
+package ru.alex.hotels.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;

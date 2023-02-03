@@ -7,9 +7,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import ru.alex.hotels.entitys.City;
-import ru.alex.hotels.entitys.Director;
-import ru.alex.hotels.entitys.Hotel;
+import ru.alex.hotels.entity.City;
+import ru.alex.hotels.entity.Director;
+import ru.alex.hotels.entity.Hotel;
 import ru.alex.hotels.exceptions.CityNotFound;
 import ru.alex.hotels.exceptions.DirectorNotFound;
 import ru.alex.hotels.exceptions.HotelAlreadyExists;

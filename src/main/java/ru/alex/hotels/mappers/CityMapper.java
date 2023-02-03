@@ -3,7 +3,7 @@ package ru.alex.hotels.mappers;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 import ru.alex.hotels.dto.CityDto;
-import ru.alex.hotels.entitys.City;
+import ru.alex.hotels.entity.City;
 
 @Mapper
 public interface CityMapper {

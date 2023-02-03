@@ -1,8 +1,8 @@
 package ru.alex.hotels.dataForTests;
 
 import ru.alex.hotels.dto.RoomDto;
-import ru.alex.hotels.entitys.Hotel;
-import ru.alex.hotels.entitys.Room;
+import ru.alex.hotels.entity.Hotel;
+import ru.alex.hotels.entity.Room;
 import ru.alex.hotels.mappers.RoomMapper;
 import ru.alex.hotels.specifications.RoomSpecification;
 import ru.alex.hotels.utils.room.RoomCharacteristic;

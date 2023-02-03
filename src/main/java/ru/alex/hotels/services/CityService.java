@@ -2,7 +2,7 @@ package ru.alex.hotels.services;
 
 import jakarta.validation.constraints.NotBlank;
 import ru.alex.hotels.dto.CityDto;
-import ru.alex.hotels.entitys.City;
+import ru.alex.hotels.entity.City;
 import ru.alex.hotels.exceptions.CItyAlreadyExist;
 import ru.alex.hotels.exceptions.CityNotFound;
 import ru.alex.hotels.exceptions.WrongIndex;

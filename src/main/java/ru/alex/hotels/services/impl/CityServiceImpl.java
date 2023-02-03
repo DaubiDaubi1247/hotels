@@ -5,7 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 import ru.alex.hotels.dto.CityDto;
-import ru.alex.hotels.entitys.City;
+import ru.alex.hotels.entity.City;
 import ru.alex.hotels.exceptions.CItyAlreadyExist;
 import ru.alex.hotels.exceptions.CityNotFound;
 import ru.alex.hotels.mappers.CityMapper;

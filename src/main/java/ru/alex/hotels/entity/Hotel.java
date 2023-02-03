@@ -1,4 +1,4 @@
-package ru.alex.hotels.entitys;
+package ru.alex.hotels.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
@@ -37,11 +37,9 @@ public class Hotel {
             joinColumns = @JoinColumn(name = "city_id"),
             inverseJoinColumns = @JoinColumn(name = "hotel_id")
     )
-    @Column(name = "city")
     private List<City> cities = new ArrayList<>();
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "hotel")
-    @Column(name = "room")
     private List<Room> rooms;
 
 }

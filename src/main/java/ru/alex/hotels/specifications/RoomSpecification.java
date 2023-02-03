@@ -6,7 +6,7 @@ import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.jpa.domain.Specification;
-import ru.alex.hotels.entitys.Room;
+import ru.alex.hotels.entity.Room;
 import ru.alex.hotels.utils.room.RoomCharacteristic;
 
 import java.util.ArrayList;

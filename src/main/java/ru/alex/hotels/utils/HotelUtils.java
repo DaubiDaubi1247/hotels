@@ -1,7 +1,7 @@
 package ru.alex.hotels.utils;
 
-import ru.alex.hotels.entitys.City;
-import ru.alex.hotels.entitys.Hotel;
+import ru.alex.hotels.entity.City;
+import ru.alex.hotels.entity.Hotel;
 import ru.alex.hotels.mappers.HotelMapper;
 import ru.alex.hotels.dto.HotelDto;
 
