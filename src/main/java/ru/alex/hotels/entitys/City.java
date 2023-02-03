@@ -8,23 +8,27 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@Table(name = "city")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class CityEntity{
+public class City {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Long id;
 
     @NotNull
+    @Column(name = "name")
     private String name;
 
     @NotNull
-    @Column(length = 6)
+    @Column(name = "index", length = 6)
     private String index;
 
-    @ManyToMany(mappedBy = "cities")
+    @ManyToMany(mappedBy = "city")
+    @Column(name = "hotel")
     private List<HotelEntity> hotels = new ArrayList<>();
 }

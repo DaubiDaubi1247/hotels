@@ -5,7 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 import ru.alex.hotels.dto.HotelDto;
-import ru.alex.hotels.entitys.CityEntity;
+import ru.alex.hotels.entitys.City;
 import ru.alex.hotels.entitys.DirectorEntity;
 import ru.alex.hotels.entitys.HotelEntity;
 import ru.alex.hotels.exceptions.CityNotFound;
@@ -33,7 +33,7 @@ public class HotelServiceImpl implements HotelService {
 
     @Override
     public HotelDto createHotel(@Valid HotelDto hotelDto, String city, Long directorId) throws HotelAlreadyExists, CityNotFound, DirectorNotFound {
-        CityEntity cityEntity = cityService.getCityEntityByName(city);
+        City cityEntity = cityService.getCityEntityByName(city);
 
         DirectorEntity directorEntity = directorService.getDirectorEntityById(directorId);
 
@@ -81,7 +81,7 @@ public class HotelServiceImpl implements HotelService {
 
     @Override
     public List<HotelDto> getAllHotelsInCity(String cityName) throws CityNotFound {
-        CityEntity desiredCity = cityService.getCityEntityByName(cityName);
+        City desiredCity = cityService.getCityEntityByName(cityName);
 
         List<HotelEntity> hotelEntities = hotelRepository.findAllHotelInCity(desiredCity.getId());
 

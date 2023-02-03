@@ -1,6 +1,6 @@
 package ru.alex.hotels.utils;
 
-import ru.alex.hotels.entitys.CityEntity;
+import ru.alex.hotels.entitys.City;
 import ru.alex.hotels.entitys.HotelEntity;
 import ru.alex.hotels.mappers.HotelMapper;
 import ru.alex.hotels.dto.HotelDto;
@@ -8,18 +8,18 @@ import ru.alex.hotels.dto.HotelDto;
 import java.util.ArrayList;
 
 public class HotelUtils {
-    public static HotelEntity createHotelEntityAndSetInCity(HotelDto hotelDto, CityEntity cityEntity) {
+    public static HotelEntity createHotelEntityAndSetInCity(HotelDto hotelDto, City cityEntity) {
         HotelEntity hotelToEntity = HotelMapper.INSTANCE.hotelToHotelEntity(hotelDto);
-        hotelToEntity.setCities(new ArrayList<>());
-        hotelToEntity.getCities().add(cityEntity);
+        hotelToEntity.setCity(new ArrayList<>());
+        hotelToEntity.getCity().add(cityEntity);
 
         cityEntity.getHotels().add(hotelToEntity);
 
         return hotelToEntity;
     }
 
-    public static void addHotelInCity(CityEntity cityEntity, HotelEntity hotelEntity) {
+    public static void addHotelInCity(City cityEntity, HotelEntity hotelEntity) {
         cityEntity.getHotels().add(hotelEntity);
-        hotelEntity.getCities().add(cityEntity);
+        hotelEntity.getCity().add(cityEntity);
     }
 }

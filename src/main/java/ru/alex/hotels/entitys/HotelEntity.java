@@ -27,11 +27,12 @@ public class HotelEntity {
 
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
-            name = "hotels_in_citys",
+            name = "hotel_city",
             joinColumns = @JoinColumn(name = "city_id"),
             inverseJoinColumns = @JoinColumn(name = "hotel_id")
     )
-    private List<CityEntity> cities = new ArrayList<>();
+    @Column(name = "city")
+    private List<City> city = new ArrayList<>();
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "hotel")
     private List<RoomEntity> rooms;

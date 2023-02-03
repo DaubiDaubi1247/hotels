@@ -7,7 +7,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import ru.alex.hotels.entitys.CityEntity;
+import ru.alex.hotels.entitys.City;
 import ru.alex.hotels.entitys.DirectorEntity;
 import ru.alex.hotels.entitys.HotelEntity;
 import ru.alex.hotels.exceptions.CityNotFound;
@@ -46,7 +46,7 @@ class HotelServiceImplTest {
         HotelEntity entityAfterSave = HotelMapper.INSTANCE.hotelToHotelEntity(hotelDto);
 
         when(hotelRepository.save(any(HotelEntity.class))).thenReturn(entityAfterSave);
-        when(cityService.getCityEntityByName("any")).thenReturn(new CityEntity());
+        when(cityService.getCityEntityByName("any")).thenReturn(new City());
 
         when(directorService.getDirectorEntityById(eq(1L))).thenReturn(new DirectorEntity());
 

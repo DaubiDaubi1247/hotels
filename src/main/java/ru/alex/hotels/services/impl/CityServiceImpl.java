@@ -5,7 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 import ru.alex.hotels.dto.CityDto;
-import ru.alex.hotels.entitys.CityEntity;
+import ru.alex.hotels.entitys.City;
 import ru.alex.hotels.exceptions.CItyAlreadyExist;
 import ru.alex.hotels.exceptions.CityNotFound;
 import ru.alex.hotels.mappers.CityMapper;
@@ -26,13 +26,13 @@ public class CityServiceImpl implements CityService {
         if (cityRepository.findByIndex(cityDto.getIndex()).isPresent())
             throw new CItyAlreadyExist("город с индексом = " + cityDto.getIndex() + " уже существует");
 
-        CityEntity cityEntity = CityMapper.INSTANCE.cityToCityEntity(cityDto);
+        City cityEntity = CityMapper.INSTANCE.cityToCityEntity(cityDto);
 
         return CityMapper.INSTANCE.cityEntityToCity(cityRepository.save(cityEntity));
     }
 
     @Override
-    public CityEntity getCityEntityByName(@NotBlank String cityName) throws CityNotFound {
+    public City getCityEntityByName(@NotBlank String cityName) throws CityNotFound {
         return cityRepository.findByNameIgnoreCase(cityName)
                 .orElseThrow(() -> new CityNotFound("город с именем" + cityName + " не найден"));
     }

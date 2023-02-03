@@ -14,7 +14,7 @@ public interface HotelRepository extends JpaRepository<HotelEntity, Long> {
 
     @Query(" SELECT h " +
             "FROM HotelEntity h " +
-            "JOIN h.cities c " +
+            "JOIN h.city c " +
             "where c.id = ?1")
     List<HotelEntity> findAllHotelInCity(Long cityId);
 }
