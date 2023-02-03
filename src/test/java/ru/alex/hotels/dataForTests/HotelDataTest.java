@@ -1,26 +1,26 @@
 package ru.alex.hotels.dataForTests;
 
-import ru.alex.hotels.dto.Hotel;
+import ru.alex.hotels.dto.HotelDto;
 
 import java.util.List;
 
 public class HotelDataTest {
-    public static Hotel testHotel() {
+    public static HotelDto testHotel() {
 
-        return Hotel.builder()
+        return HotelDto.builder()
                 .name("У Саши")
                 .build();
     }
 
-    public static Hotel testHotelForCreate() {
+    public static HotelDto testHotelForCreate() {
 
-        return Hotel.builder()
+        return HotelDto.builder()
                 .id(1L)
                 .name("У Саши")
                 .build();
     }
 
-    public static List<Hotel> testListHotels() {
+    public static List<HotelDto> testListHotels() {
         return List.of(testHotel(), testHotel());
     }
 }

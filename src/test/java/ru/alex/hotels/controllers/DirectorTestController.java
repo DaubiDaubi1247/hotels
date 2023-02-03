@@ -8,8 +8,8 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import ru.alex.hotels.controllers.controllerTestConfig.Path;
 import ru.alex.hotels.controllers.controllerTestConfig.RootConfigController;
+import ru.alex.hotels.dto.DirectorDto;
 import ru.alex.hotels.services.DirectorService;
-import ru.alex.hotels.dto.Director;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
@@ -32,17 +32,17 @@ class DirectorTestController extends RootConfigController implements Path {
     @Test
     void testAddDirector() throws Exception {
 
-        Director directorAfterSave = testDirectorAfterCreate();
+        DirectorDto directorDtoAfterSave = testDirectorAfterCreate();
 
-        when(directorService.addDirector(any(Director.class))).thenReturn(directorAfterSave);
+        when(directorService.addDirector(any(DirectorDto.class))).thenReturn(directorDtoAfterSave);
 
         mockMvc.perform(post(getPath())
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(objectMapper.writeValueAsString(testDirector())))
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.id").isNotEmpty())
-                .andExpect(jsonPath("$.fcs").value(directorAfterSave.getFcs()))
-                .andExpect(jsonPath("$.phone").value(directorAfterSave.getPhone()));
+                .andExpect(jsonPath("$.fcs").value(directorDtoAfterSave.getFcs()))
+                .andExpect(jsonPath("$.phone").value(directorDtoAfterSave.getPhone()));
     }
 
 }

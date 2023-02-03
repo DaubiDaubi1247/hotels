@@ -1,16 +1,16 @@
 package ru.alex.hotels.services;
 
 import jakarta.validation.Valid;
+import ru.alex.hotels.dto.RoomDto;
 import ru.alex.hotels.exceptions.HotelNotFoundException;
 import ru.alex.hotels.exceptions.RoomAlreadyExists;
-import ru.alex.hotels.dto.Room;
 
 import java.util.List;
 
 public interface RoomService {
-    Room addRoom(Long hotelId, @Valid Room room) throws RoomAlreadyExists, HotelNotFoundException;
+    RoomDto addRoom(Long hotelId, @Valid RoomDto roomDto) throws RoomAlreadyExists, HotelNotFoundException;
 
-    List<Room> getRoomsByHotelId(Long hotelId) throws HotelNotFoundException;
+    List<RoomDto> getRoomsByHotelId(Long hotelId) throws HotelNotFoundException;
 
-    List<Room> getRoomsBySpecification(Long hotelId, Room room) throws HotelNotFoundException;
+    List<RoomDto> getRoomsBySpecification(Long hotelId, RoomDto roomDto) throws HotelNotFoundException;
 }

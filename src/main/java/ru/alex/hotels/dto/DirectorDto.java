@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Data
 @Builder
-public class Director {
+public class DirectorDto {
     private Long id;
 
     @NotBlank(message = "ФИО директора должны быть заполнены")

@@ -3,15 +3,15 @@ package ru.alex.hotels.mappers;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 import ru.alex.hotels.entitys.DirectorEntity;
-import ru.alex.hotels.dto.Director;
+import ru.alex.hotels.dto.DirectorDto;
 
 import java.util.List;
 
 @Mapper
 public interface DirectorMapper {
     DirectorMapper INSTANSE = Mappers.getMapper(DirectorMapper.class);
-    DirectorEntity directorToDirectorEntity(Director director);
-    Director directorEntityToDirector(DirectorEntity directorEntity);
+    DirectorEntity directorToDirectorEntity(DirectorDto directorDto);
+    DirectorDto directorEntityToDirector(DirectorEntity directorEntity);
 
-    List<Director> directorEntityListToDirectorList(List<DirectorEntity> directorEntityList);
+    List<DirectorDto> directorEntityListToDirectorList(List<DirectorEntity> directorEntityList);
 }

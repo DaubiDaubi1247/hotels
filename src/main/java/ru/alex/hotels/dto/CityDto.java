@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 @Data
-public class City {
+public class CityDto {
     private Long id;
 
     @NotBlank(message = "Имя города должно быть заполнено")

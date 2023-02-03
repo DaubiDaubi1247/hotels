@@ -10,8 +10,8 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import ru.alex.hotels.controllers.controllerTestConfig.Path;
 import ru.alex.hotels.controllers.controllerTestConfig.RootConfigController;
+import ru.alex.hotels.dto.HotelDto;
 import ru.alex.hotels.services.HotelService;
-import ru.alex.hotels.dto.Hotel;
 
 
 import static org.mockito.ArgumentMatchers.any;
@@ -37,7 +37,7 @@ class HotelTestController extends RootConfigController implements Path {
     @Test
     void testResponseCreateHotel() throws Exception {
 
-        when(hotelService.createHotel(any(Hotel.class), any(String.class), any(Long.class))).thenReturn(testHotelForCreate());
+        when(hotelService.createHotel(any(HotelDto.class), any(String.class), any(Long.class))).thenReturn(testHotelForCreate());
 
         mockMvc.perform(post(getPath() + hotelQueryParameters.getQueryParametersForCreate())
                     .contentType(MediaType.APPLICATION_JSON)
@@ -61,9 +61,9 @@ class HotelTestController extends RootConfigController implements Path {
 
         MvcResult response =  mockMvc.perform(MockMvcRequestBuilders.get(getPath() + "/all")).andReturn();
 
-        Hotel[] hotels = objectMapper.readValue(response.getResponse().getContentAsString(), Hotel[].class);
+        HotelDto[] hotelDtos = objectMapper.readValue(response.getResponse().getContentAsString(), HotelDto[].class);
 
-        Assertions.assertEquals(2, hotels.length);
+        Assertions.assertEquals(2, hotelDtos.length);
     }
     @Test
     void testGetHotelByIdResponse() throws Exception {

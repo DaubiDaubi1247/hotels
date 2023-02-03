@@ -1,24 +1,24 @@
 package ru.alex.hotels.dataForTests;
 
-import ru.alex.hotels.dto.Director;
+import ru.alex.hotels.dto.DirectorDto;
 
 public class DirectorDataTest {
-    public static Director testDirector() {
-        return Director.builder()
+    public static DirectorDto testDirector() {
+        return DirectorDto.builder()
                 .fcs("Скляренко Александр")
                 .phone("89103203155")
                 .build();
     }
 
-    public static Director testDirectorAfterCreate() {
-        Director director = testDirector();
-        director.setId(1L);
+    public static DirectorDto testDirectorAfterCreate() {
+        DirectorDto directorDto = testDirector();
+        directorDto.setId(1L);
 
-        return director;
+        return directorDto;
     }
 
-    public static Director testDirectorInvalidPhone() {
-        return Director.builder()
+    public static DirectorDto testDirectorInvalidPhone() {
+        return DirectorDto.builder()
                 .fcs("Скляренко Александр")
                 .phone("+7811111111111")
                 .build();

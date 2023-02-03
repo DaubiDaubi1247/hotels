@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 @Data
-public class Hotel {
+public class HotelDto {
     private Long id;
     @NotBlank(message = "Имя отеля должно быть заполено")
     private String name;

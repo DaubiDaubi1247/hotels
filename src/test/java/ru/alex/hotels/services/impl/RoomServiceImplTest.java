@@ -6,7 +6,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import ru.alex.hotels.dataForTests.RoomDataTest;
-import ru.alex.hotels.dto.Room;
+import ru.alex.hotels.dto.RoomDto;
 import ru.alex.hotels.entitys.HotelEntity;
 import ru.alex.hotels.entitys.RoomEntity;
 import ru.alex.hotels.exceptions.HotelNotFoundException;
@@ -34,28 +34,28 @@ class RoomServiceImplTest {
     RoomServiceImpl roomService;
 
     @Test
-    public void testCreateRoom() throws RoomAlreadyExists, HotelNotFoundException {
+    public void testCreateRoom() throws HotelNotFoundException {
 
-        Room resRoom = RoomMapper.INSTANCE.roomEntityToRoom(RoomDataTest.testRoomEntity());
+        RoomDto resRoomDto = RoomMapper.INSTANCE.roomEntityToRoom(RoomDataTest.testRoomEntity());
 
         when(roomRepository.save(any(RoomEntity.class))).thenReturn(RoomDataTest.testRoomEntity());
         when(hotelService.getHotelEntityById(eq(1L))).thenReturn(new HotelEntity());
 
-        Room room = roomService.addRoom(1L, resRoom);
+        RoomDto roomDto = roomService.addRoom(1L, resRoomDto);
 
-        assertEquals(resRoom, room);
+        assertEquals(resRoomDto, roomDto);
         verify(roomRepository, times(1)).save(any(RoomEntity.class));
     }
 
     @Test
     public void testCreateRoomNotFoundHotel() throws HotelNotFoundException {
 
-        Room resRoom = RoomMapper.INSTANCE.roomEntityToRoom(RoomDataTest.testRoomEntity());
+        RoomDto resRoomDto = RoomMapper.INSTANCE.roomEntityToRoom(RoomDataTest.testRoomEntity());
 
         when(hotelService.getHotelEntityById(eq(1L))).thenThrow(new HotelNotFoundException(1L));
 
         assertThrows(HotelNotFoundException.class,
-                () -> roomService.addRoom(1L, resRoom));
+                () -> roomService.addRoom(1L, resRoomDto));
 
     }
 
@@ -63,8 +63,8 @@ class RoomServiceImplTest {
     void getRoomsBySpecification() throws HotelNotFoundException {
         when(roomRepository.findAll(any(RoomSpecification.class))).thenReturn(new ArrayList<>());
 
-        List<Room> rooms = roomService.getRoomsBySpecification(1L, testRoom());
+        List<RoomDto> roomDtos = roomService.getRoomsBySpecification(1L, testRoom());
 
-        assertArrayEquals(new Room[]{}, rooms.toArray());
+        assertArrayEquals(new RoomDto[]{}, roomDtos.toArray());
     }
 }

@@ -1,6 +1,6 @@
 package ru.alex.hotels.dataForTests;
 
-import ru.alex.hotels.dto.Room;
+import ru.alex.hotels.dto.RoomDto;
 import ru.alex.hotels.entitys.HotelEntity;
 import ru.alex.hotels.entitys.RoomEntity;
 import ru.alex.hotels.mappers.RoomMapper;
@@ -17,7 +17,7 @@ public class RoomDataTest {
                 .build();
     }
 
-    public static Room testRoom() {
+    public static RoomDto testRoom() {
         return RoomMapper.INSTANCE.roomEntityToRoom(testRoomEntity());
     }
 

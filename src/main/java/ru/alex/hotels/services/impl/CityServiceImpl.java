@@ -4,13 +4,13 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
+import ru.alex.hotels.dto.CityDto;
 import ru.alex.hotels.entitys.CityEntity;
 import ru.alex.hotels.exceptions.CItyAlreadyExist;
 import ru.alex.hotels.exceptions.CityNotFound;
 import ru.alex.hotels.mappers.CityMapper;
 import ru.alex.hotels.repositories.CityRepository;
 import ru.alex.hotels.services.CityService;
-import ru.alex.hotels.dto.City;
 
 @Service
 @RequiredArgsConstructor
@@ -19,14 +19,14 @@ public class CityServiceImpl implements CityService {
     private final CityRepository cityRepository;
 
     @Override
-    public City createCity(City city) throws CItyAlreadyExist, CityNotFound {
-        if (isCityAlreadyExist(city))
-            throw new CItyAlreadyExist("город с названием = " + city.getName() + " уже существует");
+    public CityDto createCity(CityDto cityDto) throws CItyAlreadyExist, CityNotFound {
+        if (isCityAlreadyExist(cityDto))
+            throw new CItyAlreadyExist("город с названием = " + cityDto.getName() + " уже существует");
 
-        if (cityRepository.findByIndex(city.getIndex()).isPresent())
-            throw new CItyAlreadyExist("город с индексом = " + city.getIndex() + " уже существует");
+        if (cityRepository.findByIndex(cityDto.getIndex()).isPresent())
+            throw new CItyAlreadyExist("город с индексом = " + cityDto.getIndex() + " уже существует");
 
-        CityEntity cityEntity = CityMapper.INSTANCE.cityToCityEntity(city);
+        CityEntity cityEntity = CityMapper.INSTANCE.cityToCityEntity(cityDto);
 
         return CityMapper.INSTANCE.cityEntityToCity(cityRepository.save(cityEntity));
     }
@@ -37,7 +37,7 @@ public class CityServiceImpl implements CityService {
                 .orElseThrow(() -> new CityNotFound("город с именем" + cityName + " не найден"));
     }
 
-    private boolean isCityAlreadyExist(City city) throws CityNotFound {
-        return getCityEntityByName(city.getName()) != null;
+    private boolean isCityAlreadyExist(CityDto cityDto) throws CityNotFound {
+        return getCityEntityByName(cityDto.getName()) != null;
     }
 }

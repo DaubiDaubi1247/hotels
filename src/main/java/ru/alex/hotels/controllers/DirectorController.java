@@ -6,7 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.alex.hotels.exceptions.DirectorAlreadyExist;
 import ru.alex.hotels.services.DirectorService;
-import ru.alex.hotels.dto.Director;
+import ru.alex.hotels.dto.DirectorDto;
 
 import java.util.List;
 
@@ -17,12 +17,12 @@ public class DirectorController {
     private final DirectorService directorService;
 
     @PostMapping
-    public ResponseEntity<Director> addDirector(@RequestBody Director director) throws DirectorAlreadyExist {
-        return ResponseEntity.status(HttpStatus.CREATED).body(directorService.addDirector(director));
+    public ResponseEntity<DirectorDto> addDirector(@RequestBody DirectorDto directorDto) throws DirectorAlreadyExist {
+        return ResponseEntity.status(HttpStatus.CREATED).body(directorService.addDirector(directorDto));
     }
 
     @GetMapping("/all")
-    public ResponseEntity<List<Director>> getDirectorList() {
+    public ResponseEntity<List<DirectorDto>> getDirectorList() {
         return ResponseEntity.ok(directorService.getDirectorList());
     }
 }

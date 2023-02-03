@@ -10,7 +10,7 @@ import ru.alex.hotels.validations.annotations.MyMinConstraint;
 @NoArgsConstructor
 @AllArgsConstructor
 @SuperBuilder
-public class Room {
+public class RoomDto {
     private Long id;
 
     protected Boolean hasTV;

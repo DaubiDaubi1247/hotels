@@ -2,7 +2,7 @@ package ru.alex.hotels.utils.room;
 
 import lombok.*;
 import lombok.experimental.SuperBuilder;
-import ru.alex.hotels.dto.Room;
+import ru.alex.hotels.dto.RoomDto;
 import ru.alex.hotels.entitys.HotelEntity;
 
 @NoArgsConstructor
@@ -10,6 +10,6 @@ import ru.alex.hotels.entitys.HotelEntity;
 @Getter
 @Setter
 @SuperBuilder
-public class RoomCharacteristic extends Room {
+public class RoomCharacteristic extends RoomDto {
     private HotelEntity hotel;
 }

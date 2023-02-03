@@ -16,7 +16,7 @@ import ru.alex.hotels.exceptions.HotelAlreadyExists;
 import ru.alex.hotels.exceptions.HotelNotFoundException;
 import ru.alex.hotels.mappers.HotelMapper;
 import ru.alex.hotels.repositories.HotelRepository;
-import ru.alex.hotels.dto.Hotel;
+import ru.alex.hotels.dto.HotelDto;
 
 import java.util.List;
 import java.util.Optional;
@@ -41,31 +41,31 @@ class HotelServiceImplTest {
 
     @Test
     void testCreateHotel() throws HotelAlreadyExists, CityNotFound, DirectorNotFound {
-        Hotel hotel = testHotel();
+        HotelDto hotelDto = testHotel();
 
-        HotelEntity entityAfterSave = HotelMapper.INSTANCE.hotelToHotelEntity(hotel);
+        HotelEntity entityAfterSave = HotelMapper.INSTANCE.hotelToHotelEntity(hotelDto);
 
         when(hotelRepository.save(any(HotelEntity.class))).thenReturn(entityAfterSave);
         when(cityService.getCityEntityByName("any")).thenReturn(new CityEntity());
 
         when(directorService.getDirectorEntityById(eq(1L))).thenReturn(new DirectorEntity());
 
-        Hotel createdHotel = hotelService.createHotel(hotel, "any", 1L);
+        HotelDto createdHotelDto = hotelService.createHotel(hotelDto, "any", 1L);
 
-        Assertions.assertEquals(hotel.getName(), createdHotel.getName());
+        Assertions.assertEquals(hotelDto.getName(), createdHotelDto.getName());
         verify(hotelRepository, times(1)).save(any(HotelEntity.class));
     }
 
     @Test
     void getTestGetAllHotel() {
-        List<Hotel> hotels = testListHotels();
-        List<HotelEntity> entitiesAfterGet = HotelMapper.INSTANCE.hotelsToHotelEntities(hotels);
+        List<HotelDto> hotelDtos = testListHotels();
+        List<HotelEntity> entitiesAfterGet = HotelMapper.INSTANCE.hotelsToHotelEntities(hotelDtos);
 
         when(hotelRepository.findAll()).thenReturn(entitiesAfterGet);
 
-        List<Hotel> getHotels = hotelService.getAllHotels();
+        List<HotelDto> getHotelDtos = hotelService.getAllHotels();
 
-        Assertions.assertEquals(2, getHotels.size());
+        Assertions.assertEquals(2, getHotelDtos.size());
         verify(hotelRepository, times(1)).findAll();
     }
 
@@ -75,9 +75,9 @@ class HotelServiceImplTest {
 
         when(hotelRepository.findById(1L)).thenReturn(Optional.ofNullable(entitiesAfterFind));
 
-        Hotel hotel = hotelService.getHotelById(1L);
+        HotelDto hotelDto = hotelService.getHotelById(1L);
 
-        Assertions.assertEquals(testHotel(), hotel);
+        Assertions.assertEquals(testHotel(), hotelDto);
         verify(hotelRepository, times(1)).findById(1L);
     }
 
@@ -88,9 +88,9 @@ class HotelServiceImplTest {
         when(hotelRepository.findById(1L)).thenReturn(Optional.ofNullable(entityForUpdate));
         when(hotelRepository.save(any(HotelEntity.class))).thenReturn(entityForUpdate);
 
-        Hotel hotel = hotelService.updateHotel(testHotel(), 1L);
+        HotelDto hotelDto = hotelService.updateHotel(testHotel(), 1L);
 
-        Assertions.assertEquals(testHotel().getName(), hotel.getName());
+        Assertions.assertEquals(testHotel().getName(), hotelDto.getName());
         verify(hotelRepository, times(1)).findById(1L);
     }
 }

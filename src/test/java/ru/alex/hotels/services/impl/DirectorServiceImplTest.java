@@ -9,7 +9,7 @@ import ru.alex.hotels.entitys.DirectorEntity;
 import ru.alex.hotels.exceptions.DirectorAlreadyExist;
 import ru.alex.hotels.mappers.DirectorMapper;
 import ru.alex.hotels.repositories.DirectorRepository;
-import ru.alex.hotels.dto.Director;
+import ru.alex.hotels.dto.DirectorDto;
 
 import java.util.Optional;
 
@@ -39,11 +39,11 @@ class DirectorServiceImplTest {
         when(directorRepository.save(any(DirectorEntity.class)))
                 .thenReturn(directorEntityForSave);
 
-        Director director = directorService.addDirector(testDirector());
+        DirectorDto directorDto = directorService.addDirector(testDirector());
 
-        assertNotNull(director.getId());
-        assertEquals(testDirector().getFcs(), director.getFcs());
-        assertEquals(testDirector().getPhone(), director.getPhone());
+        assertNotNull(directorDto.getId());
+        assertEquals(testDirector().getFcs(), directorDto.getFcs());
+        assertEquals(testDirector().getPhone(), directorDto.getPhone());
     }
 
     @Test

@@ -2,12 +2,12 @@ package ru.alex.hotels.mappers;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
+import ru.alex.hotels.dto.CityDto;
 import ru.alex.hotels.entitys.CityEntity;
-import ru.alex.hotels.dto.City;
 
 @Mapper
 public interface CityMapper {
     CityMapper INSTANCE = Mappers.getMapper(CityMapper.class);
-    CityEntity cityToCityEntity(City city);
-    City cityEntityToCity(CityEntity cityEntity);
+    CityEntity cityToCityEntity(CityDto cityDto);
+    CityDto cityEntityToCity(CityEntity cityEntity);
 }
