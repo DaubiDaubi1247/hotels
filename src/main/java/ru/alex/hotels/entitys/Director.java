@@ -6,24 +6,29 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.validator.constraints.Length;
 
 import java.util.List;
 
 @Entity
+@Table(name = "director")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class DirectorEntity {
+public class Director {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Long id;
 
     @NotNull
+    @Column(name = "fcs")
     private String fcs;
 
-    @Column(length = 12)
     @NotNull
+    @Length(max = 11)
+    @Column(name = "phone")
     private String phone;
 
     @OneToMany(mappedBy = "director")

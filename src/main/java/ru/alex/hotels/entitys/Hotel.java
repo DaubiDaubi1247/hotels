@@ -29,7 +29,7 @@ public class Hotel {
 
     @ManyToOne
     @JoinColumn(name = "director_id")
-    private DirectorEntity director;
+    private Director director;
 
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(

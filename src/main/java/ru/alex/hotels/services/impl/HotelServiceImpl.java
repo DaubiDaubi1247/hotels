@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 import ru.alex.hotels.dto.HotelDto;
 import ru.alex.hotels.entitys.City;
-import ru.alex.hotels.entitys.DirectorEntity;
+import ru.alex.hotels.entitys.Director;
 import ru.alex.hotels.entitys.Hotel;
 import ru.alex.hotels.exceptions.CityNotFound;
 import ru.alex.hotels.exceptions.DirectorNotFound;
@@ -35,7 +35,7 @@ public class HotelServiceImpl implements HotelService {
     public HotelDto createHotel(@Valid HotelDto hotelDto, String city, Long directorId) throws HotelAlreadyExists, CityNotFound, DirectorNotFound {
         City cityEntity = cityService.getCityEntityByName(city);
 
-        DirectorEntity directorEntity = directorService.getDirectorEntityById(directorId);
+        Director directorEntity = directorService.getDirectorEntityById(directorId);
 
         Optional<Hotel> hotelEntity = hotelRepository.findByName(hotelDto.getName());
         Hotel hotelEntityForSave;

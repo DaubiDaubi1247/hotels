@@ -8,7 +8,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import ru.alex.hotels.entitys.City;
-import ru.alex.hotels.entitys.DirectorEntity;
+import ru.alex.hotels.entitys.Director;
 import ru.alex.hotels.entitys.Hotel;
 import ru.alex.hotels.exceptions.CityNotFound;
 import ru.alex.hotels.exceptions.DirectorNotFound;
@@ -48,7 +48,7 @@ class HotelServiceImplTest {
         when(hotelRepository.save(any(Hotel.class))).thenReturn(entityAfterSave);
         when(cityService.getCityEntityByName("any")).thenReturn(new City());
 
-        when(directorService.getDirectorEntityById(eq(1L))).thenReturn(new DirectorEntity());
+        when(directorService.getDirectorEntityById(eq(1L))).thenReturn(new Director());
 
         HotelDto createdHotelDto = hotelService.createHotel(hotelDto, "any", 1L);
 
