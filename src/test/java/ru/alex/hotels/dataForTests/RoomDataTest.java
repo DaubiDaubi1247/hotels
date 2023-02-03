@@ -2,16 +2,16 @@ package ru.alex.hotels.dataForTests;
 
 import ru.alex.hotels.dto.RoomDto;
 import ru.alex.hotels.entitys.Hotel;
-import ru.alex.hotels.entitys.RoomEntity;
+import ru.alex.hotels.entitys.Room;
 import ru.alex.hotels.mappers.RoomMapper;
 import ru.alex.hotels.specifications.RoomSpecification;
 import ru.alex.hotels.utils.room.RoomCharacteristic;
 
 public class RoomDataTest {
-    public static RoomEntity testRoomEntity() {
-        return RoomEntity.builder()
+    public static Room testRoomEntity() {
+        return Room.builder()
                 .roomNumber(1)
-                .hasTV(true)
+                .hasTv(true)
                 .countBeds(2)
                 .hotel(new Hotel())
                 .build();

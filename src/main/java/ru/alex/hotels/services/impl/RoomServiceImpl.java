@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 import ru.alex.hotels.dto.RoomDto;
 import ru.alex.hotels.entitys.Hotel;
-import ru.alex.hotels.entitys.RoomEntity;
+import ru.alex.hotels.entitys.Room;
 import ru.alex.hotels.exceptions.HotelNotFoundException;
 import ru.alex.hotels.mappers.RoomMapper;
 import ru.alex.hotels.repositories.RoomRepository;
@@ -30,7 +30,7 @@ public class RoomServiceImpl implements RoomService {
 
         Hotel hotelEntity = hotelService.getHotelEntityById(hotelId);
 
-        RoomEntity roomEntityForSave = RoomMapper.INSTANCE.roomToRoomEntity(roomDto);
+        Room roomEntityForSave = RoomMapper.INSTANCE.roomToRoomEntity(roomDto);
         roomEntityForSave.setHotel(hotelEntity);
 
         return RoomMapper.INSTANCE.roomEntityToRoom(roomRepository.save(roomEntityForSave));
@@ -41,7 +41,7 @@ public class RoomServiceImpl implements RoomService {
     public List<RoomDto> getRoomsByHotelId(Long hotelId) throws HotelNotFoundException {
         hotelService.getHotelEntityById(hotelId);
 
-        List<RoomEntity> roomsEntities = roomRepository.findRoomsByHotelId(hotelId);
+        List<Room> roomsEntities = roomRepository.findRoomsByHotelId(hotelId);
 
         return RoomMapper.INSTANCE.roomEntityListToRoomList(roomsEntities);
     }

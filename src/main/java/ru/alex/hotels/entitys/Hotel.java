@@ -31,7 +31,7 @@ public class Hotel {
     @JoinColumn(name = "director_id")
     private Director director;
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany()
     @JoinTable(
             name = "hotel_city",
             joinColumns = @JoinColumn(name = "city_id"),
@@ -42,6 +42,6 @@ public class Hotel {
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "hotel")
     @Column(name = "room")
-    private List<RoomEntity> rooms;
+    private List<Room> rooms;
 
 }

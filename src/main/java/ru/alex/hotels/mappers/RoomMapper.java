@@ -3,7 +3,7 @@ package ru.alex.hotels.mappers;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 import ru.alex.hotels.dto.RoomDto;
-import ru.alex.hotels.entitys.RoomEntity;
+import ru.alex.hotels.entitys.Room;
 import ru.alex.hotels.utils.room.RoomCharacteristic;
 
 import java.util.List;
@@ -12,10 +12,10 @@ import java.util.List;
 public interface RoomMapper {
 
     RoomMapper INSTANCE = Mappers.getMapper(RoomMapper.class);
-    RoomDto roomEntityToRoom(RoomEntity roomEntity);
-    RoomEntity roomToRoomEntity(RoomDto roomDto);
+    RoomDto roomEntityToRoom(Room roomEntity);
+    Room roomToRoomEntity(RoomDto roomDto);
 
-    List<RoomDto> roomEntityListToRoomList(List<RoomEntity> roomEntityList);
+    List<RoomDto> roomEntityListToRoomList(List<Room> roomEntityList);
 
     RoomCharacteristic roomToRoomCharacteristic(RoomDto roomDto);
 }

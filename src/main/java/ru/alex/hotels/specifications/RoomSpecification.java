@@ -6,19 +6,19 @@ import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.jpa.domain.Specification;
-import ru.alex.hotels.entitys.RoomEntity;
+import ru.alex.hotels.entitys.Room;
 import ru.alex.hotels.utils.room.RoomCharacteristic;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @RequiredArgsConstructor
-public class RoomSpecification implements Specification<RoomEntity> {
+public class RoomSpecification implements Specification<Room> {
 
     private final RoomCharacteristic roomCharacteristic;
 
     @Override
-    public Predicate toPredicate(Root<RoomEntity> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
+    public Predicate toPredicate(Root<Room> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
         List<Predicate> predicates = new ArrayList<>();
 
         if(roomCharacteristic.getHotel() != null) {

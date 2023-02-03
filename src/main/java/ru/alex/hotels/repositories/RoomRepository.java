@@ -4,15 +4,15 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
-import ru.alex.hotels.entitys.RoomEntity;
+import ru.alex.hotels.entitys.Room;
 
 import java.util.List;
 
 @Repository
-public interface RoomRepository extends JpaRepository<RoomEntity, Long>, JpaSpecificationExecutor<RoomEntity> {
+public interface RoomRepository extends JpaRepository<Room, Long>, JpaSpecificationExecutor<Room> {
 
     @Query(" SELECT r " +
-            "FROM RoomEntity r " +
+            "FROM Room r " +
             "WHERE r.hotel.id = ?1")
-    List<RoomEntity> findRoomsByHotelId(Long hotelId);
+    List<Room> findRoomsByHotelId(Long hotelId);
 }
