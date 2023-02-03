@@ -6,10 +6,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import ru.alex.hotels.dto.HotelDto;
-import ru.alex.hotels.exceptions.CityNotFound;
-import ru.alex.hotels.exceptions.DirectorNotFound;
-import ru.alex.hotels.exceptions.HotelAlreadyExists;
-import ru.alex.hotels.exceptions.HotelNotFoundException;
 import ru.alex.hotels.services.HotelService;
 
 import java.util.List;
@@ -24,9 +20,7 @@ public class HotelController {
     @PostMapping
     public ResponseEntity<HotelDto> createHotel(@RequestBody HotelDto hotelDto,
                                                 @RequestParam String cityName,
-                                                @RequestParam Long directorId)
-            throws HotelAlreadyExists, CityNotFound, DirectorNotFound {
-
+                                                @RequestParam Long directorId) {
         return ResponseEntity.status(HttpStatus.CREATED).body(hotelService.createHotel(hotelDto, cityName, directorId));
     }
 
@@ -36,19 +30,18 @@ public class HotelController {
     }
 
     @GetMapping
-    public ResponseEntity<HotelDto> getHotelById(@RequestParam Long id) throws HotelNotFoundException {
+    public ResponseEntity<HotelDto> getHotelById(@RequestParam Long id) {
         return ResponseEntity.ok(hotelService.getHotelById(id));
     }
 
     @PutMapping("/{hotelId}")
-    public ResponseEntity<HotelDto> updateHotel(@PathVariable Long hotelId, @RequestBody HotelDto hotelDto)
-            throws HotelNotFoundException {
+    public ResponseEntity<HotelDto> updateHotel(@PathVariable Long hotelId, @RequestBody HotelDto hotelDto) {
 
         return ResponseEntity.ok(hotelService.updateHotel(hotelDto, hotelId));
     }
 
     @GetMapping("/{cityName}")
-    public ResponseEntity<List<HotelDto>> getAllHotelsInCity(@PathVariable String cityName) throws CityNotFound {
+    public ResponseEntity<List<HotelDto>> getAllHotelsInCity(@PathVariable String cityName) {
 
         return ResponseEntity.ok(hotelService.getAllHotelsInCity(cityName));
     }

@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ru.alex.hotels.exceptions.DirectorAlreadyExist;
 import ru.alex.hotels.services.DirectorService;
 import ru.alex.hotels.dto.DirectorDto;
 
@@ -17,7 +16,7 @@ public class DirectorController {
     private final DirectorService directorService;
 
     @PostMapping
-    public ResponseEntity<DirectorDto> addDirector(@RequestBody DirectorDto directorDto) throws DirectorAlreadyExist {
+    public ResponseEntity<DirectorDto> addDirector(@RequestBody DirectorDto directorDto) {
         return ResponseEntity.status(HttpStatus.CREATED).body(directorService.addDirector(directorDto));
     }
 
