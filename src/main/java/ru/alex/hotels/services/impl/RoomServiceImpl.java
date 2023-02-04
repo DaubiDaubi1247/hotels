@@ -3,11 +3,13 @@ package ru.alex.hotels.services.impl;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
+
 import ru.alex.hotels.dto.RoomDto;
 import ru.alex.hotels.entity.Hotel;
 import ru.alex.hotels.entity.Room;
-import ru.alex.hotels.exceptions.HotelNotFoundException;
+import ru.alex.hotels.exceptions.EntityNotFoundException;
 import ru.alex.hotels.mappers.RoomMapper;
 import ru.alex.hotels.repositories.RoomRepository;
 import ru.alex.hotels.services.HotelService;
@@ -26,7 +28,8 @@ public class RoomServiceImpl implements RoomService {
     private final HotelService hotelService;
 
     @Override
-    public RoomDto addRoom(Long hotelId, @Valid RoomDto roomDto) throws  HotelNotFoundException {
+    @Transactional
+    public RoomDto addRoom(Long hotelId, @Valid RoomDto roomDto) {
 
         Hotel hotelEntity = hotelService.getHotelEntityById(hotelId);
 
@@ -36,10 +39,12 @@ public class RoomServiceImpl implements RoomService {
         return RoomMapper.INSTANCE.roomEntityToRoom(roomRepository.save(roomEntityForSave));
     }
 
-
     @Override
-    public List<RoomDto> getRoomsByHotelId(Long hotelId) throws HotelNotFoundException {
-        hotelService.getHotelEntityById(hotelId);
+    @Transactional
+    public List<RoomDto> getRoomsByHotelId(Long hotelId) {
+        if (hotelService.isHotelExist(hotelId)) {
+            throw new EntityNotFoundException("отель с id = " + hotelId + " не найден");
+        }
 
         List<Room> roomsEntities = roomRepository.findRoomsByHotelId(hotelId);
 
@@ -47,11 +52,13 @@ public class RoomServiceImpl implements RoomService {
     }
 
     @Override
-    public List<RoomDto> getRoomsBySpecification(Long hotelId, RoomDto roomDto) throws HotelNotFoundException {
+    @Transactional
+    public List<RoomDto> getRoomsBySpecification(Long hotelId, @Valid RoomDto roomDto) {
         RoomCharacteristic roomCharacteristic = RoomMapper.INSTANCE.roomToRoomCharacteristic(roomDto);
         roomCharacteristic.setHotel(hotelService.getHotelEntityById(hotelId));
 
-        return RoomMapper.INSTANCE.roomEntityListToRoomList(roomRepository.findAll(new RoomSpecification(roomCharacteristic)));
+        return RoomMapper.INSTANCE.roomEntityListToRoomList(roomRepository
+                .findAll(new RoomSpecification(roomCharacteristic)));
     }
 
 }

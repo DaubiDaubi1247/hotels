@@ -94,6 +94,12 @@ public class HotelServiceImpl implements HotelService {
         return HotelMapper.INSTANCE.hotelEntityListToHotelList(hotelEntities);
     }
 
+    @Override
+    @Transactional
+    public boolean isHotelExist(Long hotelId) {
+        return hotelRepository.existsById(hotelId);
+    }
+
     private Hotel createHotelEntityAndSetInCity(HotelDto hotelDto, City cityEntity) {
         Hotel hotelToEntity = HotelMapper.INSTANCE.hotelToHotelEntity(hotelDto);
         hotelToEntity.setCities(new ArrayList<>());

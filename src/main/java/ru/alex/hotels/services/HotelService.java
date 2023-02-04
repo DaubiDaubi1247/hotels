@@ -7,14 +7,16 @@ import ru.alex.hotels.entity.Hotel;
 import java.util.List;
 
 public interface HotelService {
-    HotelDto createHotel(@Valid HotelDto hotelDto, String city, Long directorId) throws HotelAlreadyExists, CityNotFound, DirectorNotFound;
+    HotelDto createHotel(@Valid HotelDto hotelDto, String city, Long directorId);
 
     List<HotelDto> getAllHotels();
 
-    HotelDto getHotelById(Long id) throws HotelNotFoundException;
-    Hotel getHotelEntityById(Long id) throws HotelNotFoundException;
+    HotelDto getHotelById(Long id) ;
+    Hotel getHotelEntityById(Long id) ;
 
-    HotelDto updateHotel(@Valid HotelDto hotelDto, Long id) throws HotelNotFoundException;
+    HotelDto updateHotel(@Valid HotelDto hotelDto, Long id) ;
 
-    List<HotelDto> getAllHotelsInCity(String cityName) throws CityNotFound;
+    List<HotelDto> getAllHotelsInCity(String cityName) ;
+
+    boolean isHotelExist(Long hotelId);
 }
