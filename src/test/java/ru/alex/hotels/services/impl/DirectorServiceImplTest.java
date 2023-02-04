@@ -23,12 +23,15 @@ class DirectorServiceImplTest {
     @Mock
     private DirectorRepository directorRepository;
 
+    @Mock
+    private DirectorMapper directorMapper;
+
     @InjectMocks
     private DirectorServiceImpl directorService;
 
     @Test
     void testAddDirector() {
-        Director directorEntityForSave = DirectorMapper.INSTANSE.directorToDirectorEntity(testDirector());
+        Director directorEntityForSave = directorMapper.toEntity(testDirector());
         directorEntityForSave.setId(1L);
 
         when(directorRepository.existsByFcsOrPhoneIgnoreCase(eq(testDirector().getFcs()), eq(testDirector().getPhone())))
