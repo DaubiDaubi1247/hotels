@@ -1,13 +1,13 @@
 package ru.alex.hotels.mappers;
 
 import org.mapstruct.Mapper;
-import org.mapstruct.factory.Mappers;
+import org.springframework.stereotype.Component;
 import ru.alex.hotels.dto.CityDto;
 import ru.alex.hotels.entity.City;
 
 @Mapper
+@Component
 public interface CityMapper {
-    CityMapper INSTANCE = Mappers.getMapper(CityMapper.class);
-    City cityToCityEntity(CityDto cityDto);
-    CityDto cityEntityToCity(City cityEntity);
+    City toEntity(CityDto cityDto);
+    CityDto toDto(City cityEntity);
 }

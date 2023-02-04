@@ -18,6 +18,7 @@ import ru.alex.hotels.services.CityService;
 @Validated
 public class CityServiceImpl implements CityService {
     private final CityRepository cityRepository;
+    private final CityMapper cityMapper;
 
     @Override
     @Transactional
@@ -27,9 +28,9 @@ public class CityServiceImpl implements CityService {
                     cityDto.getIndex() + " уже существует");
         }
 
-        City cityEntity = CityMapper.INSTANCE.cityToCityEntity(cityDto);
+        City cityEntity = cityMapper.toEntity(cityDto);
 
-        return CityMapper.INSTANCE.cityEntityToCity(cityRepository.save(cityEntity));
+        return cityMapper.toDto(cityRepository.save(cityEntity));
     }
 
     @Override
