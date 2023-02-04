@@ -2,6 +2,7 @@ package ru.alex.hotels.services.impl;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.alex.hotels.dto.CityDto;
 import ru.alex.hotels.entity.City;
 import ru.alex.hotels.exceptions.EntityAlreadyExistException;
@@ -16,6 +17,7 @@ public class CityServiceImpl implements CityService {
     private final CityRepository cityRepository;
 
     @Override
+    @Transactional
     public CityDto createCity(CityDto cityDto) {
         if (isCityAlreadyExist(cityDto) || isIndexAlreadyExist(cityDto)) {
             throw new EntityAlreadyExistException("город с названием = " + cityDto.getName() + " или индексом = " +
@@ -28,6 +30,7 @@ public class CityServiceImpl implements CityService {
     }
 
     @Override
+    @Transactional
     public City getCityEntityByName(String cityName) {
         return cityRepository.findByNameIgnoreCase(cityName)
                 .orElseThrow(() -> new EntityNotFoundException("город с именем" + cityName + " не найден"));

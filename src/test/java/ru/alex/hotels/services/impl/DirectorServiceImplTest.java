@@ -5,11 +5,11 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import ru.alex.hotels.dto.DirectorDto;
 import ru.alex.hotels.entity.Director;
-import ru.alex.hotels.exceptions.DirectorAlreadyExist;
+import ru.alex.hotels.exceptions.EntityAlreadyExistException;
 import ru.alex.hotels.mappers.DirectorMapper;
 import ru.alex.hotels.repositories.DirectorRepository;
-import ru.alex.hotels.dto.DirectorDto;
 
 import java.util.Optional;
 
@@ -29,7 +29,7 @@ class DirectorServiceImplTest {
     private DirectorServiceImpl directorService;
 
     @Test
-    void testAddDirector() throws DirectorAlreadyExist {
+    void testAddDirector() {
         Director directorEntityForSave = DirectorMapper.INSTANSE.directorToDirectorEntity(testDirector());
         directorEntityForSave.setId(1L);
 
@@ -52,7 +52,7 @@ class DirectorServiceImplTest {
         when(directorRepository.findByFcsOrPhoneIgnoreCase(eq(testDirector().getFcs()), eq(testDirector().getPhone())))
                 .thenReturn(Optional.of(new Director()));
 
-        Throwable thrown = assertThrows(DirectorAlreadyExist.class,
+        Throwable thrown = assertThrows(EntityAlreadyExistException.class,
                 () -> directorService.addDirector(testDirector()));
 
         assertNotNull(thrown.getMessage());

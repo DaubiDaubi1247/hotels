@@ -3,10 +3,6 @@ package ru.alex.hotels.services;
 import jakarta.validation.Valid;
 import ru.alex.hotels.dto.HotelDto;
 import ru.alex.hotels.entity.Hotel;
-import ru.alex.hotels.exceptions.CityNotFound;
-import ru.alex.hotels.exceptions.DirectorNotFound;
-import ru.alex.hotels.exceptions.HotelAlreadyExists;
-import ru.alex.hotels.exceptions.HotelNotFoundException;
 
 import java.util.List;
 

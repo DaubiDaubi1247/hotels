@@ -1,32 +1,29 @@
 package ru.alex.hotels.services.impl;
 
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.validation.annotation.Validated;
+import org.springframework.transaction.annotation.Transactional;
 import ru.alex.hotels.dto.DirectorDto;
 import ru.alex.hotels.entity.Director;
-import ru.alex.hotels.exceptions.DirectorAlreadyExist;
-import ru.alex.hotels.exceptions.DirectorNotFound;
+import ru.alex.hotels.exceptions.EntityAlreadyExistException;
+import ru.alex.hotels.exceptions.EntityNotFoundException;
 import ru.alex.hotels.mappers.DirectorMapper;
 import ru.alex.hotels.repositories.DirectorRepository;
 import ru.alex.hotels.services.DirectorService;
 
 import java.util.List;
-import java.util.Optional;
 
-@RequiredArgsConstructor
 @Service
-@Validated
+@RequiredArgsConstructor
 public class DirectorServiceImpl implements DirectorService {
     private final DirectorRepository directorRepository;
     @Override
-    public DirectorDto addDirector(@Valid DirectorDto directorDto) throws DirectorAlreadyExist {
+    @Transactional
+    public DirectorDto addDirector(@Valid DirectorDto directorDto) {
 
-        Optional<Director> directorEntity = directorRepository.findByFcsOrPhoneIgnoreCase(directorDto.getFcs(), directorDto.getPhone());
-        if (directorEntity.isPresent())
-            throw new DirectorAlreadyExist("директор с ФИО = " + directorDto.getFcs() + " или" +
+        if (directorRepository.existByFcsOrPhoneIgnoreCase(directorDto.getFcs(), directorDto.getPhone()))
+            throw new EntityAlreadyExistException("директор с ФИО = " + directorDto.getFcs() + " или" +
                     " номером телефона = " + directorDto.getPhone() + " уже сущесвует в бд");
 
         Director directorEntityForCreate = DirectorMapper.INSTANSE.directorToDirectorEntity(directorDto);
@@ -35,12 +32,14 @@ public class DirectorServiceImpl implements DirectorService {
     }
 
     @Override
-    public Director getDirectorEntityById(@Min(1) Long id) throws DirectorNotFound {
+    @Transactional
+    public Director getDirectorEntityById(Long id) {
         return directorRepository.findById(id)
-                .orElseThrow(() -> new DirectorNotFound(id));
+                .orElseThrow(() -> new EntityNotFoundException("директор с id = " + id + " не найден"));
     }
 
     @Override
+    @Transactional
     public List<DirectorDto> getDirectorList() {
         return DirectorMapper.INSTANSE.directorEntityListToDirectorList(directorRepository.findByOrderByFcs());
     }
