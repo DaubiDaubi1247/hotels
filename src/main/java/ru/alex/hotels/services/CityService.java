@@ -1,14 +1,11 @@
 package ru.alex.hotels.services;
 
-import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.Valid;
 import ru.alex.hotels.dto.CityDto;
 import ru.alex.hotels.entity.City;
-import ru.alex.hotels.exceptions.CItyAlreadyExist;
-import ru.alex.hotels.exceptions.CityNotFound;
-import ru.alex.hotels.exceptions.WrongIndex;
 
 public interface CityService {
-    CityDto createCity(CityDto cityDto) throws CItyAlreadyExist, WrongIndex, CityNotFound;
+    CityDto createCity(@Valid CityDto cityDto);
 
-    City getCityEntityByName(@NotBlank String cityName) throws CityNotFound;
+    City getCityEntityByName(String cityName);
 }
