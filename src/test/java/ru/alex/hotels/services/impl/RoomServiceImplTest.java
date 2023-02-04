@@ -2,8 +2,10 @@ package ru.alex.hotels.services.impl;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mapstruct.factory.Mappers;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import ru.alex.hotels.dataForTests.RoomDataTest;
@@ -30,13 +32,16 @@ class RoomServiceImplTest {
     @Mock
     HotelServiceImpl hotelService;
 
+    @Spy
+    RoomMapper roomMapper = Mappers.getMapper(RoomMapper.class);
+
     @InjectMocks
     RoomServiceImpl roomService;
 
     @Test
     public void testCreateRoom() {
 
-        RoomDto resRoomDto = RoomMapper.INSTANCE.roomEntityToRoom(RoomDataTest.testRoomEntity());
+        RoomDto resRoomDto = roomMapper.toDto(RoomDataTest.testRoomEntity());
 
         when(roomRepository.save(any(Room.class))).thenReturn(RoomDataTest.testRoomEntity());
         when(hotelService.getHotelEntityById(eq(1L))).thenReturn(new Hotel());
@@ -50,7 +55,7 @@ class RoomServiceImplTest {
     @Test
     public void testCreateRoomNotFoundHotel() {
 
-        RoomDto resRoomDto = RoomMapper.INSTANCE.roomEntityToRoom(RoomDataTest.testRoomEntity());
+        RoomDto resRoomDto = roomMapper.toDto(RoomDataTest.testRoomEntity());
 
         when(hotelService.getHotelEntityById(eq(1L))).thenThrow(new EntityNotFoundException(""));
 

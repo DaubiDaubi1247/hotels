@@ -1,21 +1,18 @@
 package ru.alex.hotels.mappers;
 
 import org.mapstruct.Mapper;
-import org.mapstruct.factory.Mappers;
 import ru.alex.hotels.dto.RoomDto;
 import ru.alex.hotels.entity.Room;
 import ru.alex.hotels.utils.room.RoomCharacteristic;
 
 import java.util.List;
 
-@Mapper
+@Mapper(componentModel = "spring")
 public interface RoomMapper {
+    RoomDto toDto(Room roomEntity);
+    Room toEntity(RoomDto roomDto);
 
-    RoomMapper INSTANCE = Mappers.getMapper(RoomMapper.class);
-    RoomDto roomEntityToRoom(Room roomEntity);
-    Room roomToRoomEntity(RoomDto roomDto);
+    List<RoomDto> toDtoList(List<Room> roomEntityList);
 
-    List<RoomDto> roomEntityListToRoomList(List<Room> roomEntityList);
-
-    RoomCharacteristic roomToRoomCharacteristic(RoomDto roomDto);
+    RoomCharacteristic toRoomCharacteristic(RoomDto roomDto);
 }

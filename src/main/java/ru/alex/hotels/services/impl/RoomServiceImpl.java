@@ -25,6 +25,7 @@ import java.util.List;
 public class RoomServiceImpl implements RoomService {
 
     private final RoomRepository roomRepository;
+    private final RoomMapper roomMapper;
     private final HotelService hotelService;
 
     @Override
@@ -33,10 +34,10 @@ public class RoomServiceImpl implements RoomService {
 
         Hotel hotelEntity = hotelService.getHotelEntityById(hotelId);
 
-        Room roomEntityForSave = RoomMapper.INSTANCE.roomToRoomEntity(roomDto);
+        Room roomEntityForSave = roomMapper.toEntity(roomDto);
         roomEntityForSave.setHotel(hotelEntity);
 
-        return RoomMapper.INSTANCE.roomEntityToRoom(roomRepository.save(roomEntityForSave));
+        return roomMapper.toDto(roomRepository.save(roomEntityForSave));
     }
 
     @Override
@@ -48,16 +49,16 @@ public class RoomServiceImpl implements RoomService {
 
         List<Room> roomsEntities = roomRepository.findRoomsByHotelId(hotelId);
 
-        return RoomMapper.INSTANCE.roomEntityListToRoomList(roomsEntities);
+        return roomMapper.toDtoList(roomsEntities);
     }
 
     @Override
     @Transactional
     public List<RoomDto> getRoomsBySpecification(Long hotelId, @Valid RoomDto roomDto) {
-        RoomCharacteristic roomCharacteristic = RoomMapper.INSTANCE.roomToRoomCharacteristic(roomDto);
+        RoomCharacteristic roomCharacteristic = roomMapper.toRoomCharacteristic(roomDto);
         roomCharacteristic.setHotel(hotelService.getHotelEntityById(hotelId));
 
-        return RoomMapper.INSTANCE.roomEntityListToRoomList(roomRepository
+        return roomMapper.toDtoList(roomRepository
                 .findAll(new RoomSpecification(roomCharacteristic)));
     }
 

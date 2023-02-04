@@ -29,7 +29,7 @@ public class HotelServiceImpl implements HotelService {
     private final HotelRepository hotelRepository;
     private final DirectorService directorService;
     private final CityService cityService;
-
+    private final HotelMapper hotelMapper;
 
     @Override
     @Transactional
@@ -56,18 +56,18 @@ public class HotelServiceImpl implements HotelService {
             hotelEntityForSave = createHotelEntityAndSetInCity(hotelDto, cityEntity);
         }
 
-        return HotelMapper.INSTANCE.hotelEntityToHotel(hotelRepository.save(hotelEntityForSave));
+        return hotelMapper.toDto(hotelRepository.save(hotelEntityForSave));
     }
 
     @Override
     @Transactional
     public List<HotelDto> getAllHotels() {
-        return HotelMapper.INSTANCE.hotelEntityListToHotelList(hotelRepository.findAll());
+        return hotelMapper.toDtoList(hotelRepository.findAll());
     }
 
     @Override
     public HotelDto getHotelById(Long id) {
-        return HotelMapper.INSTANCE.hotelEntityToHotel(getHotelEntityById(id));
+        return hotelMapper.toDto(getHotelEntityById(id));
     }
 
     @Override
@@ -81,7 +81,7 @@ public class HotelServiceImpl implements HotelService {
         Hotel hotelEntity = getHotelEntityById(id);
         hotelEntity.setName(hotelDto.getName());
 
-        return HotelMapper.INSTANCE.hotelEntityToHotel(hotelRepository.save(hotelEntity));
+        return hotelMapper.toDto(hotelRepository.save(hotelEntity));
     }
 
     @Override
@@ -91,7 +91,7 @@ public class HotelServiceImpl implements HotelService {
 
         List<Hotel> hotelEntities = hotelRepository.findAllHotelInCity(desiredCity.getId());
 
-        return HotelMapper.INSTANCE.hotelEntityListToHotelList(hotelEntities);
+        return hotelMapper.toDtoList(hotelEntities);
     }
 
     @Override
@@ -101,7 +101,7 @@ public class HotelServiceImpl implements HotelService {
     }
 
     private Hotel createHotelEntityAndSetInCity(HotelDto hotelDto, City cityEntity) {
-        Hotel hotelToEntity = HotelMapper.INSTANCE.hotelToHotelEntity(hotelDto);
+        Hotel hotelToEntity = hotelMapper.toEntity(hotelDto);
         hotelToEntity.setCities(new ArrayList<>());
 
         cityEntity.getHotels().add(hotelToEntity);

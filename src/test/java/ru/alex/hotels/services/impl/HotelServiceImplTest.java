@@ -3,9 +3,12 @@ package ru.alex.hotels.services.impl;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mapstruct.factory.Mappers;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
+
 import ru.alex.hotels.dto.HotelDto;
 import ru.alex.hotels.entity.City;
 import ru.alex.hotels.entity.Director;
@@ -28,6 +31,9 @@ class HotelServiceImplTest {
     HotelRepository hotelRepository;
     @Mock
     CityServiceImpl cityService;
+
+    @Spy
+    HotelMapper hotelMapper = Mappers.getMapper(HotelMapper.class);
     @Mock
     DirectorServiceImpl directorService;
 
@@ -38,7 +44,7 @@ class HotelServiceImplTest {
     void testCreateHotel() {
         HotelDto hotelDto = testHotel();
 
-        Hotel entityAfterSave = HotelMapper.INSTANCE.hotelToHotelEntity(hotelDto);
+        Hotel entityAfterSave = hotelMapper.toEntity(hotelDto);
 
         when(hotelRepository.save(any(Hotel.class))).thenReturn(entityAfterSave);
         when(cityService.getCityEntityByName("any")).thenReturn(new City());
@@ -54,19 +60,19 @@ class HotelServiceImplTest {
     @Test
     void getTestGetAllHotel() {
         List<HotelDto> hotelDtos = testListHotels();
-        List<Hotel> entitiesAfterGet = HotelMapper.INSTANCE.hotelsToHotelEntities(hotelDtos);
+        List<Hotel> entitiesAfterGet = hotelMapper.toEntityList(hotelDtos);
 
         when(hotelRepository.findAll()).thenReturn(entitiesAfterGet);
 
-        List<HotelDto> getHotelDtos = hotelService.getAllHotels();
+        List<HotelDto> getHotelDtoList = hotelService.getAllHotels();
 
-        Assertions.assertEquals(2, getHotelDtos.size());
+        Assertions.assertEquals(2, getHotelDtoList.size());
         verify(hotelRepository, times(1)).findAll();
     }
 
     @Test
     void testGetHotelById() {
-        Hotel entitiesAfterFind = HotelMapper.INSTANCE.hotelToHotelEntity(testHotel());
+        Hotel entitiesAfterFind = hotelMapper.toEntity(testHotel());
 
         when(hotelRepository.findById(1L)).thenReturn(Optional.ofNullable(entitiesAfterFind));
 
@@ -78,7 +84,7 @@ class HotelServiceImplTest {
 
     @Test
     void testUpdateHotel() {
-        Hotel entityForUpdate = HotelMapper.INSTANCE.hotelToHotelEntity(testHotel());
+        Hotel entityForUpdate = hotelMapper.toEntity(testHotel());
 
         when(hotelRepository.findById(1L)).thenReturn(Optional.ofNullable(entityForUpdate));
         when(hotelRepository.save(any(Hotel.class))).thenReturn(entityForUpdate);
