@@ -5,13 +5,10 @@ import org.springframework.stereotype.Repository;
 import ru.alex.hotels.entity.Director;
 
 import java.util.List;
-import java.util.Optional;
 
 @Repository
 public interface DirectorRepository extends JpaRepository<Director, Long> {
-    Optional<Director> findByFcsOrPhoneIgnoreCase(String fcs, String phone);
+    boolean existsByFcsOrPhoneIgnoreCase(String fcs, String phone);
 
-    boolean existByFcsOrPhoneIgnoreCase(String fcs, String phone);
-    
     List<Director> findByOrderByFcs();
 }

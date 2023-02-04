@@ -15,21 +15,14 @@ public class RestControllerAdvice {
                 .body(new ErrorMessage(exception.getMessage()));
     }
 
-    @ExceptionHandler({CityNotFound.class, HotelNotFoundException.class, DirectorNotFound.class})
+    @ExceptionHandler({EntityNotFoundException.class, ConstraintViolationException.class})
     public ResponseEntity<ErrorMessage> notFoundException(Exception exception) {
         return getResponseEntityWIthStatus(HttpStatus.NOT_FOUND, exception);
     }
 
-    @ExceptionHandler({CItyAlreadyExist.class, DirectorAlreadyExist.class,
-            HotelAlreadyExists.class, RoomAlreadyExists.class})
+    @ExceptionHandler(EntityAlreadyExistException.class)
     public ResponseEntity<ErrorMessage> alreadyExistException(Exception exception) {
         return getResponseEntityWIthStatus(HttpStatus.BAD_REQUEST, exception);
     }
-
-    @ExceptionHandler(ConstraintViolationException.class)
-    public ResponseEntity<ErrorMessage> constraintViolationException(Exception exception) {
-        return getResponseEntityWIthStatus(HttpStatus.BAD_REQUEST, exception);
-    }
-
 }
 

@@ -6,17 +6,12 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-
+import ru.alex.hotels.dto.HotelDto;
 import ru.alex.hotels.entity.City;
 import ru.alex.hotels.entity.Director;
 import ru.alex.hotels.entity.Hotel;
-import ru.alex.hotels.exceptions.CityNotFound;
-import ru.alex.hotels.exceptions.DirectorNotFound;
-import ru.alex.hotels.exceptions.HotelAlreadyExists;
-import ru.alex.hotels.exceptions.HotelNotFoundException;
 import ru.alex.hotels.mappers.HotelMapper;
 import ru.alex.hotels.repositories.HotelRepository;
-import ru.alex.hotels.dto.HotelDto;
 
 import java.util.List;
 import java.util.Optional;
@@ -40,7 +35,7 @@ class HotelServiceImplTest {
     private HotelServiceImpl hotelService;
 
     @Test
-    void testCreateHotel() throws HotelAlreadyExists, CityNotFound, DirectorNotFound {
+    void testCreateHotel() {
         HotelDto hotelDto = testHotel();
 
         Hotel entityAfterSave = HotelMapper.INSTANCE.hotelToHotelEntity(hotelDto);
@@ -70,7 +65,7 @@ class HotelServiceImplTest {
     }
 
     @Test
-    void testGetHotelById() throws HotelNotFoundException {
+    void testGetHotelById() {
         Hotel entitiesAfterFind = HotelMapper.INSTANCE.hotelToHotelEntity(testHotel());
 
         when(hotelRepository.findById(1L)).thenReturn(Optional.ofNullable(entitiesAfterFind));
@@ -82,7 +77,7 @@ class HotelServiceImplTest {
     }
 
     @Test
-    void testUpdateHotel() throws HotelNotFoundException {
+    void testUpdateHotel() {
         Hotel entityForUpdate = HotelMapper.INSTANCE.hotelToHotelEntity(testHotel());
 
         when(hotelRepository.findById(1L)).thenReturn(Optional.ofNullable(entityForUpdate));

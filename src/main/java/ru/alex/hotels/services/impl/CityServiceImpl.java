@@ -44,6 +44,6 @@ public class CityServiceImpl implements CityService {
     }
 
     private boolean isIndexAlreadyExist(CityDto cityDto) {
-        return cityRepository.existByIndex(cityDto.getIndex());
+        return cityRepository.existsByIndex(cityDto.getIndex());
     }
 }

@@ -11,8 +11,6 @@ import ru.alex.hotels.exceptions.EntityAlreadyExistException;
 import ru.alex.hotels.mappers.DirectorMapper;
 import ru.alex.hotels.repositories.DirectorRepository;
 
-import java.util.Optional;
-
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
@@ -33,8 +31,8 @@ class DirectorServiceImplTest {
         Director directorEntityForSave = DirectorMapper.INSTANSE.directorToDirectorEntity(testDirector());
         directorEntityForSave.setId(1L);
 
-        when(directorRepository.findByFcsOrPhoneIgnoreCase(eq(testDirector().getFcs()), eq(testDirector().getPhone())))
-                .thenReturn(Optional.empty());
+        when(directorRepository.existsByFcsOrPhoneIgnoreCase(eq(testDirector().getFcs()), eq(testDirector().getPhone())))
+                .thenReturn(false);
 
         when(directorRepository.save(any(Director.class)))
                 .thenReturn(directorEntityForSave);
@@ -49,12 +47,10 @@ class DirectorServiceImplTest {
     @Test
     void testAddDirectorAlreadyExist() {
 
-        when(directorRepository.findByFcsOrPhoneIgnoreCase(eq(testDirector().getFcs()), eq(testDirector().getPhone())))
-                .thenReturn(Optional.of(new Director()));
+        when(directorRepository.existsByFcsOrPhoneIgnoreCase(eq(testDirector().getFcs()), eq(testDirector().getPhone())))
+                .thenReturn(true);
 
-        Throwable thrown = assertThrows(EntityAlreadyExistException.class,
+        assertThrows(EntityAlreadyExistException.class,
                 () -> directorService.addDirector(testDirector()));
-
-        assertNotNull(thrown.getMessage());
     }
 }

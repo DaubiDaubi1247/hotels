@@ -24,7 +24,7 @@ public class DirectorServiceImpl implements DirectorService {
     @Transactional
     public DirectorDto addDirector(@Valid DirectorDto directorDto) {
 
-        if (directorRepository.existByFcsOrPhoneIgnoreCase(directorDto.getFcs(), directorDto.getPhone()))
+        if (directorRepository.existsByFcsOrPhoneIgnoreCase(directorDto.getFcs(), directorDto.getPhone()))
             throw new EntityAlreadyExistException("директор с ФИО = " + directorDto.getFcs() + " или" +
                     " номером телефона = " + directorDto.getPhone() + " уже сущесвует в бд");
 
