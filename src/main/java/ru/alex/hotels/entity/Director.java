@@ -31,6 +31,6 @@ public class Director {
     @Column(name = "phone")
     private String phone;
 
-    @OneToMany(mappedBy = "director")
+    @OneToMany(mappedBy = "director", cascade = CascadeType.PERSIST)
     private List<Hotel> hotel;
 }

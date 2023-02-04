@@ -5,11 +5,12 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+
 import ru.alex.hotels.dataForTests.RoomDataTest;
 import ru.alex.hotels.dto.RoomDto;
 import ru.alex.hotels.entity.Hotel;
 import ru.alex.hotels.entity.Room;
-import ru.alex.hotels.exceptions.HotelNotFoundException;
+import ru.alex.hotels.exceptions.EntityNotFoundException;
 import ru.alex.hotels.mappers.RoomMapper;
 import ru.alex.hotels.repositories.RoomRepository;
 import ru.alex.hotels.specifications.RoomSpecification;
@@ -33,7 +34,7 @@ class RoomServiceImplTest {
     RoomServiceImpl roomService;
 
     @Test
-    public void testCreateRoom() throws HotelNotFoundException {
+    public void testCreateRoom() {
 
         RoomDto resRoomDto = RoomMapper.INSTANCE.roomEntityToRoom(RoomDataTest.testRoomEntity());
 
@@ -47,19 +48,19 @@ class RoomServiceImplTest {
     }
 
     @Test
-    public void testCreateRoomNotFoundHotel() throws HotelNotFoundException {
+    public void testCreateRoomNotFoundHotel() {
 
         RoomDto resRoomDto = RoomMapper.INSTANCE.roomEntityToRoom(RoomDataTest.testRoomEntity());
 
-        when(hotelService.getHotelEntityById(eq(1L))).thenThrow(new HotelNotFoundException(1L));
+        when(hotelService.getHotelEntityById(eq(1L))).thenThrow(new EntityNotFoundException(""));
 
-        assertThrows(HotelNotFoundException.class,
+        assertThrows(EntityNotFoundException.class,
                 () -> roomService.addRoom(1L, resRoomDto));
 
     }
 
     @Test
-    void getRoomsBySpecification() throws HotelNotFoundException {
+    void getRoomsBySpecification() {
         when(roomRepository.findAll(any(RoomSpecification.class))).thenReturn(new ArrayList<>());
 
         List<RoomDto> roomDtos = roomService.getRoomsBySpecification(1L, testRoom());

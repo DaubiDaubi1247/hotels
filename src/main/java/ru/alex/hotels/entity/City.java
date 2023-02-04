@@ -28,6 +28,6 @@ public class City {
     @Column(name = "index", length = 6)
     private String index;
 
-    @ManyToMany(mappedBy = "cities")
+    @ManyToMany(mappedBy = "cities", cascade = CascadeType.PERSIST)
     private List<Hotel> hotels = new ArrayList<>();
 }

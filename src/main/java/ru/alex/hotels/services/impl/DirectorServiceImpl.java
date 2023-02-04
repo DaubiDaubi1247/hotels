@@ -4,6 +4,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.annotation.Validated;
 import ru.alex.hotels.dto.DirectorDto;
 import ru.alex.hotels.entity.Director;
 import ru.alex.hotels.exceptions.EntityAlreadyExistException;
@@ -16,6 +17,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@Validated
 public class DirectorServiceImpl implements DirectorService {
     private final DirectorRepository directorRepository;
     @Override

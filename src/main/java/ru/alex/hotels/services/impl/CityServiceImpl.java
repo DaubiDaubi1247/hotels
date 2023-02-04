@@ -1,8 +1,10 @@
 package ru.alex.hotels.services.impl;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.annotation.Validated;
 import ru.alex.hotels.dto.CityDto;
 import ru.alex.hotels.entity.City;
 import ru.alex.hotels.exceptions.EntityAlreadyExistException;
@@ -13,12 +15,13 @@ import ru.alex.hotels.services.CityService;
 
 @Service
 @RequiredArgsConstructor
+@Validated
 public class CityServiceImpl implements CityService {
     private final CityRepository cityRepository;
 
     @Override
     @Transactional
-    public CityDto createCity(CityDto cityDto) {
+    public CityDto createCity(@Valid CityDto cityDto) {
         if (isCityAlreadyExist(cityDto) || isIndexAlreadyExist(cityDto)) {
             throw new EntityAlreadyExistException("город с названием = " + cityDto.getName() + " или индексом = " +
                     cityDto.getIndex() + " уже существует");
