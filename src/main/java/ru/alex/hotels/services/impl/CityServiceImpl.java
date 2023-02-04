@@ -17,11 +17,10 @@ public class CityServiceImpl implements CityService {
 
     @Override
     public CityDto createCity(CityDto cityDto) {
-        if (isCityAlreadyExist(cityDto))
-            throw new EntityAlreadyExistException("город с названием = " + cityDto.getName() + " уже существует");
-
-        if (cityRepository.existByIndex(cityDto.getIndex()))
-            throw new EntityAlreadyExistException("город с индексом = " + cityDto.getIndex() + " уже существует");
+        if (isCityAlreadyExist(cityDto) || isIndexAlreadyExist(cityDto)) {
+            throw new EntityAlreadyExistException("город с названием = " + cityDto.getName() + " или индексом = " +
+                    cityDto.getIndex() + " уже существует");
+        }
 
         City cityEntity = CityMapper.INSTANCE.cityToCityEntity(cityDto);
 
@@ -36,5 +35,9 @@ public class CityServiceImpl implements CityService {
 
     private boolean isCityAlreadyExist(CityDto cityDto) {
         return cityRepository.existsByNameIgnoreCase(cityDto.getName());
+    }
+
+    private boolean isIndexAlreadyExist(CityDto cityDto) {
+        return cityRepository.existByIndex(cityDto.getIndex());
     }
 }
