@@ -1,8 +1,10 @@
 package ru.alex.hotels.entity;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "room")
@@ -16,8 +18,6 @@ public class Room {
     @Column(name = "id")
     private Long id;
 
-    @NotNull
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "room_number")
     private Integer roomNumber;
 

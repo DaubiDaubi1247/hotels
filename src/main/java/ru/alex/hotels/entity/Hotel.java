@@ -31,7 +31,7 @@ public class Hotel {
     @JoinColumn(name = "director_id")
     private Director director;
 
-    @ManyToMany()
+    @ManyToMany
     @JoinTable(
             name = "hotel_city",
             joinColumns = @JoinColumn(name = "city_id"),
@@ -39,7 +39,7 @@ public class Hotel {
     )
     private List<City> cities = new ArrayList<>();
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "hotel")
+    @OneToMany(mappedBy = "hotel")
     private List<Room> rooms;
 
 }

@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
-import ru.alex.hotels.validations.annotations.MyMinConstraint;
+import ru.alex.hotels.validator.annotations.MyMinConstraint;
 
 @Data
 @NoArgsConstructor
@@ -13,8 +13,9 @@ import ru.alex.hotels.validations.annotations.MyMinConstraint;
 public class RoomDto {
     private Long id;
 
-    protected Boolean hasTV;
+    protected Boolean hasTv;
+    private Integer roomNumber;
 
-    @MyMinConstraint(min = -1, message = "номер комнаты должен быть > -1")
+//    @MyMinConstraint(min = -1, message = "номер комнаты должен быть > -1")
     protected Integer countBeds;
 }

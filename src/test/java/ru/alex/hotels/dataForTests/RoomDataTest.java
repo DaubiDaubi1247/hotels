@@ -4,8 +4,8 @@ import org.mapstruct.factory.Mappers;
 import ru.alex.hotels.dto.RoomDto;
 import ru.alex.hotels.entity.Hotel;
 import ru.alex.hotels.entity.Room;
-import ru.alex.hotels.mappers.RoomMapper;
-import ru.alex.hotels.specifications.RoomSpecification;
+import ru.alex.hotels.mapper.RoomMapper;
+import ru.alex.hotels.specification.RoomSpecification;
 import ru.alex.hotels.utils.room.RoomCharacteristic;
 
 public class RoomDataTest {

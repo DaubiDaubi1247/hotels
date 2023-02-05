@@ -6,7 +6,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.validator.constraints.Length;
 
 import java.util.List;
 
@@ -27,10 +26,9 @@ public class Director {
     private String fcs;
 
     @NotNull
-    @Length(max = 11)
     @Column(name = "phone")
     private String phone;
 
-    @OneToMany(mappedBy = "director", cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "director")
     private List<Hotel> hotel;
 }
