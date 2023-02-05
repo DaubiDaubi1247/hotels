@@ -7,7 +7,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
-
+import org.springframework.data.jpa.domain.Specification;
 import ru.alex.hotels.dataForTests.RoomDataTest;
 import ru.alex.hotels.dto.RoomDto;
 import ru.alex.hotels.entity.Hotel;
@@ -15,7 +15,6 @@ import ru.alex.hotels.entity.Room;
 import ru.alex.hotels.exception.EntityNotFoundException;
 import ru.alex.hotels.mapper.RoomMapper;
 import ru.alex.hotels.repository.RoomRepository;
-import ru.alex.hotels.specification.RoomSpecification;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -66,7 +65,7 @@ class RoomServiceImplTest {
 
     @Test
     void getRoomsBySpecification() {
-        when(roomRepository.findAll(any(RoomSpecification.class))).thenReturn(new ArrayList<>());
+        when(roomRepository.findAll(any(Specification.class))).thenReturn(new ArrayList<>());
 
         List<RoomDto> roomDtos = roomService.getRoomsBySpecification(1L, testRoom());
 

@@ -5,8 +5,6 @@ import ru.alex.hotels.dto.RoomDto;
 import ru.alex.hotels.entity.Hotel;
 import ru.alex.hotels.entity.Room;
 import ru.alex.hotels.mapper.RoomMapper;
-import ru.alex.hotels.specification.RoomSpecification;
-import ru.alex.hotels.utils.room.RoomCharacteristic;
 
 public class RoomDataTest {
 
@@ -24,10 +22,4 @@ public class RoomDataTest {
         return roomMapper.toDto(testRoomEntity());
     }
 
-    public static RoomSpecification testRoomSpec() {
-        RoomCharacteristic roomCharacteristic = roomMapper.toRoomCharacteristic(testRoom());
-        roomCharacteristic.setHotel(new Hotel());
-
-        return new RoomSpecification(roomCharacteristic);
-    }
 }

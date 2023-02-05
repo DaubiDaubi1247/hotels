@@ -5,7 +5,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
-
 import ru.alex.hotels.dto.RoomDto;
 import ru.alex.hotels.entity.Hotel;
 import ru.alex.hotels.entity.Room;
@@ -14,8 +13,8 @@ import ru.alex.hotels.mapper.RoomMapper;
 import ru.alex.hotels.repository.RoomRepository;
 import ru.alex.hotels.service.HotelService;
 import ru.alex.hotels.service.RoomService;
-import ru.alex.hotels.specification.RoomSpecification;
 import ru.alex.hotels.utils.room.RoomCharacteristic;
+import ru.alex.hotels.utils.room.RoomSpecifications;
 
 import java.util.List;
 
@@ -59,7 +58,7 @@ public class RoomServiceImpl implements RoomService {
         roomCharacteristic.setHotel(hotelService.getHotelEntityById(hotelId));
 
         return roomMapper.toDtoList(roomRepository
-                .findAll(new RoomSpecification(roomCharacteristic)));
+                .findAll(RoomSpecifications.getRoomsByFilters(roomCharacteristic)));
     }
 
 }
