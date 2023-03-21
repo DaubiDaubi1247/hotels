@@ -9,7 +9,7 @@ public class RoomSpecifications {
     private static Specification<Room> equalsHasTv(Boolean hasTv) {
 
         if (hasTv == null) {
-            return null;
+            return (root, query, criteriaBuilder) -> criteriaBuilder.conjunction();
         }
 
         return (root, query, criteriaBuilder) -> criteriaBuilder.equal(root.get(Room_.hasTv), hasTv);
@@ -17,13 +17,18 @@ public class RoomSpecifications {
 
     private static Specification<Room> equalsCountBeds(Integer countBeds) {
         if (countBeds == null) {
-            return null;
+            return (root, query, criteriaBuilder) -> criteriaBuilder.conjunction();
         }
 
-        return (root, query, criteriaBuilder) -> criteriaBuilder.equal(root.get(Room_.countBeds), countBeds);
+        return (root, query, criteriaBuilder) -> criteriaBuilder.equal(root.get(Room_.id), countBeds);
     }
 
     private static Specification<Room> equalsHotel(Hotel hotel) {
+
+        if (hotel == null) {
+            return (root, query, criteriaBuilder) -> criteriaBuilder.conjunction();
+        }
+
         return (root, query, criteriaBuilder) -> criteriaBuilder.equal(root.get(Room_.hotel), hotel);
     }
 
